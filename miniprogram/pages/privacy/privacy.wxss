@@ -1,0 +1,94 @@
+.privacy-page {
+  min-height: 100vh;
+  background: #f5f6f8;
+  padding: 0 32rpx 60rpx;
+  box-sizing: border-box;
+}
+
+.hero {
+  padding: 48rpx 8rpx 40rpx;
+}
+
+.hero-title {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #0f766e;
+}
+
+.hero-sub {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #8a939f;
+}
+
+.section {
+  margin-top: 24rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 32rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 20rpx;
+}
+
+.section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.item-dot {
+  flex-shrink: 0;
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #0f766e;
+  margin-top: 14rpx;
+  margin-right: 16rpx;
+}
+
+.item-text {
+  font-size: 27rpx;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+.actions {
+  margin-top: 40rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.btn {
+  font-size: 30rpx;
+  border-radius: 44rpx;
+  line-height: 2.4;
+}
+
+.btn-primary {
+  background: #0f766e;
+  color: #ffffff;
+}
+
+.btn-ghost {
+  background: #ffffff;
+  color: #0f766e;
+  border: 1rpx solid #0f766e;
+}
+
+.status {
+  text-align: center;
+  font-size: 24rpx;
+  color: #8a939f;
+  margin-top: 8rpx;
+}

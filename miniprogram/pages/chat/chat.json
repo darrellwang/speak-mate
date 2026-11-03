@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "口语陪练",
+  "usingComponents": {
+    "message-bubble": "/components/message-bubble/message-bubble"
+  }
+}

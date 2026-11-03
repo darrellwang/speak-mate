@@ -1,0 +1,14 @@
+{
+  "name": "speakmate-miniprogram",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SpeakMate（口语搭子）微信小程序端：原生小程序 + TypeScript，复用 backend 全部 REST 接口。刻意不加入仓库根 npm workspaces——本目录无运行时依赖，type/插件能力均由微信开发者工具提供。",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "sync-types": "node ../scripts/sync-types.mjs"
+  },
+  "devDependencies": {
+    "miniprogram-api-typings": "^3.12.0",
+    "typescript": "^5.5.4"
+  }
+}

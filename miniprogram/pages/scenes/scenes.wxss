@@ -1,0 +1,101 @@
+/* 场景选择页（pages/scenes） */
+
+.continue-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: var(--surface);
+  border-radius: var(--r);
+  padding: 24rpx 28rpx;
+  margin-bottom: 8rpx;
+  box-shadow: var(--shadow-sm);
+}
+
+.continue-bar__title {
+  font-size: 29rpx;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.continue-bar__desc {
+  font-size: 24rpx;
+  color: var(--text-3);
+  margin-top: 4rpx;
+}
+
+/* 最近使用：横向滚动 */
+.recent {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  padding-bottom: 8rpx;
+  margin-bottom: 12rpx;
+  white-space: nowrap;
+}
+
+.recent__item {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 18rpx 26rpx;
+  margin-right: 16rpx;
+  border-radius: var(--r-sm);
+  background: var(--brand-weak);
+  flex-shrink: 0;
+}
+
+.recent__item:active {
+  opacity: 0.8;
+}
+
+.recent__name {
+  font-size: 28rpx;
+  color: var(--brand-strong);
+  font-weight: 500;
+}
+
+.recent__en {
+  font-size: 22rpx;
+  color: rgba(11, 92, 86, 0.6);
+  margin-top: 2rpx;
+}
+
+/* 场景卡片 */
+.scene-card {
+  background: var(--surface);
+  border-radius: var(--r);
+  padding: 26rpx 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.12s ease;
+}
+
+.scene-card:active {
+  transform: scale(0.99);
+  background: var(--surface-2);
+}
+
+.scene-card__name {
+  font-size: 31rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.scene-card__en {
+  font-size: 23rpx;
+  color: var(--text-3);
+}
+
+.scene-card__desc {
+  font-size: 26rpx;
+  color: var(--text-2);
+  margin-top: 12rpx;
+  line-height: 1.55;
+}
+
+.scene-card__goal {
+  font-size: 24rpx;
+  color: var(--brand);
+  margin-top: 14rpx;
+  padding-top: 14rpx;
+  border-top: 2rpx dashed var(--line);
+}

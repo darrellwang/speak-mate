@@ -1,0 +1,13 @@
+# 微信开发者工具生成的个人本地配置（含个人编译选项、条件编译参数，不入库）
+project.private.config.json
+
+# 依赖与构建产物（本目录无运行时依赖，node_modules 仅用于类型检查）
+node_modules/
+miniprogram_npm/
+
+# 仓库统一用 pnpm，npm 锁文件不入库（避免双锁文件打架）
+package-lock.json
+
+# 本机 API 基址等覆盖（从 config.example.ts 复制，勿入库）
+config.local.ts
+

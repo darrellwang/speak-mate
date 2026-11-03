@@ -1,0 +1,71 @@
+/* 历史会话页（pages/history） */
+
+.session-wrap {
+  margin-bottom: 20rpx;
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.session-card {
+  padding: 26rpx 28rpx;
+  border-radius: var(--r);
+}
+
+.session-card__scene {
+  font-size: 26rpx;
+  color: var(--brand-strong);
+  background: var(--brand-weak);
+  padding: 4rpx 14rpx;
+  border-radius: 6rpx;
+}
+
+.session-card__time {
+  font-size: 23rpx;
+  color: var(--text-3);
+}
+
+.session-card__title {
+  margin-top: 16rpx;
+  font-size: 29rpx;
+  color: var(--text);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.session-card__foot {
+  margin-top: 18rpx;
+}
+
+.session-card__count {
+  font-size: 23rpx;
+  color: var(--text-3);
+}
+
+.session-card__btn {
+  padding: 8rpx 24rpx;
+  border-radius: var(--r-full);
+  background: var(--brand);
+  color: #ffffff;
+  font-size: 24rpx;
+  margin-left: 16rpx;
+}
+
+.session-card__btn:active {
+  opacity: 0.82;
+}
+
+.session-card__btn--quiet {
+  background: var(--surface-2);
+  border: 2rpx solid var(--line);
+  color: var(--text-2);
+}
+
+.history-tip {
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--text-3);
+  padding: 24rpx 0;
+}

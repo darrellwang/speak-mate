@@ -1,0 +1,42 @@
+<!-- 历史会话：列表 + 左滑删除 + 继续聊 -->
+<view class="page">
+  <view class="section-title">共 {{sessions.length}} 个会话</view>
+
+  <view wx:for="{{sessions}}" wx:key="id" class="slide-item session-wrap">
+    <view
+      class="slide-item__inner session-card"
+      style="transform: translateX({{slideIndex === index ? '-160rpx' : '0'}})"
+      data-idx="{{index}}"
+      bind:touchstart="onTouchStart"
+      bind:touchmove="onTouchMove"
+      bind:touchend="onTouchEnd"
+    >
+      <view class="row row--between">
+        <text class="session-card__scene">{{item.scene_name}}</text>
+        <text class="session-card__time">{{item.updated_text}}</text>
+      </view>
+      <view class="session-card__title">{{item.title || '（暂无摘要）'}}</view>
+      <view class="row row--between session-card__foot">
+        <text class="session-card__count">{{item.message_count}} 条对话</text>
+        <view class="row">
+          <view class="session-card__btn" data-id="{{item.id}}" catch:tap="onContinue">继续聊</view>
+          <view class="session-card__btn session-card__btn--quiet" data-id="{{item.id}}" catch:tap="onOpenSession">
+            回看
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="slide-item__actions">
+      <view class="slide-item__btn" data-idx="{{index}}" bind:tap="onDelete">删除</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!loading && sessions.length === 0}}" class="empty">
+    <view class="empty__icon">🕘</view>
+    <view class="empty__title">还没有历史会话</view>
+    <view class="empty__desc">去「练习」页选个场景，聊一轮就会留在这里</view>
+  </view>
+
+  <view wx:if="{{loadingMore}}" class="history-tip">加载更多…</view>
+</view>

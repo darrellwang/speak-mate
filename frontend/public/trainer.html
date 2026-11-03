@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="theme-color" content="#4f46e5" />
+<title>外企 IT 职场英语常用句 · SpeakMate 训练</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+
+:root{
+  /* ---- 中性色阶（冷灰，配 indigo） ---- */
+  --bg:#f4f6f8;
+  --surface:#ffffff;
+  --surface-2:#fafbfc;
+  --surface-3:#eef0f4;
+  --line:#e4e7ec;
+  --line-2:#d4d9e0;
+  --text:#151a22;
+  --text-2:#5b6573;
+  --text-3:#8b95a3;
+
+  /* ---- 品牌与语义色 ---- */
+  --brand:#4f46e5;
+  --brand-2:#4338ca;
+  --brand-soft:#eeeffe;
+  --brand-ring:rgba(79,70,229,.32);
+  --ok:#047857;
+  --ok-soft:#e6f5ef;
+  --warn:#a1570b;
+  --warn-soft:#fdf1e3;
+  --bad:#be123c;
+  --bad-soft:#fdebf0;
+
+  /* ---- 圆角 ---- */
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px; --r-full:999px;
+
+  /* ---- 间距（4px 基准） ---- */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-8:32px;
+
+  /* ---- 阴影（三层） ---- */
+  --sh-sm:0 1px 2px rgba(16,24,40,.05);
+  --sh-md:0 1px 3px rgba(16,24,40,.05), 0 8px 20px -6px rgba(16,24,40,.10);
+  --sh-lg:0 2px 6px rgba(16,24,40,.05), 0 18px 36px -10px rgba(16,24,40,.14);
+
+  /* ---- 动效 ---- */
+  --dur:180ms;
+  --dur-2:280ms;
+  --ease:cubic-bezier(.2,.7,.3,1);
+
+  /* ---- 字体 ---- */
+  --font-sans:"Inter","SF Pro Text",-apple-system,"Segoe UI Variable Text","Segoe UI",system-ui,"Microsoft YaHei",sans-serif;
+  --font-mono:ui-monospace,"SFMono-Regular","JetBrains Mono",Consolas,monospace;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0d1015;
+    --surface:#151921;
+    --surface-2:#1a1f28;
+    --surface-3:#212734;
+    --line:#252b36;
+    --line-2:#333b49;
+    --text:#e9ecf1;
+    --text-2:#a3adbc;
+    --text-3:#7b8695;
+    --brand:#7c86f5;
+    --brand-2:#9aa3fa;
+    --brand-soft:#1c2140;
+    --brand-ring:rgba(124,134,245,.38);
+    --ok:#34d399;
+    --ok-soft:#12291f;
+    --warn:#fbbf24;
+    --warn-soft:#2e2413;
+    --bad:#fb7185;
+    --bad-soft:#2f1620;
+    --sh-sm:0 1px 2px rgba(0,0,0,.40);
+    --sh-md:0 1px 3px rgba(0,0,0,.40), 0 8px 20px -6px rgba(0,0,0,.50);
+    --sh-lg:0 2px 6px rgba(0,0,0,.40), 0 18px 36px -10px rgba(0,0,0,.60);
+  }
+}
+
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--font-sans);font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+.wrap{max-width:760px;margin:0 auto;padding:var(--sp-6) var(--sp-4) calc(var(--sp-8))}
+.hidden{display:none !important}
+
+/* ---------- 页头 ---------- */
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--sp-2) var(--sp-3);margin-bottom:var(--sp-5)}
+h1{margin:0;font-size:20px;font-weight:650;letter-spacing:-.015em}
+.sub{margin:2px 0 0;color:var(--text-2);font-size:13px}
+
+/* ---------- 分段控件（模式切换） ---------- */
+.tabs{
+  display:flex;gap:2px;padding:4px;margin-bottom:var(--sp-4);
+  background:var(--surface-3);border-radius:var(--r-md);border:1px solid var(--line);
+}
+.tabs-wrap{overflow-x:auto;scrollbar-width:none;margin-bottom:var(--sp-4)}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tab{
+  flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  min-height:38px;padding:0 14px;border:0;border-radius:var(--r-sm);
+  background:transparent;color:var(--text-2);font-family:inherit;font-size:14px;font-weight:500;
+  cursor:pointer;white-space:nowrap;transition:background var(--dur) var(--ease),color var(--dur) var(--ease);
+}
+.tab:hover{color:var(--text)}
+.tab.on{background:var(--surface);color:var(--text);font-weight:600;box-shadow:var(--sh-sm)}
+.tab:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+
+/* ---------- 卡片 ---------- */
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--sh-sm);padding:var(--sp-5);margin-bottom:var(--sp-4);
+}
+.card-quiet{background:var(--surface-2);box-shadow:none}
+
+/* 主练习区：视觉焦点 */
+.stage{
+  padding:var(--sp-6);border-radius:var(--r-xl);border-color:var(--line-2);
+  box-shadow:var(--sh-md);display:flex;flex-direction:column;gap:var(--sp-4);
+  min-height:230px;
+}
+.stage-head{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2)}
+
+/* ---------- 徽标 ---------- */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11.5px;font-weight:500;color:var(--text-2);
+  background:var(--surface-3);border:1px solid var(--line);
+  border-radius:var(--r-full);padding:3px 10px;white-space:nowrap;
+}
+.badge-brand{background:var(--brand-soft);border-color:transparent;color:var(--brand)}
+
+/* ---------- 文本层级 ---------- */
+.bigtext{font-size:clamp(17px,3.2vw,19px);font-weight:550;line-height:1.55;letter-spacing:-.005em}
+.entext{
+  font-size:clamp(19px,4.2vw,23px);font-weight:550;line-height:1.45;
+  letter-spacing:-.012em;color:var(--text);word-break:break-word;
+}
+.zhtext{font-size:14.5px;color:var(--text-2);line-height:1.6}
+.hintbig{font-size:14px;color:var(--text-3);line-height:1.6}
+.center{text-align:center}
+
+/* 答案区 */
+.answer{
+  border-left:3px solid var(--brand);background:var(--surface-2);
+  border-radius:0 var(--r-md) var(--r-md) 0;padding:var(--sp-3) var(--sp-4);
+  animation:reveal var(--dur-2) var(--ease);
+}
+@keyframes reveal{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* 听写比对 */
+.diff{font-size:16px;line-height:1.95;word-break:break-word}
+.diff .w{padding:2px 4px;border-radius:var(--r-xs)}
+.diff .good{background:var(--ok-soft);color:var(--ok)}
+.diff .bad{background:var(--bad-soft);color:var(--bad);text-decoration:underline wavy var(--bad) 1px}
+.diff .miss{background:var(--warn-soft);color:var(--warn)}
+
+/* ---------- 按钮 ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  min-height:40px;padding:0 14px;border-radius:var(--r-sm);
+  border:1px solid var(--line-2);background:var(--surface);color:var(--text);
+  font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;
+  transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease);
+}
+.btn:hover{background:var(--surface-2);border-color:var(--text-3)}
+.btn:active{transform:translateY(.5px)}
+.btn:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover{background:var(--brand-2);border-color:var(--brand-2);box-shadow:0 2px 10px -2px var(--brand-ring)}
+.btn.big{min-height:46px;padding:0 16px;font-size:14.5px}
+.btn .ico{flex:0 0 auto;opacity:.9}
+.btn.primary .ico{opacity:1}
+
+/* ---------- 表单 ---------- */
+.row{display:flex;gap:var(--sp-2);flex-wrap:wrap;align-items:center}
+label.f{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-2)}
+select,input[type=text],input[type=search]{
+  background:var(--surface-2);color:var(--text);border:1px solid var(--line-2);
+  border-radius:var(--r-sm);padding:7px 10px;font-size:13.5px;font-family:inherit;
+  min-height:36px;transition:border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease);
+}
+select:focus-visible,input:focus-visible{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-ring)}
+input[type=range]{accent-color:var(--brand);width:118px;height:22px}
+input[type=checkbox]{accent-color:var(--brand);width:16px;height:16px}
+textarea{
+  width:100%;min-height:80px;background:var(--surface-2);color:var(--text);
+  border:1px solid var(--line-2);border-radius:var(--r-md);padding:var(--sp-3) var(--sp-4);
+  font-size:16px;font-family:inherit;line-height:1.55;resize:vertical;
+  transition:border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease);
+}
+textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-ring)}
+textarea::placeholder{color:var(--text-3)}
+
+/* ---------- 分类 chip ---------- */
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{
+  border:1px solid var(--line);background:var(--surface);color:var(--text-2);
+  padding:5px 12px;border-radius:var(--r-full);cursor:pointer;font-size:12.5px;
+  transition:all var(--dur) var(--ease);
+}
+.chip:hover{border-color:var(--line-2);color:var(--text)}
+.chip.on{background:var(--brand-soft);border-color:var(--brand);color:var(--brand);font-weight:600}
+
+/* ---------- 折叠设置区 ---------- */
+details.fold{padding:0;overflow:hidden}
+details.fold>summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);
+  padding:var(--sp-4) var(--sp-5);font-size:14px;font-weight:600;
+}
+.sum-t{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sum-x{display:inline-flex;gap:6px;flex:0 1 auto;flex-wrap:wrap;justify-content:flex-end;min-width:0}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::after{
+  content:"";flex:0 0 auto;width:7px;height:7px;margin-left:var(--sp-2);
+  border-right:2px solid var(--text-3);border-bottom:2px solid var(--text-3);
+  transform:rotate(45deg);transition:transform var(--dur) var(--ease);
+}
+details.fold[open]>summary::after{transform:rotate(-135deg)}
+details.fold>summary:focus-visible{outline:2px solid var(--brand);outline-offset:-2px;border-radius:var(--r-md)}
+.fold-body{padding:0 var(--sp-5) var(--sp-5);border-top:1px solid var(--line);padding-top:var(--sp-4)}
+
+/* ---------- 进度 ---------- */
+.stats{display:flex;gap:var(--sp-4);flex-wrap:wrap;font-size:12.5px;color:var(--text-2)}
+.stats b{color:var(--text);font-size:15px;font-weight:650;font-variant-numeric:tabular-nums}
+.bar{display:flex;height:8px;background:var(--surface-3);border-radius:var(--r-full);overflow:hidden;margin-top:var(--sp-3)}
+.bar>i{display:block;height:100%;transition:width var(--dur-2) var(--ease)}
+#barFill{background:var(--ok)}
+#barWeak{background:var(--warn)}
+
+/* ---------- 播放波形指示 ---------- */
+.wave{display:inline-flex;align-items:flex-end;gap:3px;height:20px}
+.wave i{
+  display:block;width:3px;border-radius:2px;background:var(--brand);
+  animation:wv 900ms var(--ease) infinite;
+}
+.wave i:nth-child(1){height:8px;animation-delay:0ms}
+.wave i:nth-child(2){height:14px;animation-delay:120ms}
+.wave i:nth-child(3){height:18px;animation-delay:240ms}
+.wave i:nth-child(4){height:12px;animation-delay:360ms}
+.wave i:nth-child(5){height:9px;animation-delay:480ms}
+@keyframes wv{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
+
+/* ---------- 其它 ---------- */
+kbd{
+  background:var(--surface-3);border:1px solid var(--line-2);border-bottom-width:2px;
+  border-radius:var(--r-xs);padding:1px 6px;font-size:11.5px;font-family:var(--font-mono);color:var(--text-2);
+}
+.warnbox{background:var(--warn-soft);color:var(--warn);border-radius:var(--r-sm);padding:10px var(--sp-3);font-size:13px;line-height:1.6}
+.rec{font-size:12.5px;color:var(--text-3)}
+#touchHint{display:none}
+.doton{color:var(--bad);font-weight:700}
+#diag{
+  background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:var(--sp-3);margin-top:var(--sp-2);font-size:12px;line-height:1.7;
+  white-space:pre-wrap;word-break:break-all;font-family:var(--font-mono);
+}
+audio{width:100%;margin-top:var(--sp-2)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
+
+@media (max-width: 700px){
+  .wrap{padding:var(--sp-4) var(--sp-3) calc(104px + env(safe-area-inset-bottom))}
+  h1{font-size:18px}
+  .head{margin-bottom:var(--sp-4)}
+  .card{padding:var(--sp-4);border-radius:var(--r-md);margin-bottom:var(--sp-3)}
+  .stage{padding:var(--sp-5) var(--sp-4);border-radius:var(--r-lg);min-height:200px}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;padding:0 12px;min-height:44px}
+  .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto}
+  textarea{font-size:16px;min-height:70px}
+  .btn{min-height:44px}
+  input[type=range]{width:104px}
+  #actions{
+    position:fixed;left:0;right:0;bottom:0;z-index:30;margin:0;
+    background:var(--surface);border-top:1px solid var(--line);
+    padding:var(--sp-2) var(--sp-2) calc(var(--sp-2) + env(safe-area-inset-bottom));
+    box-shadow:0 -4px 20px -6px rgba(16,24,40,.18);gap:6px;flex-wrap:nowrap;
+  }
+  #actions .btn{flex:1;min-width:0;padding:0 6px;font-size:13px;min-height:48px}
+  #subActions #nextBtn{display:none}
+  #keyHint{display:none}
+  #touchHint{display:block !important}
+  .stats{gap:var(--sp-3)}
+}
+
+/* 盲听大播放钮（移动端主交互） */
+.big-play{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:76px;height:76px;border-radius:50%;background:var(--brand);color:#fff;
+  margin:var(--sp-2) auto 0;cursor:pointer;
+  box-shadow:0 6px 20px -4px var(--brand-ring);
+  transition:transform var(--dur) var(--ease),background var(--dur) var(--ease);
+}
+.big-play:hover{background:var(--brand-2)}
+.big-play:active{transform:scale(.96)}
+.big-play svg{margin-left:3px}
+.pc-only{display:inline}
+.m-only{display:none}
+@media (max-width:700px){
+  .pc-only{display:none}
+  .m-only{display:inline}
+}
+</style>
+</head>
+<body>
+<audio id="mp3" preload="auto" class="hidden"></audio>
+<div class="wrap">
+
+  <header class="head">
+    <div style="width:100%;margin-bottom:4px"><a id="backApp" href="/" style="font-size:13px;color:var(--brand);text-decoration:none">← 返回 SpeakMate</a></div>
+    <div>
+      <h1>外企 IT 职场英语常用句</h1>
+      <p class="sub">听力 · 跟读 · 648 句 · SpeakMate</p>
+    </div>
+    <span class="badge" id="buildTag">SpeakMate handbook · 648 句</span>
+  </header>
+
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-mode="listen">
+      <svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v-5a8 8 0 0 1 16 0v5"/><path d="M4 17a2 2 0 0 0 2 2h1.5v-6H4v4z"/><path d="M20 17a2 2 0 0 1-2 2h-1.5v-6H20v4z"/></svg>盲听
+    </button>
+    <button class="tab" data-mode="dictation">
+      <svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="19" height="11" rx="2"/><path d="M6 10.5h.01M10 10.5h.01M14 10.5h.01M18 10.5h.01M8.5 14h7"/></svg>听写
+    </button>
+    <button class="tab" data-mode="shadow">
+      <svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11v1.5a6.5 6.5 0 0 0 13 0V11"/><path d="M12 18.5V21"/></svg>跟读
+    </button>
+    <button class="tab" data-mode="recall">
+      <svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5a2 2 0 0 1-2 2H8l-4 3.5V5a2 2 0 0 1 2-2h12.5a2 2 0 0 1 2 2z"/></svg>中译英
+    </button>
+  </div>
+
+  <section class="card stage" id="stage">
+    <div class="stage-head">
+      <span class="badge" id="crumb">—</span>
+      <span class="badge" id="pos">0 / 0</span>
+    </div>
+
+    <div id="pListen" class="center">
+      <div id="listenHint" class="hintbig"><span class="pc-only">按 <kbd>空格</kbd> 播放，先别看答案</span><span class="m-only">点下方圆钮播放，先别看答案</span></div>
+      <div id="listenWave" class="bigtext"></div>
+    </div>
+
+    <div id="pDictation">
+      <div class="hintbig" style="margin-bottom:8px">听写：按 <kbd>空格</kbd> 播放，把听到的英文打出来</div>
+      <textarea id="dInput" placeholder="Type what you hear…"></textarea>
+      <div id="dResult" class="diff hidden" style="margin-top:10px"></div>
+    </div>
+
+    <div id="pShadow">
+      <div class="entext" id="sText">—</div>
+      <div class="zhtext" id="sZh">—</div>
+      <div class="row">
+        <button class="btn" id="recBtn">
+          <svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11v1.5a6.5 6.5 0 0 0 13 0V11"/><path d="M12 18.5V21"/></svg><span id="recLabel">开始录音</span>
+        </button>
+        <span class="rec" id="recState">录音用于自我对比，不会上传</span>
+      </div>
+      <audio id="recPlay" controls class="hidden"></audio>
+    </div>
+
+    <div id="pRecall">
+      <div class="hintbig">看到中文，先自己开口说英文</div>
+      <div class="bigtext" id="rZh">—</div>
+      <textarea id="rInput" placeholder="说出或写下你的英文…" style="min-height:64px"></textarea>
+    </div>
+
+    <div id="answer" class="answer hidden">
+      <div class="zhtext" id="aZh"></div>
+      <div class="entext" id="aEn" style="margin-top:4px"></div>
+    </div>
+
+    <div class="row" id="actions">
+      <button class="btn primary big" id="playBtn">
+        <svg class="ico" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M8 5.14v13.72a1 1 0 0 0 1.5.87l11-6.86a1 1 0 0 0 0-1.74l-11-6.86A1 1 0 0 0 8 5.14z"/></svg>
+        <span id="playLabel">播放</span>
+      </button>
+      <button class="btn big" id="slowBtn">
+        <svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3.2 2"/></svg>慢速
+      </button>
+      <button class="btn big" id="revealBtn">
+        <svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.2 12S5.8 5.5 12 5.5 21.8 12 21.8 12 18.2 18.5 12 18.5 2.2 12 2.2 12z"/><circle cx="12" cy="12" r="3"/></svg>答案
+      </button>
+      <button class="btn big" id="nextBtn2">
+        <svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12.5 5.5 19 12l-6.5 6.5"/></svg>下一句
+      </button>
+    </div>
+
+    <div class="row" id="subActions">
+      <button class="btn" id="prevBtn">
+        <svg class="ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6M11.5 5.5 5 12l6.5 6.5"/></svg>上一句
+      </button>
+      <button class="btn" id="nextBtn">
+        <svg class="ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12.5 5.5 19 12l-6.5 6.5"/></svg>下一句
+      </button>
+      <button class="btn" id="okBtn">
+        <svg class="ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6.5 9.5 17 4 11.5"/></svg>已掌握
+      </button>
+      <button class="btn" id="weakBtn">
+        <svg class="ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M20.5 4v5h-5"/></svg>再来一次
+      </button>
+      <button class="btn" id="starBtn">
+        <svg class="ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.7 5.6 6.1.8-4.5 4.3 1.1 6.1-5.4-3-5.4 3 1.1-6.1L3.2 9.9l6.1-.8L12 3.5z"/></svg>
+        <span id="starLabel">收藏</span>
+      </button>
+    </div>
+  </section>
+
+  <details class="card fold">
+    <summary><span class="sum-t">练习范围</span><span class="badge" id="rangeCount">0 条</span></summary>
+    <div class="fold-body">
+      <div class="chips" id="cats" style="margin-bottom:12px"></div>
+      <div class="row">
+        <label class="f">顺序
+          <select id="order">
+            <option value="seq">按手册顺序</option>
+            <option value="random">随机打乱</option>
+          </select>
+        </label>
+        <label class="f">只练
+          <select id="scope">
+            <option value="all">全部</option>
+            <option value="new">没练过的</option>
+            <option value="weak">标记模糊的</option>
+            <option value="known">已掌握的</option>
+            <option value="star">已收藏</option>
+          </select>
+        </label>
+        <button class="btn" id="resetRange">重置进度</button>
+      </div>
+    </div>
+  </details>
+
+  <details class="card fold">
+    <summary><span class="sum-t">语音设置</span><span class="sum-x"><span class="badge" id="srcBadge">浏览器 TTS</span><span class="badge" id="voiceInfo">加载中…</span></span></summary>
+    <div class="fold-body">
+      <div class="row">
+        <label class="f">发音
+          <select id="voice" style="max-width:260px"></select>
+        </label>
+        <label class="f">语速 <span id="rateVal">1.0</span>×
+          <input type="range" id="rate" min="0.5" max="1.2" step="0.05" value="1" />
+        </label>
+        <label class="f">重复 <span id="repVal">1</span> 遍
+          <input type="range" id="repeat" min="1" max="3" step="1" value="1" />
+        </label>
+        <label class="f">间隔 <span id="gapVal">1.0</span>s
+          <input type="range" id="gap" min="0" max="4" step="0.5" value="1" />
+        </label>
+        <label class="f"><input type="checkbox" id="auto" /> 自动连播</label>
+      </div>
+      <div id="micWarn" class="warnbox hidden" style="margin-top:12px"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn" id="diagBtn">
+          <svg class="ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 8L9 4l-3 8H2"/></svg>环境自检
+        </button>
+        <span class="rec">录音用不了时点这个，把结果贴给我</span>
+      </div>
+      <div id="diag" class="hidden"></div>
+    </div>
+  </details>
+
+  <section class="card card-quiet">
+    <div class="row" style="justify-content:space-between">
+      <strong style="font-size:14px">进度</strong>
+      <span class="stats" id="stats"></span>
+    </div>
+    <div class="bar"><i id="barFill"></i><i id="barWeak"></i></div>
+    <div class="hintbig" id="keyHint" style="margin-top:12px">
+      <kbd>空格</kbd> 播放/停止 &nbsp; <kbd>Enter</kbd> 提交/揭示 &nbsp; <kbd>←</kbd> <kbd>→</kbd> 切换 &nbsp; <kbd>1</kbd> 已掌握 &nbsp; <kbd>2</kbd> 再来一次 &nbsp; <kbd>S</kbd> 慢速
+    </div>
+    <div class="hintbig" id="touchHint" style="margin-top:12px">
+      左右滑动切换句子 &nbsp;·&nbsp; 底部按钮：播放 / 慢速 / 答案 / 下一句
+    </div>
+  </section>
+
+</div>
+
+<script>
+const DATA = {"title":"外企 IT 职场英语常用句","count":648,"cats":["1. 问候与寒暄","2. 即时消息","3. 会议","4. 视频会议","5. 观点与同意","6. 不同意见与拒绝","7. 请求、建议与澄清","8. 进度、阻塞与风险","9. 故障与值班","10. 发布与回滚","11. 代码与评审","12. 需求与设计","13. 系统与架构口语句","14. 测试与质量","15. 客户与跨团队","16. 邮件","17. 电话","18. 汇报与数据","19. 时间与请假","20. 反馈、感谢与协作","21. 入职与交接","22. 容易漏的说法","23. 高频短句","24. 面试开场","25. 面试确认","26. 架构术语","27. 架构口语句","28. 读代码找 bug","29. 改代码与新需求","30. 面试演练：账户","31. 面试演练：预约","32. 代码怎么念","33. 复杂度与测试","34. 面试卡住时","35. 面试收尾","36. 日常 Python","37. 日常 AI","38. 银行业务","39. 日常架构"],"items":[{"cat":"1. 问候与寒暄","scene":"早上见面","zh":"早。","en":"Morning."},{"cat":"1. 问候与寒暄","scene":"早上见面","zh":"早，周末过得怎么样？","en":"Morning. How was your weekend?"},{"cat":"1. 问候与寒暄","scene":"回应周末","zh":"还不错，休息了一下。你呢？","en":"Pretty good. I got some rest. How about you?"},{"cat":"1. 问候与寒暄","scene":"忙不忙","zh":"最近怎么样？忙吗？","en":"How's it going? Busy week?"},{"cat":"1. 问候与寒暄","scene":"回应近况","zh":"还行，发布有点紧。","en":"Not bad. The release is a bit tight."},{"cat":"1. 问候与寒暄","scene":"初次见面","zh":"很高兴见到你。我是负责这个服务的。","en":"Nice to meet you. I own this service."},{"cat":"1. 问候与寒暄","scene":"久闻","zh":"我听过你做的那块平台。","en":"I've heard about the platform you built."},{"cat":"1. 问候与寒暄","scene":"介绍同事","zh":"这是 Alex，他负责后端。","en":"This is Alex. He owns the backend."},{"cat":"1. 问候与寒暄","scene":"自我介绍","zh":"我做基础设施和自动化，写 Go、Java、Python，也做过检索和智能体。","en":"I work on infrastructure and automation. I write Go, Java, and Python, and I've built search and agent systems."},{"cat":"1. 问候与寒暄","scene":"入职第一天","zh":"今天第一天，还在熟悉环境和代码。","en":"It's my first day. I'm still getting used to the setup and the code."},{"cat":"1. 问候与寒暄","scene":"请人带路","zh":"能带我看一下仓库和发布流程吗？","en":"Could you walk me through the repo and the release process?"},{"cat":"1. 问候与寒暄","scene":"工位闲聊","zh":"你一般什么时候吃午饭？","en":"What time do you usually grab lunch?"},{"cat":"1. 问候与寒暄","scene":"咖啡","zh":"我去倒杯咖啡，马上回来。","en":"I'm grabbing a coffee. I'll be right back."},{"cat":"1. 问候与寒暄","scene":"离开工位","zh":"我去开个会，大概半小时。","en":"I'm jumping into a meeting. About half an hour."},{"cat":"1. 问候与寒暄","scene":"下班","zh":"我先走了。有事消息我。","en":"I'm heading out. Ping me if you need anything."},{"cat":"1. 问候与寒暄","scene":"周五","zh":"周末愉快。","en":"Have a good weekend."},{"cat":"1. 问候与寒暄","scene":"周一","zh":"新的一周，我们先看优先级。","en":"New week. Let's look at priorities first."},{"cat":"1. 问候与寒暄","scene":"保持联系","zh":"回头联系。这是我的邮箱。","en":"Let's stay in touch. Here's my email."},{"cat":"1. 问候与寒暄","scene":"感谢引荐","zh":"谢谢你介绍我们认识。","en":"Thanks for introducing us."},{"cat":"1. 问候与寒暄","scene":"远程打招呼","zh":"大家都在了吗？我先共享屏幕。","en":"Is everyone here? I'll share my screen."},{"cat":"2. 即时消息","scene":"在吗","zh":"有空吗？两分钟就好。","en":"Got a minute? This will take two minutes."},{"cat":"2. 即时消息","scene":"稍后","zh":"我在会上，完了找你。","en":"I'm in a meeting. I'll ping you when I'm out."},{"cat":"2. 即时消息","scene":"看到了","zh":"看到了，我先看一下再回你。","en":"I saw it. I'll look and get back to you."},{"cat":"2. 即时消息","scene":"正在看","zh":"我正在看这个工单。","en":"I'm looking at this ticket now."},{"cat":"2. 即时消息","scene":"稍等","zh":"稍等，我拉一下日志。","en":"One sec. I'm pulling the logs."},{"cat":"2. 即时消息","scene":"链接","zh":"相关 PR 在这里。","en":"Here's the PR."},{"cat":"2. 即时消息","scene":"线程","zh":"我们挪到这个线程，免得刷屏。","en":"Let's move this to the thread so we don't flood the channel."},{"cat":"2. 即时消息","scene":"艾特","zh":"我艾特了值班的人。","en":"I tagged the person on call."},{"cat":"2. 即时消息","scene":"已修","zh":"已经修好了，你可以再试一次。","en":"It's fixed. You can try again."},{"cat":"2. 即时消息","scene":"还没好","zh":"还在查，有结论我更新。","en":"Still looking. I'll update when I have something."},{"cat":"2. 即时消息","scene":"不紧急","zh":"不急，你忙完再说。","en":"No rush. Whenever you're free."},{"cat":"2. 即时消息","scene":"很急","zh":"这个比较急，生产受影响了。","en":"This is urgent. Production is affected."},{"cat":"2. 即时消息","scene":"语音","zh":"打字说不清，我们开个短会？","en":"This is hard to type. Quick call?"},{"cat":"2. 即时消息","scene":"结束","zh":"清楚了，谢谢。我这边继续。","en":"Clear. Thanks. I'll take it from here."},{"cat":"2. 即时消息","scene":"离开","zh":"我离线一会儿，紧急的找值班。","en":"I'm offline for a bit. Ping on-call if it's urgent."},{"cat":"2. 即时消息","scene":"回复延迟","zh":"抱歉回晚了，刚从发布里出来。","en":"Sorry for the late reply. I just got out of the release."},{"cat":"2. 即时消息","scene":"确认收到","zh":"收到，我加到今天的清单里。","en":"Got it. I'll add it to today's list."},{"cat":"2. 即时消息","scene":"转交","zh":"这块不是我负责的，我帮你转给平台组。","en":"This isn't mine. I'll hand it to the platform team."},{"cat":"2. 即时消息","scene":"截图","zh":"能发个报错截图吗？","en":"Can you send a screenshot of the error?"},{"cat":"2. 即时消息","scene":"复现","zh":"你那边能稳定复现吗？","en":"Can you reproduce it reliably?"},{"cat":"3. 会议","scene":"开场","zh":"人齐了，我们开始。","en":"Everyone's here. Let's start."},{"cat":"3. 会议","scene":"感谢到场","zh":"谢谢大家抽时间。","en":"Thanks for making the time."},{"cat":"3. 会议","scene":"议程","zh":"今天三件事：事故、发布、下周优先级。","en":"Three items today: the incident, the release, and next week's priorities."},{"cat":"3. 会议","scene":"时间盒","zh":"我们有 30 分钟，每项大约 10 分钟。","en":"We have 30 minutes, about 10 per item."},{"cat":"3. 会议","scene":"记录","zh":"我来记行动项。","en":"I'll take the action items."},{"cat":"3. 会议","scene":"目标","zh":"今天的目标是对齐范围，不在这里做设计。","en":"The goal today is to align on scope, not to design it here."},{"cat":"3. 会议","scene":"转入下一项","zh":"这项先到这里，我们看下一项。","en":"Let's leave this here and move to the next item."},{"cat":"3. 会议","scene":"跑题","zh":"这个很重要，但我们另开一个会。","en":"This matters, but let's take it in a separate meeting."},{"cat":"3. 会议","scene":"请人发言","zh":"后端这边你怎么看？","en":"From the backend side, what's your take?"},{"cat":"3. 会议","scene":"还没说话的人","zh":"还有谁想补充？","en":"Anyone else want to add something?"},{"cat":"3. 会议","scene":"打断礼貌","zh":"我插一句，这个有个依赖。","en":"Sorry to jump in. There's a dependency here."},{"cat":"3. 会议","scene":"让别人说完","zh":"你先说完，我等一下再补充。","en":"Go ahead and finish. I'll add mine after."},{"cat":"3. 会议","scene":"听不清","zh":"你刚才最后一句没听清，能再说一次吗？","en":"I missed the last part. Could you say it again?"},{"cat":"3. 会议","scene":"复述","zh":"我复述一下，看我理解对不对。","en":"Let me play it back to check I got it."},{"cat":"3. 会议","scene":"对齐","zh":"我们说的是同一件事吗？","en":"Are we on the same page?"},{"cat":"3. 会议","scene":"决策","zh":"那我们就这么定：本周只做读取路径。","en":"Then let's decide: this week we only do the read path."},{"cat":"3. 会议","scene":"未决","zh":"这个今天定不了，我记成待定。","en":"We can't close this today. I'll mark it open."},{"cat":"3. 会议","scene":"行动项","zh":"你周五前更新设计文档，我来改接口。","en":"You'll update the design doc by Friday. I'll change the API."},{"cat":"3. 会议","scene":"负责人","zh":"谁来牵头？","en":"Who's driving this?"},{"cat":"3. 会议","scene":"下次会议","zh":"下周三同一时间复查进度。","en":"Same time next Wednesday for a progress check."},{"cat":"3. 会议","scene":"结束","zh":"今天就到这。谢谢大家。","en":"That's all for today. Thanks, everyone."},{"cat":"3. 会议","scene":"纪要","zh":"纪要我今天下班前发到频道里。","en":"I'll post the notes in the channel before I log off."},{"cat":"3. 会议","scene":"缺席","zh":"Sam 今天不在，我代他说一下状态。","en":"Sam is out today. I'll give his status."},{"cat":"3. 会议","scene":"超时","zh":"我们已经超时了，剩余的异步跟。","en":"We're over time. Let's take the rest async."},{"cat":"3. 会议","scene":"投票","zh":"同意这个方案的举个手，或者在聊天里加一。","en":"If you agree, raise a hand or plus-one in chat."},{"cat":"4. 视频会议","scene":"声音","zh":"听得到我吗？","en":"Can you hear me?"},{"cat":"4. 视频会议","scene":"自己听不清","zh":"你声音有点小，能靠近一点吗？","en":"You're a bit quiet. Can you move closer to the mic?"},{"cat":"4. 视频会议","scene":"静音","zh":"你还静音着。","en":"You're still on mute."},{"cat":"4. 视频会议","scene":"自己静音","zh":"我这边有噪音，先静音。","en":"There's noise on my side. I'll mute."},{"cat":"4. 视频会议","scene":"网络差","zh":"我网络不稳，可能要重进。","en":"My connection is unstable. I may need to rejoin."},{"cat":"4. 视频会议","scene":"掉线回来","zh":"刚才掉线了，从阻塞那项继续就行。","en":"I dropped. Please continue from the blockers."},{"cat":"4. 视频会议","scene":"共享屏幕","zh":"我共享一下仪表盘。","en":"I'll share the dashboard."},{"cat":"4. 视频会议","scene":"看得到吗","zh":"看得到屏幕吗？","en":"Can you see my screen?"},{"cat":"4. 视频会议","scene":"翻页","zh":"我往下翻到错误率。","en":"I'll scroll to the error rate."},{"cat":"4. 视频会议","scene":"摄像头","zh":"我关一下摄像头，带宽更好。","en":"I'll turn my camera off so the call is smoother."},{"cat":"4. 视频会议","scene":"录制","zh":"我开一下录制，方便缺席的人回看。可以吗？","en":"I'll start recording for people who couldn't join. Is that okay?"},{"cat":"4. 视频会议","scene":"聊天补充","zh":"细节我打在聊天里。","en":"I'll put the details in chat."},{"cat":"4. 视频会议","scene":"等候室","zh":"还有两位在等候，我放他们进来。","en":"Two people are in the lobby. I'll let them in."},{"cat":"4. 视频会议","scene":"时区","zh":"这个时间对欧洲同事偏晚，我们改到早上？","en":"This slot is late for Europe. Can we move it to the morning?"},{"cat":"4. 视频会议","scene":"结束前提醒","zh":"还剩五分钟，我们收一下行动项。","en":"Five minutes left. Let's close on action items."},{"cat":"5. 观点与同意","scene":"简单同意","zh":"同意。","en":"Agreed."},{"cat":"5. 观点与同意","scene":"强烈同意","zh":"完全同意。","en":"I couldn't agree more."},{"cat":"5. 观点与同意","scene":"部分同意","zh":"方向我同意，范围我想再收一收。","en":"I agree with the direction. I'd like a smaller scope."},{"cat":"5. 观点与同意","scene":"补充","zh":"再补一点：还要算上重试。","en":"One addition: we also need retries."},{"cat":"5. 观点与同意","scene":"支持方案","zh":"我支持方案 B，改动更小。","en":"I support option B. The change is smaller."},{"cat":"5. 观点与同意","scene":"数据支持","zh":"监控也对得上这个判断。","en":"The metrics support that."},{"cat":"5. 观点与同意","scene":"经验","zh":"我们上次发布也是这个模式。","en":"We saw the same pattern in the last release."},{"cat":"5. 观点与同意","scene":"开放","zh":"我还没定，想先听运维怎么说。","en":"I haven't decided. I want to hear from ops first."},{"cat":"5. 观点与同意","scene":"复述对方","zh":"你的意思是先保读取，写入以后再说。","en":"You're saying we protect reads first and defer writes."},{"cat":"5. 观点与同意","scene":"感谢观点","zh":"这个角度很有用。","en":"That's a useful angle."},{"cat":"5. 观点与同意","scene":"记录共识","zh":"那共识是：先止血，再修根因。","en":"The agreement is: stop the bleeding, then fix the root cause."},{"cat":"5. 观点与同意","scene":"轻推","zh":"如果我们都没异议，就按这个做。","en":"If nobody objects, let's go with this."},{"cat":"6. 不同意见与拒绝","scene":"委婉不同意","zh":"我理解你的点，但我担心延迟。","en":"I see your point, but I'm worried about latency."},{"cat":"6. 不同意见与拒绝","scene":"直接但礼貌","zh":"这个方案我不太赞成，风险太集中。","en":"I don't think we should do this. The risk is too concentrated."},{"cat":"6. 不同意见与拒绝","scene":"要证据","zh":"能看一下数据吗？我现在还看不出收益。","en":"Can we look at the data? I don't see the gain yet."},{"cat":"6. 不同意见与拒绝","scene":"范围","zh":"这超出了这次发布的范围。","en":"This is out of scope for this release."},{"cat":"6. 不同意见与拒绝","scene":"拒绝额外工作","zh":"我这周已经排满了，接不了这个。","en":"I'm fully booked this week. I can't take this on."},{"cat":"6. 不同意见与拒绝","scene":"拒绝但给替代","zh":"我做不了全部，但我可以先看设计。","en":"I can't do all of it, but I can review the design."},{"cat":"6. 不同意见与拒绝","scene":"拒绝会议","zh":"这个会我参加价值不大，纪要发我就行。","en":"I won't add much in this meeting. The notes are enough."},{"cat":"6. 不同意见与拒绝","scene":"拒绝截止时间","zh":"周五来不及，下周三给一个可用版本更现实。","en":"Friday is too soon. A usable version next Wednesday is more realistic."},{"cat":"6. 不同意见与拒绝","scene":"拒绝范围蔓延","zh":"这个需求我们单独立项，不塞进当前迭代。","en":"Let's track this separately. It shouldn't go into the current sprint."},{"cat":"6. 不同意见与拒绝","scene":"安全否决","zh":"这个不能上，密钥会进日志。","en":"We can't ship this. Secrets would end up in the logs."},{"cat":"6. 不同意见与拒绝","scene":"质量否决","zh":"测试还红着，我不建议合并。","en":"Tests are still red. I wouldn't merge."},{"cat":"6. 不同意见与拒绝","scene":"回绝甩锅","zh":"这块发布检查是我做的，故障点在配置，不在那次提交。","en":"I ran the release check. The fault is in the config, not in that commit."},{"cat":"6. 不同意见与拒绝","scene":"对事不对人","zh":"我质疑的是方案，不是你的工作。","en":"I'm questioning the approach, not your work."},{"cat":"6. 不同意见与拒绝","scene":"以后再说","zh":"现在先不展开，我们放到下个季度的候选里。","en":"Let's not open this now. I'll put it on next quarter's list."},{"cat":"6. 不同意见与拒绝","scene":"找折中","zh":"我们折中：先做只读，写入下一迭代。","en":"Let's meet in the middle: read-only now, writes next sprint."},{"cat":"6. 不同意见与拒绝","scene":"升级","zh":"我们两个人定不了，拉负责人进来。","en":"The two of us can't close this. Let's bring in the owner."},{"cat":"6. 不同意见与拒绝","scene":"保持关系","zh":"今天先不同意，我们可以再看一版。","en":"I can't agree today. We can look at another version."},{"cat":"6. 不同意见与拒绝","scene":"拒绝加班文化","zh":"今晚通宵修不了根因，我宁愿明天正常发布修复。","en":"An all-nighter won't fix the root cause. I'd rather ship the fix tomorrow."},{"cat":"7. 请求、建议与澄清","scene":"请求帮助","zh":"这个报错我看不懂，能一起看五分钟吗？","en":"I can't make sense of this error. Can we look for five minutes?"},{"cat":"7. 请求、建议与澄清","scene":"请求评审","zh":"PR 准备好了，方便的话帮我看一眼。","en":"The PR is ready. A review when you have time would help."},{"cat":"7. 请求、建议与澄清","scene":"请求决定","zh":"这个取舍需要你拍板。","en":"This tradeoff needs your call."},{"cat":"7. 请求、建议与澄清","scene":"给建议","zh":"我建议先加超时，再谈重试。","en":"I'd start with a timeout, then talk about retries."},{"cat":"7. 请求、建议与澄清","scene":"另一种做法","zh":"有没有考虑过做成异步？","en":"Have you considered making it async?"},{"cat":"7. 请求、建议与澄清","scene":"如果","zh":"如果今天修不完，我们就回滚。","en":"If we can't finish today, we roll back."},{"cat":"7. 请求、建议与澄清","scene":"假设","zh":"假如流量翻倍，这个缓存会先炸。","en":"If traffic doubled, this cache would fail first."},{"cat":"7. 请求、建议与澄清","scene":"澄清范围","zh":"你说的“马上”是今天，还是这个迭代？","en":"By \"right away\", do you mean today or this sprint?"},{"cat":"7. 请求、建议与澄清","scene":"澄清环境","zh":"这是测试环境还是生产？","en":"Is this test or production?"},{"cat":"7. 请求、建议与澄清","scene":"澄清用户","zh":"影响的是全部用户，还是一个区域？","en":"Is it all users, or one region?"},{"cat":"7. 请求、建议与澄清","scene":"确认理解","zh":"所以失败时我们应该返回 503，而不是空列表。对吗？","en":"So on failure we should return 503, not an empty list. Right?"},{"cat":"7. 请求、建议与澄清","scene":"没听懂","zh":"这里我没跟上，能举个例子吗？","en":"I didn't follow that. Can you give an example?"},{"cat":"7. 请求、建议与澄清","scene":"缩写","zh":"SLO 在这里是指可用性目标，对吧？","en":"Here SLO means the availability target, right?"},{"cat":"7. 请求、建议与澄清","scene":"请慢一点","zh":"能说慢一点吗？我想记下来。","en":"Could you slow down a little? I want to write this down."},{"cat":"7. 请求、建议与澄清","scene":"请书面","zh":"这个你发我书面的，我怕口头对不齐。","en":"Please send this in writing. I don't want us to misalign."},{"cat":"7. 请求、建议与澄清","scene":"我去查","zh":"这个我不确定，我查完告诉你。","en":"I'm not sure. I'll check and tell you."},{"cat":"7. 请求、建议与澄清","scene":"不要猜","zh":"我先不猜，把日志贴出来。","en":"I won't guess. I'll paste the logs."},{"cat":"8. 进度、阻塞与风险","scene":"站会昨天","zh":"昨天我把认证接口合进去了。","en":"Yesterday I merged the auth API."},{"cat":"8. 进度、阻塞与风险","scene":"站会今天","zh":"今天我写重试和测试。","en":"Today I'll write the retries and the tests."},{"cat":"8. 进度、阻塞与风险","scene":"站会阻塞","zh":"我被测试环境挡住了，账号还没批。","en":"I'm blocked on the test environment. The account isn't approved."},{"cat":"8. 进度、阻塞与风险","scene":"需要帮助","zh":"谁能给我开一下预发库的只读权限？","en":"Who can grant me read-only access to staging?"},{"cat":"8. 进度、阻塞与风险","scene":"进度正常","zh":"按计划走，周四可以提测。","en":"We're on track. We can hand it to test on Thursday."},{"cat":"8. 进度、阻塞与风险","scene":"进度落后","zh":"落后大约一天，差在数据迁移。","en":"We're about a day behind because of the data migration."},{"cat":"8. 进度、阻塞与风险","scene":"赶工取舍","zh":"要赶上周五，就得砍掉导出功能。","en":"To hit Friday, we drop the export feature."},{"cat":"8. 进度、阻塞与风险","scene":"风险","zh":"最大的风险是第三方超时。","en":"The biggest risk is third-party timeouts."},{"cat":"8. 进度、阻塞与风险","scene":"依赖","zh":"我们等支付组的接口，他们说明天给。","en":"We're waiting on the payments API. They said tomorrow."},{"cat":"8. 进度、阻塞与风险","scene":"提前预警","zh":"我提前说一下，这个可能进不了本周发布。","en":"Flagging early: this may miss this week's release."},{"cat":"8. 进度、阻塞与风险","scene":"没有阻塞","zh":"我这边没有阻塞。","en":"No blockers on my side."},{"cat":"8. 进度、阻塞与风险","scene":"更新干系人","zh":"给大家一个更新：修复已在预发。","en":"Quick update: the fix is in staging."},{"cat":"8. 进度、阻塞与风险","scene":"完成定义","zh":"怎样算做完？测试通过并且监控加上？","en":"What does done mean? Tests green and alerts in place?"},{"cat":"8. 进度、阻塞与风险","scene":"演示","zh":"我可以现在演示一条成功路径。","en":"I can demo the happy path now."},{"cat":"8. 进度、阻塞与风险","scene":"延期原因","zh":"延期是因为生产数据和假设不一致。","en":"The delay is because production data doesn't match our assumption."},{"cat":"8. 进度、阻塞与风险","scene":"恢复计划","zh":"计划是今晚回滚，明天带修复再发。","en":"The plan is to roll back tonight and ship the fix tomorrow."},{"cat":"8. 进度、阻塞与风险","scene":"信心","zh":"我对读取路径有信心，写入还要再测。","en":"I'm confident about the read path. Writes need more testing."},{"cat":"8. 进度、阻塞与风险","scene":"没把握","zh":"这块我没把握，想再找一个人看。","en":"I'm not confident here. I want a second pair of eyes."},{"cat":"9. 故障与值班","scene":"宣告事故","zh":"我们开一个事故，支付超时升高。","en":"We're opening an incident. Payment timeouts are up."},{"cat":"9. 故障与值班","scene":"严重级别","zh":"我先按 Sev-2，如果错误率过 5% 就升 Sev-1。","en":"I'm calling it Sev-2. If the error rate passes 5%, we go Sev-1."},{"cat":"9. 故障与值班","scene":"影响","zh":"影响是欧洲用户不能下单，大约 20 分钟。","en":"Impact: users in Europe can't place orders, for about 20 minutes."},{"cat":"9. 故障与值班","scene":"未影响","zh":"内部后台受影响，客户流量目前正常。","en":"The admin console is affected. Customer traffic looks normal."},{"cat":"9. 故障与值班","scene":"我来指挥","zh":"我先当事故指挥，别人先别改生产。","en":"I'll be incident lead. Nobody else should change production."},{"cat":"9. 故障与值班","scene":"现状","zh":"现在的事实是：从 10:12 起 503 在增加。","en":"What we know: 503s have been climbing since 10:12."},{"cat":"9. 故障与值班","scene":"未知","zh":"还不知道是不是昨天的发布引起的。","en":"We don't know yet if yesterday's release caused it."},{"cat":"9. 故障与值班","scene":"假设","zh":"一个假设是连接池耗尽。","en":"One hypothesis is pool exhaustion."},{"cat":"9. 故障与值班","scene":"下一步","zh":"下一步我看数据库连接数。","en":"Next I'll check database connections."},{"cat":"9. 故障与值班","scene":"请人执行","zh":"请你回滚上一版，我看着监控。","en":"Please roll back the last version. I'll watch the metrics."},{"cat":"9. 故障与值班","scene":"止血","zh":"先限流，保证核心下单。","en":"Let's rate-limit first and protect checkout."},{"cat":"9. 故障与值班","scene":"恢复","zh":"错误率回到基线了。","en":"The error rate is back to baseline."},{"cat":"9. 故障与值班","scene":"观察","zh":"再观察 15 分钟再关事故。","en":"Let's watch for 15 minutes before we close it."},{"cat":"9. 故障与值班","scene":"沟通","zh":"我给状态页写一句：我们已回滚，正在确认。","en":"I'll post on the status page: we've rolled back and are confirming."},{"cat":"9. 故障与值班","scene":"不要猜客户","zh":"对外只说我们知道的，不说猜测。","en":"Externally we only say what we know, not guesses."},{"cat":"9. 故障与值班","scene":"复盘时间","zh":"复盘放明天，今天先把时间线记全。","en":"Review is tomorrow. Today we keep the timeline complete."},{"cat":"9. 故障与值班","scene":"根因","zh":"根因是配置把超时改成了 50 毫秒。","en":"Root cause: a config change set the timeout to 50 milliseconds."},{"cat":"9. 故障与值班","scene":"行动项","zh":"行动项：给这项配置加校验，并补告警。","en":"Action: validate that config and add an alert."},{"cat":"9. 故障与值班","scene":"值班级","zh":"我现在值班，这个我接。","en":"I'm on call. I'll take this."},{"cat":"9. 故障与值班","scene":"交接","zh":"交接一下：事故还开着，下一次动作是看队列。","en":"Handoff: the incident is still open. Next step is the queue."},{"cat":"9. 故障与值班","scene":"误报","zh":"看过了，是告警误报，服务正常。","en":"Checked. It's a false alarm. The service is healthy."},{"cat":"9. 故障与值班","scene":"复现不了","zh":"生产上有，本地复现不了。","en":"It happens in production. I can't reproduce it locally."},{"cat":"10. 发布与回滚","scene":"冻结","zh":"今天代码冻结，只接修复。","en":"Code freeze today. Fixes only."},{"cat":"10. 发布与回滚","scene":"准备发布","zh":"检查单过了，我开始发预发。","en":"The checklist is green. I'm starting the staging deploy."},{"cat":"10. 发布与回滚","scene":"窗口","zh":"发布窗口是今晚 9 点到 10 点。","en":"The release window is 9 to 10 tonight."},{"cat":"10. 发布与回滚","scene":"金丝雀","zh":"先发 5% 流量，看 10 分钟。","en":"Canary at 5% for 10 minutes."},{"cat":"10. 发布与回滚","scene":"继续放量","zh":"金丝雀正常，放到 50%。","en":"Canary looks fine. Going to 50%."},{"cat":"10. 发布与回滚","scene":"暂停","zh":"错误率抬了一点，先暂停放量。","en":"Error rate ticked up. Pausing the rollout."},{"cat":"10. 发布与回滚","scene":"回滚","zh":"我执行回滚。","en":"I'm rolling back."},{"cat":"10. 发布与回滚","scene":"回滚完成","zh":"回滚完成，版本回到上一个稳定版。","en":"Rollback is done. We're on the last stable version."},{"cat":"10. 发布与回滚","scene":"验证","zh":"请帮我点一条下单，我看日志。","en":"Please place one test order. I'll watch the logs."},{"cat":"10. 发布与回滚","scene":"数据库迁移","zh":"迁移向后兼容，应用可以先发。","en":"The migration is backward compatible. The app can ship first."},{"cat":"10. 发布与回滚","scene":"不可逆","zh":"这一步不能回滚，我们再确认一次。","en":"This step is not reversible. Let's confirm once more."},{"cat":"10. 发布与回滚","scene":"特性开关","zh":"代码先上，开关先关着。","en":"We'll ship the code dark, behind a flag."},{"cat":"10. 发布与回滚","scene":"开开关","zh":"我只给内部用户打开。","en":"I'm enabling it for internal users only."},{"cat":"10. 发布与回滚","scene":"发布说明","zh":"发布说明我写好了，主要是修复超时。","en":"Release notes are ready. The main change is the timeout fix."},{"cat":"10. 发布与回滚","scene":"不发","zh":"今天不发了，风险大于收益。","en":"We're not shipping today. The risk is higher than the gain."},{"cat":"10. 发布与回滚","scene":"谁批准","zh":"需要你口头确认才能上生产。","en":"I need your go before production."},{"cat":"10. 发布与回滚","scene":"批准","zh":"可以发。出问题马上回滚。","en":"Go ahead. Roll back immediately if it misbehaves."},{"cat":"11. 代码与评审","scene":"请评审","zh":"改动不大，主要是把超时提出来。","en":"Small change. It mainly pulls the timeout out."},{"cat":"11. 代码与评审","scene":"看什么","zh":"请重点看错误处理和并发。","en":"Please focus on error handling and concurrency."},{"cat":"11. 代码与评审","scene":"肯定","zh":"这个拆分很清楚。","en":"This split is clear."},{"cat":"11. 代码与评审","scene":"提问","zh":"这里为什么不用已有的客户端？","en":"Why not use the existing client here?"},{"cat":"11. 代码与评审","scene":"建议改","zh":"建议把这个魔法数字提成常量。","en":"I'd lift this magic number into a constant."},{"cat":"11. 代码与评审","scene":"必须改","zh":"这里会漏关连接，合并前得改。","en":"This can leak a connection. Please fix it before merge."},{"cat":"11. 代码与评审","scene":"测试","zh":"能补一个失败路径的测试吗？","en":"Can you add a test for the failure path?"},{"cat":"11. 代码与评审","scene":"命名","zh":"这个名字看不出是毫秒。","en":"The name doesn't say this is milliseconds."},{"cat":"11. 代码与评审","scene":"范围","zh":"和这个 bug 无关的重排，另开一个 PR 吧。","en":"The unrelated refactor should be a separate PR."},{"cat":"11. 代码与评审","scene":"我改","zh":"说得对，我改完再请你看。","en":"Good point. I'll change it and ask you to look again."},{"cat":"11. 代码与评审","scene":"不改原因","zh":"这里是故意的，因为上游会重试。我加了注释。","en":"This is intentional, because the caller retries. I added a comment."},{"cat":"11. 代码与评审","scene":"批准","zh":"可以合。","en":"LGTM. You can merge."},{"cat":"11. 代码与评审","scene":"先不合","zh":"先别合，流水线还是红的。","en":"Don't merge yet. The pipeline is still red."},{"cat":"11. 代码与评审","scene":"冲突","zh":"和主干冲突了，我来解。","en":"It conflicts with main. I'll resolve it."},{"cat":"11. 代码与评审","scene":"配对","zh":"这段我们一起写吧，边界有点多。","en":"Let's pair on this. There are a lot of edge cases."},{"cat":"11. 代码与评审","scene":"读代码","zh":"我先从入口读到数据库调用。","en":"I'll read from the entry point down to the database call."},{"cat":"11. 代码与评审","scene":"指出 bug","zh":"问题是空列表被当成成功。","en":"The bug is that an empty list is treated as success."},{"cat":"11. 代码与评审","scene":"怎么改","zh":"最小改动是：空结果返回 404。","en":"The smallest fix: return 404 on an empty result."},{"cat":"11. 代码与评审","scene":"复杂度","zh":"这里是线性的，数据量大时要分页。","en":"This is linear. With large data we need paging."},{"cat":"12. 需求与设计","scene":"用户问题","zh":"用户问题是：导出一小时还没结果。","en":"The user problem: export still has no result after an hour."},{"cat":"12. 需求与设计","scene":"不是方案","zh":"我们先别谈用哪个队列，先确认成功标准。","en":"Let's not pick a queue yet. Let's confirm the success criteria."},{"cat":"12. 需求与设计","scene":"范围","zh":"第一期只做 CSV，PDF 以后再说。","en":"Phase one is CSV only. PDF comes later."},{"cat":"12. 需求与设计","scene":"不做什么","zh":"这次不做历史数据回填。","en":"We're not backfilling history in this change."},{"cat":"12. 需求与设计","scene":"验收","zh":"验收：一万行在一分钟内生成，失败可重试。","en":"Acceptance: 10,000 rows within a minute, and failures can be retried."},{"cat":"12. 需求与设计","scene":"优先级","zh":"这个比报表高，因为它挡住下单。","en":"This is higher priority than the report, because it blocks checkout."},{"cat":"12. 需求与设计","scene":"排期","zh":"我估三天开发，一天联调。","en":"I estimate three days of dev and one day of integration."},{"cat":"12. 需求与设计","scene":"不确定估时","zh":"估时还早，我需要先看现有代码。","en":"It's too early to estimate. I need to read the current code."},{"cat":"12. 需求与设计","scene":"拆分","zh":"我们拆成两个可独立发布的部分。","en":"Let's split it into two parts we can ship independently."},{"cat":"12. 需求与设计","scene":"接口","zh":"请求用这个字段，响应里带请求号。","en":"The request uses this field. The response includes a request id."},{"cat":"12. 需求与设计","scene":"兼容","zh":"旧客户端还在，字段不能删，只能加。","en":"Old clients are still out there. We can add fields, not remove them."},{"cat":"12. 需求与设计","scene":"失败","zh":"下游失败时我们要明确失败，不能返回空成功。","en":"If the downstream fails, we fail clearly. We must not return an empty success."},{"cat":"12. 需求与设计","scene":"幂等","zh":"重试不能产生两笔订单。","en":"A retry must not create two orders."},{"cat":"12. 需求与设计","scene":"权限","zh":"只有这个角色能看客户全名。","en":"Only this role can see the full customer name."},{"cat":"12. 需求与设计","scene":"取舍","zh":"我们用一致性换一点延迟。","en":"We trade a bit of latency for consistency."},{"cat":"12. 需求与设计","scene":"另案","zh":"这个想法好，但单独立项。","en":"Good idea. Let's track it separately."},{"cat":"12. 需求与设计","scene":"写下来","zh":"我把决定写进设计文档，避免口头丢失。","en":"I'll write the decision in the design doc so it isn't lost."},{"cat":"12. 需求与设计","scene":"问产品","zh":"这个边界需要产品确认，工程定不了。","en":"This boundary needs product. Engineering can't decide it."},{"cat":"12. 需求与设计","scene":"技术债","zh":"可以先这样上，但要记一笔债：没有分页。","en":"We can ship this, with debt noted: no paging."},{"cat":"13. 系统与架构口语句","scene":"服务","zh":"这个服务负责下单，不负责库存。","en":"This service owns checkout. It doesn't own inventory."},{"cat":"13. 系统与架构口语句","scene":"同步","zh":"这条路径是同步的，用户在等。","en":"This path is synchronous. The user is waiting."},{"cat":"13. 系统与架构口语句","scene":"异步","zh":"提交后我们排队处理，接口先返回已接受。","en":"After submit we queue the work and return accepted."},{"cat":"13. 系统与架构口语句","scene":"超时","zh":"超时设成 2 秒，避免把线程占死。","en":"The timeout is 2 seconds, so we don't hold threads."},{"cat":"13. 系统与架构口语句","scene":"重试","zh":"只对幂等请求重试，最多三次。","en":"We retry only idempotent calls, at most three times."},{"cat":"13. 系统与架构口语句","scene":"熔断","zh":"连续失败就熔断，过一会儿再试。","en":"After repeated failures we open the circuit and try again later."},{"cat":"13. 系统与架构口语句","scene":"降级","zh":"推荐挂了就返回空，不挡住下单。","en":"If recommendations fail, return empty. Don't block checkout."},{"cat":"13. 系统与架构口语句","scene":"缓存","zh":"缓存 60 秒，库存以数据库为准。","en":"Cache for 60 seconds. The database is the source of truth for stock."},{"cat":"13. 系统与架构口语句","scene":"一致性","zh":"用户要能读到自己刚写的数据，别人可以稍等。","en":"A user should be able to read their own write. Others can wait a moment."},{"cat":"13. 系统与架构口语句","scene":"扩展","zh":"先垂直加资源，瓶颈清楚再拆服务。","en":"Scale up first. Split the service when the bottleneck is clear."},{"cat":"13. 系统与架构口语句","scene":"单点","zh":"这是单点，数据库挂了全站不可用。","en":"This is a single point of failure. If the database dies, the site is down."},{"cat":"13. 系统与架构口语句","scene":"观察","zh":"我们看延迟、错误率和饱和度。","en":"We watch latency, error rate, and saturation."},{"cat":"13. 系统与架构口语句","scene":"日志","zh":"日志里要有请求号，不要打密钥。","en":"Logs need a request id, and no secrets."},{"cat":"13. 系统与架构口语句","scene":"追踪","zh":"这条慢请求我用 trace 串起来了。","en":"I followed this slow request with a trace."},{"cat":"13. 系统与架构口语句","scene":"告警","zh":"告警要能对应一个动作，不然大家会报警疲劳。","en":"An alert needs an action, or people get alert fatigue."},{"cat":"13. 系统与架构口语句","scene":"容量","zh":"按现在的增长，磁盘下个月会满。","en":"At this growth, the disk will fill up next month."},{"cat":"13. 系统与架构口语句","scene":"安全","zh":"令牌放头部，不放 URL。","en":"Put the token in the header, not in the URL."},{"cat":"13. 系统与架构口语句","scene":"权限最小化","zh":"作业账号只给它需要的权限。","en":"The job account gets only the access it needs."},{"cat":"13. 系统与架构口语句","scene":"备份","zh":"备份有，但我们这个季度还没演练过恢复。","en":"We have backups, but we haven't rehearsed a restore this quarter."},{"cat":"13. 系统与架构口语句","scene":"环境","zh":"本地能过，不代表生产配置一样。","en":"Passing locally doesn't mean production config matches."},{"cat":"14. 测试与质量","scene":"测什么","zh":"我先测成功路径，再测超时。","en":"I'll test the happy path, then the timeout."},{"cat":"14. 测试与质量","scene":"复现步骤","zh":"步骤：登录，提交，刷新，订单出现两次。","en":"Steps: sign in, submit, refresh, the order appears twice."},{"cat":"14. 测试与质量","scene":"预期","zh":"预期是一次提交只有一笔订单。","en":"Expected: one submit creates one order."},{"cat":"14. 测试与质量","scene":"实际","zh":"实际是刷新后又创建了一笔。","en":"Actual: refresh creates a second order."},{"cat":"14. 测试与质量","scene":"通过","zh":"这条用例过了。","en":"This case passed."},{"cat":"14. 测试与质量","scene":"失败","zh":"支付用例还是失败。","en":"The payment case still fails."},{"cat":"14. 测试与质量","scene":"不稳定","zh":"这个测试时好时坏，先标成不稳定。","en":"This test flakes. I'll mark it flaky."},{"cat":"14. 测试与质量","scene":"覆盖不到","zh":"单元测试覆盖不到这个集成路径。","en":"Unit tests don't cover this integration path."},{"cat":"14. 测试与质量","scene":"回归","zh":"这是回归，上一版是好的。","en":"This is a regression. The last version was fine."},{"cat":"14. 测试与质量","scene":"修完再测","zh":"我修好了，请再跑一遍这条。","en":"The fix is in. Please rerun this case."},{"cat":"14. 测试与质量","scene":"不能复现","zh":"按你的步骤我复现不了，环境可能不同。","en":"I can't reproduce those steps. The environment may differ."},{"cat":"14. 测试与质量","scene":"数据","zh":"用这份匿名数据，别用生产拷贝。","en":"Use this anonymized data, not a production copy."},{"cat":"14. 测试与质量","scene":"签收","zh":"测试签过了，可以进发布。","en":"QA signed off. It can go to release."},{"cat":"14. 测试与质量","scene":"不签收","zh":"还有一个阻断缺陷，我不能签。","en":"There's still a blocker. I can't sign off."},{"cat":"14. 测试与质量","scene":"缺陷级别","zh":"这是阻断：用户付了钱没有订单。","en":"This is a blocker: the user is charged and gets no order."},{"cat":"14. 测试与质量","scene":"已知问题","zh":"这个已知，有临时办法，不挡发布。","en":"This is known, with a workaround. It doesn't block release."},{"cat":"15. 客户与跨团队","scene":"开场","zh":"感谢你的时间。我先确认问题。","en":"Thanks for your time. I'll start by confirming the problem."},{"cat":"15. 客户与跨团队","scene":"复述问题","zh":"你的意思是报表从周一开始就是空的。","en":"You're saying the report has been empty since Monday."},{"cat":"15. 客户与跨团队","scene":"影响询问","zh":"这挡住你们什么流程？","en":"Which process is this blocking for you?"},{"cat":"15. 客户与跨团队","scene":"预期询问","zh":"你希望什么时候必须可用？","en":"When does this need to be working?"},{"cat":"15. 客户与跨团队","scene":"现状","zh":"我们已定位到任务失败，正在修。","en":"We've found the job is failing, and we're fixing it."},{"cat":"15. 客户与跨团队","scene":"时间","zh":"我现在给不了准确时间，今天下班前给更新。","en":"I don't have an exact ETA. I'll update you before end of day."},{"cat":"15. 客户与跨团队","scene":"临时方案","zh":"临时可以手动导出，我把步骤发给你。","en":"A workaround is a manual export. I'll send the steps."},{"cat":"15. 客户与跨团队","scene":"做不到","zh":"按现在的权限，我们不能导出那一列。","en":"With the current permissions, we can't export that column."},{"cat":"15. 客户与跨团队","scene":"承诺边界","zh":"我承诺今天查清原因，不承诺今天修完。","en":"I can commit to finding the cause today, not to shipping a fix today."},{"cat":"15. 客户与跨团队","scene":"坏消息","zh":"这个做不进本月，最早下个迭代。","en":"This won't make this month. The earliest is next sprint."},{"cat":"15. 客户与跨团队","scene":"好消息","zh":"修复已经上线，请再试一次。","en":"The fix is live. Please try again."},{"cat":"15. 客户与跨团队","scene":"要例子","zh":"请发一个失败的请求号，我们好查。","en":"Please send a failed request id so we can trace it."},{"cat":"15. 客户与跨团队","scene":"不甩锅","zh":"不管是哪一队的问题，我来跟进到有结论。","en":"Whichever team it sits with, I'll follow it until we have an answer."},{"cat":"15. 客户与跨团队","scene":"内部升级","zh":"我需要平台组一起看，我拉他们进来。","en":"I need the platform team on this. I'll bring them in."},{"cat":"15. 客户与跨团队","scene":"会议结束","zh":"今天的下一步是我们查日志，你提供样例。","en":"Next: we check the logs, and you send a sample."},{"cat":"15. 客户与跨团队","scene":"感谢耐心","zh":"谢谢你的耐心，这个影响确实大。","en":"Thanks for your patience. The impact is real."},{"cat":"16. 邮件","scene":"主题","zh":"主题：预发支付超时，需要今天决定。","en":"Subject: Staging payment timeouts — decision needed today."},{"cat":"16. 邮件","scene":"开头","zh":"写这封是想对齐今天的发布。","en":"I'm writing to align on today's release."},{"cat":"16. 邮件","scene":"目的","zh":"请在下午 3 点前确认能不能发。","en":"Please confirm by 3 p.m. whether we can ship."},{"cat":"16. 邮件","scene":"背景","zh":"背景：从昨天起，预发超时从 1% 升到 8%。","en":"Context: since yesterday, staging timeouts went from 1% to 8%."},{"cat":"16. 邮件","scene":"请求","zh":"请你看一下附件里的图，告诉我能不能接受。","en":"Please look at the attached chart and tell me if it's acceptable."},{"cat":"16. 邮件","scene":"附件","zh":"日志摘录在附件，密码另发。","en":"The log extract is attached. I'll send the password separately."},{"cat":"16. 邮件","scene":"抄送","zh":"我抄送了值班经理，方便他们知道。","en":"I copied the on-call manager so they have the context."},{"cat":"16. 邮件","scene":"跟进","zh":"跟一下昨天的邮件，我们还等批准。","en":"Following up on yesterday's note. We're still waiting for approval."},{"cat":"16. 邮件","scene":"感谢","zh":"谢谢你这么快改完配置。","en":"Thank you for fixing the config so quickly."},{"cat":"16. 邮件","scene":"道歉","zh":"抱歉这么晚发，发布窗口刚结束。","en":"Sorry for the late note. The release window just ended."},{"cat":"16. 邮件","scene":"转交","zh":"这块请找数据组，我已把邮件转过去。","en":"Please work with the data team. I've forwarded the thread."},{"cat":"16. 邮件","scene":"收尾","zh":"有问题直接回这封邮件。","en":"Reply to this thread if anything is unclear."},{"cat":"16. 邮件","scene":"结束语","zh":"谢谢。","en":"Thanks."},{"cat":"16. 邮件","scene":"请假","zh":"我周四不在，紧急事项请找我的备份。","en":"I'm out Thursday. For anything urgent, contact my backup."},{"cat":"16. 邮件","scene":"病假","zh":"我今天身体不舒服，不在线。","en":"I'm not feeling well and will be offline today."},{"cat":"16. 邮件","scene":"加班说明","zh":"我不建议今晚发布，原因写在下面。","en":"I don't recommend shipping tonight. The reasons are below."},{"cat":"17. 电话","scene":"自报家门","zh":"你好，我是平台组打来的。","en":"Hi, I'm calling from the platform team."},{"cat":"17. 电话","scene":"找人","zh":"请问 Alex 在吗？关于今天的事故。","en":"Is Alex available? It's about today's incident."},{"cat":"17. 电话","scene":"留言","zh":"他不在的话，请让他回我这个号码。","en":"If he's not there, please ask him to call me back at this number."},{"cat":"17. 电话","scene":"说明来意","zh":"我打电话是因为生产告警还没恢复。","en":"I'm calling because the production alert hasn't cleared."},{"cat":"17. 电话","scene":"确认身份","zh":"为了确认，你是这个服务的负责人吗？","en":"Just to confirm, are you the owner of this service?"},{"cat":"17. 电话","scene":"听不清","zh":"信号不好，你能再说一遍数字吗？","en":"The line is bad. Can you repeat the number?"},{"cat":"17. 电话","scene":"稍等","zh":"请稍等，我打开监控。","en":"Please hold while I open the dashboard."},{"cat":"17. 电话","scene":"转达","zh":"我让他一散会就打给你。","en":"I'll have him call you as soon as he's out of the meeting."},{"cat":"17. 电话","scene":"结束","zh":"那就这样，我随后发邮件确认。","en":"Let's leave it there. I'll confirm by email."},{"cat":"17. 电话","scene":"打错","zh":"不好意思，我打错人了。","en":"Sorry, I called the wrong person."},{"cat":"17. 电话","scene":"预约","zh":"今天下午有 15 分钟吗？","en":"Do you have 15 minutes this afternoon?"},{"cat":"17. 电话","scene":"改期","zh":"我不得不改期，明天同一时间可以吗？","en":"I need to reschedule. Does the same time tomorrow work?"},{"cat":"18. 汇报与数据","scene":"开场","zh":"今天我讲三件事：现状、原因、下一步。","en":"Today I'll cover three things: status, cause, and next steps."},{"cat":"18. 汇报与数据","scene":"路线","zh":"先看用户影响，再看技术原因。","en":"I'll start with user impact, then the technical cause."},{"cat":"18. 汇报与数据","scene":"时间","zh":"我讲十分钟，留五分钟提问。","en":"I'll present for ten minutes and leave five for questions."},{"cat":"18. 汇报与数据","scene":"这张图","zh":"这张图是过去 24 小时的错误率。","en":"This chart is the error rate over the last 24 hours."},{"cat":"18. 汇报与数据","scene":"上升","zh":"错误率从 10 点起明显上去了。","en":"The error rate climbs sharply after 10:00."},{"cat":"18. 汇报与数据","scene":"下降","zh":"回滚之后回到正常水平。","en":"After the rollback it returns to normal."},{"cat":"18. 汇报与数据","scene":"对比","zh":"和上周同一天比，高了大约四倍。","en":"Compared with the same day last week, it's about four times higher."},{"cat":"18. 汇报与数据","scene":"峰值","zh":"峰值是 12%，持续了 8 分钟。","en":"The peak was 12%, for 8 minutes."},{"cat":"18. 汇报与数据","scene":"平稳","zh":"其余时间基本平稳。","en":"The rest of the day is mostly flat."},{"cat":"18. 汇报与数据","scene":"不要过度解读","zh":"样本还小，我不把这个当趋势。","en":"The sample is small. I wouldn't call this a trend."},{"cat":"18. 汇报与数据","scene":"结论","zh":"结论是：发布引起超时，回滚已恢复。","en":"The conclusion: the release caused the timeouts, and the rollback recovered them."},{"cat":"18. 汇报与数据","scene":"建议","zh":"建议加一道发布前的超时检查。","en":"I recommend a timeout check before release."},{"cat":"18. 汇报与数据","scene":"提问","zh":"我先停在这里，看大家有没有问题。","en":"I'll pause here for questions."},{"cat":"18. 汇报与数据","scene":"不会的问题","zh":"这个数字我现在没有，会后补上。","en":"I don't have that number here. I'll follow up."},{"cat":"18. 汇报与数据","scene":"挑战问题","zh":"问得好。如果我们不回滚，影响还会扩大。","en":"Good question. Without a rollback, the impact would have grown."},{"cat":"18. 汇报与数据","scene":"收尾","zh":"需要决定的是：今晚是否重新发布。","en":"The decision we need: whether we ship again tonight."},{"cat":"18. 汇报与数据","scene":"进度汇报","zh":"范围没变，进度落后一天，没有新风险。","en":"Scope is unchanged, we're a day behind, and there's no new risk."},{"cat":"18. 汇报与数据","scene":"完成汇报","zh":"原定三项都完成了，有一项额外的小修复。","en":"The three planned items are done, plus one small extra fix."},{"cat":"19. 时间与请假","scene":"有空吗","zh":"你周四上午有空吗？","en":"Are you free Thursday morning?"},{"cat":"19. 时间与请假","scene":"时间不行","zh":"这个时间和另一个会冲突。","en":"That slot clashes with another meeting."},{"cat":"19. 时间与请假","scene":"提议时间","zh":"下午 4 点怎么样？","en":"How about 4 p.m.?"},{"cat":"19. 时间与请假","scene":"确认时间","zh":"那就周三 10 点，我发邀请。","en":"Wednesday at 10 then. I'll send the invite."},{"cat":"19. 时间与请假","scene":"迟到","zh":"我会晚到五分钟。","en":"I'll be five minutes late."},{"cat":"19. 时间与请假","scene":"提前离开","zh":"我下午 4 点得走，要去接人。","en":"I have to leave at 4 p.m. I need to pick someone up."},{"cat":"19. 时间与请假","scene":"请假","zh":"我想请下周一的假。","en":"I'd like to take next Monday off."},{"cat":"19. 时间与请假","scene":"病假","zh":"我今天上不了班，身体不舒服。","en":"I can't work today. I'm unwell."},{"cat":"19. 时间与请假","scene":"备份","zh":"我不在时，发布找 Priya。","en":"While I'm out, Priya covers releases."},{"cat":"19. 时间与请假","scene":"回来","zh":"我回来了，先看错过的告警。","en":"I'm back. I'll start with the alerts I missed."},{"cat":"19. 时间与请假","scene":"假期交接","zh":"交接文档在这里，事故步骤在第二节。","en":"The handoff doc is here. Incident steps are in section two."},{"cat":"19. 时间与请假","scene":"加班","zh":"今晚如果要守发布，我可以留到 10 点。","en":"If we need someone on the release, I can stay until 10."},{"cat":"19. 时间与请假","scene":"拒绝深夜","zh":"半夜我做不了决定，请值班按手册回滚。","en":"I can't make that decision in the middle of the night. On-call should follow the rollback runbook."},{"cat":"19. 时间与请假","scene":"时区协调","zh":"我们选一个对两边都不太糟的时间。","en":"Let's pick a time that isn't terrible for either side."},{"cat":"20. 反馈、感谢与协作","scene":"感谢帮助","zh":"谢谢你帮我看日志，省了我很多时间。","en":"Thanks for looking at the logs with me. It saved me a lot of time."},{"cat":"20. 反馈、感谢与协作","scene":"感谢评审","zh":"谢谢你抓到那个泄漏。","en":"Thanks for catching that leak."},{"cat":"20. 反馈、感谢与协作","scene":"公开感谢","zh":"这次恢复得快，是因为值班响应及时。","en":"Recovery was fast because on-call responded quickly."},{"cat":"20. 反馈、感谢与协作","scene":"正向反馈","zh":"你的设计文档别人能直接拿来做。","en":"Your design doc is something others can build from."},{"cat":"20. 反馈、感谢与协作","scene":"改进反馈","zh":"状态更新如果早半天，我们就不用猜。","en":"If the status update came half a day earlier, we wouldn't have to guess."},{"cat":"20. 反馈、感谢与协作","scene":"接受反馈","zh":"说得对，我下次先写影响再写细节。","en":"Fair. Next time I'll write the impact before the details."},{"cat":"20. 反馈、感谢与协作","scene":"请求反馈","zh":"你看我刚才那段说明清楚吗？","en":"Was that explanation clear?"},{"cat":"20. 反馈、感谢与协作","scene":"道歉迟到","zh":"抱歉让大家等，我把环境搞错了。","en":"Sorry to keep everyone waiting. I had the wrong environment."},{"cat":"20. 反馈、感谢与协作","scene":"道歉失误","zh":"这个故障里有我引入的配置错误。","en":"This incident includes a config error I introduced."},{"cat":"20. 反馈、感谢与协作","scene":"不指责","zh":"我们先把时间线写清楚，不找谁的错。","en":"Let's write the timeline first, not look for blame."},{"cat":"20. 反馈、感谢与协作","scene":"请求协作","zh":"这个需要前后端一起改。","en":"This needs a change on both frontend and backend."},{"cat":"20. 反馈、感谢与协作","scene":"分工","zh":"你改接口，我改调用方。","en":"You change the API. I'll change the caller."},{"cat":"20. 反馈、感谢与协作","scene":"信用","zh":"这个主意是 Sam 的，我只是把它写下来。","en":"This idea was Sam's. I just wrote it down."},{"cat":"20. 反馈、感谢与协作","scene":"对外口径","zh":"对外由我来说明。对内再查是谁改的配置。","en":"Externally I'll speak for the team. Internally we'll find out who changed the config."},{"cat":"20. 反馈、感谢与协作","scene":"鼓励","zh":"方向是对的，我们把测试补上就能合。","en":"The direction is right. Add the tests and we can merge."},{"cat":"20. 反馈、感谢与协作","scene":"收尾感谢","zh":"今天先到这，谢谢大家留下来处理。","en":"Let's stop here. Thanks for staying on this."},{"cat":"21. 入职与交接","scene":"要权限","zh":"我还没有仓库权限，工单号是这个。","en":"I still don't have repo access. Here's the ticket."},{"cat":"21. 入职与交接","scene":"要文档","zh":"有没有这个服务的一页纸说明？","en":"Is there a one-page overview of this service?"},{"cat":"21. 入职与交接","scene":"问主人","zh":"谁是这个服务的负责人？","en":"Who owns this service?"},{"cat":"21. 入职与交接","scene":"本地环境","zh":"本地怎么把依赖跑起来？","en":"How do I run the dependencies locally?"},{"cat":"21. 入职与交接","scene":"第一周","zh":"这周我以读代码和跟发布为主。","en":"This week I'll focus on reading the code and shadowing a release."},{"cat":"21. 入职与交接","scene":"不敢改","zh":"我对这块还不熟，先提问题不直接改生产。","en":"I'm new to this area. I'll ask before touching production."},{"cat":"21. 入职与交接","scene":"交接人","zh":"你离开前，我们把值班手册过一遍。","en":"Before you leave, let's walk through the on-call runbook."},{"cat":"21. 入职与交接","scene":"已知坑","zh":"有哪些已知的坑我应该先知道？","en":"Which known pitfalls should I know first?"},{"cat":"21. 入职与交接","scene":"影子值班","zh":"这次我影子值班，你来指挥。","en":"I'll shadow this on-call shift. You lead."},{"cat":"21. 入职与交接","scene":"30 天","zh":"30 天后我应该能独立值这个服务的班。","en":"After 30 days I should be able to be on call for this service."},{"cat":"21. 入职与交接","scene":"说自己的工作","zh":"我最近在做发布自动化，减少手工步骤。","en":"Lately I've been automating releases to cut manual steps."},{"cat":"21. 入职与交接","scene":"工具","zh":"我们用哪个看板跟踪事故行动项？","en":"Which board do we use for incident actions?"},{"cat":"22. 容易漏的说法","scene":"私下谈","zh":"这个会上不展开，我们私下谈。","en":"Let's not go into this here. We can take it offline."},{"cat":"22. 容易漏的说法","scene":"回头再说","zh":"我回头再找你。","en":"I'll circle back."},{"cat":"22. 容易漏的说法","scene":"破坏性变更","zh":"这是破坏性变更，要提前通知调用方。","en":"This is a breaking change. We need to tell callers ahead of time."},{"cat":"22. 容易漏的说法","scene":"轮换密钥","zh":"这个密钥可能泄漏了，请轮换。","en":"This secret may have leaked. Please rotate it."},{"cat":"22. 容易漏的说法","scene":"建议不挡合并","zh":"这几条是建议，不挡合并。","en":"These are nits. They don't block the merge."},{"cat":"22. 容易漏的说法","scene":"阻断评论","zh":"这一条必须改，否则不能合。","en":"This comment is blocking. We shouldn't merge without it."},{"cat":"22. 容易漏的说法","scene":"工单链接","zh":"把工单链接发我。","en":"Can you send me the ticket link?"},{"cat":"22. 容易漏的说法","scene":"谁批准","zh":"谁是批准人？","en":"Who is the approver?"},{"cat":"22. 容易漏的说法","scene":"有手册吗","zh":"有值班手册吗？","en":"Do we have a runbook?"},{"cat":"22. 容易漏的说法","scene":"用户影响","zh":"用户影响是什么？","en":"What's the user impact?"},{"cat":"22. 容易漏的说法","scene":"结对","zh":"你来操作，我看着。","en":"You drive. I'll navigate."},{"cat":"22. 容易漏的说法","scene":"构建失败","zh":"构建是红的，我先看失败的那一步。","en":"The build is red. I'll look at the failing step."},{"cat":"22. 容易漏的说法","scene":"按住发布","zh":"先按住发布，等检查完。","en":"Hold the release until the check is done."},{"cat":"22. 容易漏的说法","scene":"谢谢提出","zh":"谢谢你提出来。","en":"Thanks for flagging this."},{"cat":"22. 容易漏的说法","scene":"我来跟进","zh":"后续我来跟。","en":"I'll own the follow-up."},{"cat":"23. 高频短句","scene":"明白","zh":"明白。","en":"Got it."},{"cat":"23. 高频短句","scene":"稍等","zh":"稍等。","en":"One moment."},{"cat":"23. 高频短句","scene":"我来","zh":"我来处理。","en":"I'll take it."},{"cat":"23. 高频短句","scene":"进行中","zh":"正在做。","en":"We're on it."},{"cat":"23. 高频短句","scene":"查一下","zh":"我查一下。","en":"Let me check."},{"cat":"23. 高频短句","scene":"不确定","zh":"我不确定。","en":"I'm not sure."},{"cat":"23. 高频短句","scene":"有道理","zh":"有道理。","en":"That makes sense."},{"cat":"23. 高频短句","scene":"没道理","zh":"这说不通。","en":"That doesn't make sense."},{"cat":"23. 高频短句","scene":"说重点","zh":"我们说重点。","en":"Let's get to the point."},{"cat":"23. 高频短句","scene":"举例","zh":"举个例子。","en":"For example."},{"cat":"23. 高频短句","scene":"换句话说","zh":"换句话说，用户会等到超时。","en":"In other words, the user waits until timeout."},{"cat":"23. 高频短句","scene":"底线","zh":"底线是不能丢订单。","en":"The bottom line is we can't lose orders."},{"cat":"23. 高频短句","scene":"优先","zh":"先做这个。","en":"This comes first."},{"cat":"23. 高频短句","scene":"以后","zh":"这个以后再说。","en":"Let's park this."},{"cat":"23. 高频短句","scene":"同意推进","zh":"就这么干。","en":"Let's do that."},{"cat":"23. 高频短句","scene":"停下","zh":"先停一下。","en":"Let's pause here."},{"cat":"23. 高频短句","scene":"继续","zh":"请继续。","en":"Go ahead."},{"cat":"23. 高频短句","scene":"你定","zh":"你来定。","en":"Your call."},{"cat":"23. 高频短句","scene":"我负责","zh":"这件我负责。","en":"I own this."},{"cat":"23. 高频短句","scene":"不归我","zh":"这件不归我。","en":"This isn't mine."},{"cat":"23. 高频短句","scene":"有风险","zh":"这里有风险。","en":"There's a risk here."},{"cat":"23. 高频短句","scene":"没风险","zh":"这步风险很低。","en":"This step is low risk."},{"cat":"23. 高频短句","scene":"已完成","zh":"做完了。","en":"It's done."},{"cat":"23. 高频短句","scene":"还没","zh":"还没好。","en":"Not yet."},{"cat":"23. 高频短句","scene":"快了","zh":"快好了。","en":"Almost there."},{"cat":"23. 高频短句","scene":"重来","zh":"我们重来一遍。","en":"Let's start over."},{"cat":"23. 高频短句","scene":"看数据","zh":"以数据为准。","en":"Let's go by the data."},{"cat":"23. 高频短句","scene":"写下来","zh":"我们写下来。","en":"Let's write it down."},{"cat":"23. 高频短句","scene":"同步","zh":"我和你对齐一下。","en":"Let me sync up with you."},{"cat":"23. 高频短句","scene":"私下谈","zh":"这个我们私下谈。","en":"Let's take this offline."},{"cat":"23. 高频短句","scene":"升级问题","zh":"这个要升级。","en":"This needs to be escalated."},{"cat":"23. 高频短句","scene":"可以上","zh":"可以上。","en":"Good to ship."},{"cat":"23. 高频短句","scene":"先别上","zh":"先别上。","en":"Don't ship yet."},{"cat":"23. 高频短句","scene":"回滚吧","zh":"回滚吧。","en":"Let's roll back."},{"cat":"23. 高频短句","scene":"我确认","zh":"我确认过了。","en":"I've confirmed it."},{"cat":"23. 高频短句","scene":"请确认","zh":"请你确认一下。","en":"Please confirm."},{"cat":"23. 高频短句","scene":"保持更新","zh":"我持续更新。","en":"I'll keep you posted."},{"cat":"23. 高频短句","scene":"结束对话","zh":"先这样。","en":"Let's leave it there."},{"cat":"23. 高频短句","scene":"辛苦","zh":"辛苦了。","en":"Appreciate the effort."},{"cat":"23. 高频短句","scene":"没事","zh":"没事。","en":"No worries."},{"cat":"24. 面试开场","scene":"自我介绍收束","zh":"可以开始做题了","en":"I'm happy to go into the technical questions."},{"cat":"24. 面试开场","scene":"听完题面","zh":"我复述一下，按层往下讲，句子保持短。","en":"Understood. I'll restate each problem, work top-down, and keep my points short."},{"cat":"24. 面试开场","scene":"每题开场","zh":"我先复述，用一个小例子，指出 bug，再改，再加新函数。","en":"I'll restate, run a small example, name the bug, then patch, then add the new function."},{"cat":"24. 面试开场","scene":"架构题开场","zh":"我先复述，再按客户和风险影响排序。","en":"Let me restate the problem, then I'll rank issues by customer and risk impact."},{"cat":"24. 面试开场","scene":"要思考时间","zh":"给我十秒，我在顺着客户 A 走一遍。","en":"Give me ten seconds. I'm tracing customer A."},{"cat":"24. 面试开场","scene":"填静音","zh":"我正在看这个节点 / 这一行。","en":"I'm checking this box. / I'm reading this line."},{"cat":"24. 面试开场","scene":"英语慢","zh":"英语我会说慢一点，句子保持短。","en":"Sorry, my English is a bit slow. I'll keep sentences short."},{"cat":"24. 面试开场","scene":"主动交还时间","zh":"安全或结算你想先听哪一块，我可以展开。","en":"I can go deeper on security or on the settlement job if you want."},{"cat":"24. 面试开场","scene":"还有吗","zh":"还有别的要我覆盖吗，还是我继续讲安全？","en":"Anything else you want me to cover, or should I continue with security?"},{"cat":"25. 面试确认","scene":"没听清","zh":"请再说一遍最后那句，我想确认我听对了。","en":"Could you please repeat the last part? I want to make sure I got it."},{"cat":"25. 面试确认","scene":"二选一确认","zh":"我不确定需求。你是要 A，还是 B？","en":"I'm not sure I understood the requirement. Do you mean A, or B?"},{"cat":"25. 面试确认","scene":"复述题意","zh":"所以先找 bug，再加一个过滤函数，而且必须能跑。对吗？","en":"So you want me to find bugs first, then add a filter function, and it must run. Is that right?"},{"cat":"25. 面试确认","scene":"确认边界","zh":"等于阈值算不算进去？是严格大于吗？","en":"Does equal to the threshold count? Is the check strictly greater?"},{"cat":"25. 面试确认","scene":"确认排序","zh":"结果要升序，对吗？","en":"Should the result be sorted ascending?"},{"cat":"25. 面试确认","scene":"确认空输入","zh":"空列表应该返回空，对吗？","en":"For an empty list, should I return an empty result?"},{"cat":"25. 面试确认","scene":"未知类型","zh":"未知类型我按存款处理，也可以直接拒绝。你希望哪一种？","en":"For an unknown type I'll treat it as a deposit, or I can reject it. Which do you prefer?"},{"cat":"25. 面试确认","scene":"假设","zh":"我先假设输入金额恒为正，符号由类型决定。","en":"I'll assume amounts are always positive, and the sign comes from the type."},{"cat":"26. 架构术语","scene":"单点","zh":"单点故障","en":"a single point of failure"},{"cat":"26. 架构术语","scene":"单库","zh":"只有一个主库","en":"a single primary database / a single primary"},{"cat":"26. 架构术语","scene":"无副本","zh":"没有副本 / 没有备库","en":"no replica / no read replica / no standby"},{"cat":"26. 架构术语","scene":"单 AZ","zh":"只在一个可用区","en":"a single availability zone / single-AZ"},{"cat":"26. 架构术语","scene":"单 LB","zh":"只有一台负载均衡","en":"a single load balancer"},{"cat":"26. 架构术语","scene":"粘滞会话","zh":"同一会话粘在同一台机器上","en":"sticky sessions / session affinity"},{"cat":"26. 架构术语","scene":"故障面","zh":"爆炸半径很大","en":"a large blast radius"},{"cat":"26. 架构术语","scene":"高可用","zh":"高可用可以后面再做","en":"High availability can come later."},{"cat":"26. 架构术语","scene":"缓存 TTL","zh":"存活时间 / 过期时间","en":"TTL / time to live / expiry"},{"cat":"26. 架构术语","scene":"TTL 过短","zh":"缓存过期太快","en":"the TTL is too short / the cache expires too fast"},{"cat":"26. 架构术语","scene":"打爆库","zh":"缓存同时失效，请求涌向数据库","en":"stampede the database / a thundering herd / a cache stampede"},{"cat":"26. 架构术语","scene":"过期读","zh":"读到过期数据","en":"stale data / serving stale reads"},{"cat":"26. 架构术语","scene":"写后失效","zh":"写成功后删掉缓存","en":"cache invalidation after write / evict on update"},{"cat":"26. 架构术语","scene":"只靠 TTL","zh":"只靠过期，写后不删","en":"we only rely on TTL"},{"cat":"26. 架构术语","scene":"同步调用","zh":"在关键路径上同步调用","en":"a synchronous call / on the hot path"},{"cat":"26. 架构术语","scene":"第三方","zh":"外部依赖 / 供应商","en":"a third party / an external vendor / an external dependency"},{"cat":"26. 架构术语","scene":"超时","zh":"没有超时","en":"no timeout"},{"cat":"26. 架构术语","scene":"重试","zh":"带退避和抖动的重试","en":"retries with backoff and jitter"},{"cat":"26. 架构术语","scene":"熔断","zh":"熔断器","en":"a circuit breaker"},{"cat":"26. 架构术语","scene":"降级","zh":"降级 / 失败放行 / 失败拒绝","en":"a fallback / fail open / fail closed"},{"cat":"26. 架构术语","scene":"异步","zh":"不要放在关键路径上，改成异步","en":"This should not be on the critical path. Make it async."},{"cat":"26. 架构术语","scene":"幂等","zh":"幂等 / 幂等键","en":"idempotency / an idempotency key"},{"cat":"26. 架构术语","scene":"重复扣款","zh":"客户被扣两次","en":"a double charge / charge the customer twice"},{"cat":"26. 架构术语","scene":"监控","zh":"监控、告警、可观测性","en":"monitoring, alerting, observability"},{"cat":"26. 架构术语","scene":"黄金指标","zh":"延迟、错误率、饱和度","en":"latency, error rate, and saturation"},{"cat":"26. 架构术语","scene":"审计","zh":"审计日志 / 谁查过谁的数据","en":"an audit trail / who accessed whose data"},{"cat":"26. 架构术语","scene":"明文","zh":"明文密码 / 日志里的完整卡号","en":"secrets in plaintext / full PAN in logs"},{"cat":"26. 架构术语","scene":"权限","zh":"权限过大，应用最小权限","en":"over-privileged access / least privilege"},{"cat":"26. 架构术语","scene":"限流","zh":"没有限流","en":"no rate limit"},{"cat":"26. 架构术语","scene":"PCI","zh":"这是 PCI 问题","en":"That is a PCI issue."},{"cat":"26. 架构术语","scene":"控制缺口","zh":"这是控制缺口，不只是工程问题","en":"This is a control gap, not only an engineering gap."},{"cat":"26. 架构术语","scene":"对象存储","zh":"文件应放到对象存储","en":"put the files in object storage"},{"cat":"26. 架构术语","scene":"校验和","zh":"没有校验和","en":"no checksum"},{"cat":"26. 架构术语","scene":"CDN","zh":"CDN 缓存了旧文件且不失效","en":"the CDN caches the file with no invalidation"},{"cat":"27. 架构口语句","scene":"走一遍请求","zh":"我顺着一笔请求从客户端走到数据库。","en":"Let me trace one request from the client to the database."},{"cat":"27. 架构口语句","scene":"三句式","zh":"问题是 X。影响是 Y。因为 Z。","en":"The issue is X. The impact is Y, because Z."},{"cat":"27. 架构口语句","scene":"P0","zh":"这是 P0，因为客户会看到错误余额。","en":"This is P0 because it can show a wrong balance to the customer."},{"cat":"27. 架构口语句","scene":"24 小时","zh":"如果只有 24 小时，我先修写路径和超时，缓存 TTL 可以稍后。","en":"If I had 24 hours, I'd fix the write path and timeouts first. Cache TTL can wait."},{"cat":"27. 架构口语句","scene":"单点句","zh":"这是单点。这台挂了，整条路径就停。","en":"This is a single point of failure. If this node dies, the whole path stops."},{"cat":"27. 架构口语句","scene":"TTL 短","zh":"TTL 太短，键会一起过期，数据库被打爆。","en":"The cache TTL is too short, so keys expire together and we stampede the database."},{"cat":"27. 架构口语句","scene":"TTL 长","zh":"TTL 太长，客户看到旧数据。","en":"The TTL is too long, so customers see stale data."},{"cat":"27. 架构口语句","scene":"写后不删","zh":"写成功后我们不失效缓存，所以会重放旧结果。","en":"After a write we do not invalidate the cache, so we can replay a stale decision."},{"cat":"27. 架构口语句","scene":"第三方慢","zh":"供应商一慢，我们的线程堵住，自己的接口也挂。","en":"If the vendor is slow, our threads block and our own API dies."},{"cat":"27. 架构口语句","scene":"绑死可用性","zh":"我们把可用性绑在了第三方上。","en":"We have coupled availability to a third party."},{"cat":"27. 架构口语句","scene":"幂等句","zh":"客户端超时会重试。没有幂等键，会扣两次款。","en":"If the client times out and retries, we can charge the customer twice."},{"cat":"27. 架构口语句","scene":"只打日志","zh":"写失败只打了日志，没有重试。","en":"Failed writes are only logged. There is no retry."},{"cat":"27. 架构口语句","scene":"告警句","zh":"没有监控告警，问题是客户投诉才发现的。","en":"There is no monitoring or alerting. We find problems from customer complaints."},{"cat":"27. 架构口语句","scene":"审计句","zh":"没有审计。银行必须知道谁查过哪个账户。","en":"There is no audit trail. In a bank we must know who looked up which account."},{"cat":"27. 架构口语句","scene":"限流句","zh":"网关没有限流，一个客户端就能把服务打满。","en":"There is no rate limit on the gateway, so one client can flood the service."},{"cat":"27. 架构口语句","scene":"健康检查","zh":"健康检查只打 ping，不检查数据库。","en":"The health check only hits ping. It does not check the database."},{"cat":"27. 架构口语句","scene":"状态撒谎","zh":"状态写成已生成，文件其实不存在。","en":"The status says generated even when the file does not exist."},{"cat":"27. 架构口语句","scene":"本地盘","zh":"文件在每台机器的本地盘上，下一跳会 404。","en":"Files live on local disk. The next request can land on another pod and return 404."},{"cat":"27. 架构口语句","scene":"扫层清单","zh":"我按单点、缓存、超时、重试、幂等、可观测性、安全来扫。","en":"I'll check single points of failure, cache, timeouts, retries, idempotency, observability, and security."},{"cat":"28. 读代码找 bug","scene":"先举例","zh":"我先用一个小例子走一遍。","en":"I'll run this with a small example first."},{"cat":"28. 读代码找 bug","scene":"期望 vs 实际","zh":"测试期望 60，代码会返回 140。","en":"The test expects 60. The code returns 140."},{"cat":"28. 读代码找 bug","scene":"KeyError","zh":"新客户第一次累加会抛 KeyError，因为键没初始化。","en":"On a new customer, plus-equals raises KeyError, because the key is never initialized."},{"cat":"28. 读代码找 bug","scene":"漏分支","zh":"只处理了存款，取款被跳过。","en":"It only handles deposits. Withdrawals are skipped."},{"cat":"28. 读代码找 bug","scene":"符号反了","zh":"取款被当成正数加进去了。","en":"Withdrawals are added as positive. The sign is wrong."},{"cat":"28. 读代码找 bug","scene":"分母错了","zh":"分母用了已完成数，应该用总数。","en":"The denominator is completed. It should be the total."},{"cat":"28. 读代码找 bug","scene":"除零","zh":"总数为 0 时不能除，返回 0。","en":"If total is zero, I return 0.0 to avoid divide by zero."},{"cat":"28. 读代码找 bug","scene":"漏排序","zh":"输入是乱序的，必须按时间戳排序。","en":"The rows are out of order. I must sort by timestamp."},{"cat":"28. 读代码找 bug","scene":"原地排序","zh":"我排序一份副本，不改原列表。","en":"I'll sort a copy, not the original list."},{"cat":"28. 读代码找 bug","scene":"漏掉 0","zh":"有交易但费用为 0 的账户也必须出现。","en":"An account with transactions but no fee must still appear with 0."},{"cat":"28. 读代码找 bug","scene":"不该出现","zh":"没有交易的账户不能出现在结果里。","en":"An account with no transactions must not appear."},{"cat":"28. 读代码找 bug","scene":"中途为负","zh":"不能只看期末余额，中途为负也要记。","en":"I cannot use only the final map. I must check the running balance."},{"cat":"28. 读代码找 bug","scene":"规则别混","zh":"上一个函数只算已完成，这个函数所有状态都算。","en":"The previous function counts only completed. This one counts all statuses. I will not mix those rules."},{"cat":"29. 改代码与新需求","scene":"最小改动","zh":"我先做最小修复。","en":"I'll make a small fix first."},{"cat":"29. 改代码与新需求","scene":"复用","zh":"新函数复用旧函数，不把循环再写一遍。","en":"I'll reuse the existing function. I will not copy the loop."},{"cat":"29. 改代码与新需求","scene":"初始化","zh":"用 get 做默认值，避免 KeyError。","en":"I'll initialize with get, so a new key does not raise KeyError."},{"cat":"29. 改代码与新需求","scene":"严格比较","zh":"等于阈值不算，因为是严格大于。","en":"Equal to the threshold is not included, because the check is strictly greater."},{"cat":"29. 改代码与新需求","scene":"排序","zh":"然后按升序排序。","en":"Then I sort ascending."},{"cat":"29. 改代码与新需求","scene":"空结果","zh":"空输入返回空字典 / 空列表。","en":"Empty input returns an empty dict / an empty list."},{"cat":"29. 改代码与新需求","scene":"跑完报结果","zh":"跑过了。A 是 40，B 是 10，结果是 A。","en":"It runs. A is 40, B is 10, and the result is A."},{"cat":"29. 改代码与新需求","scene":"边界口头补","zh":"缺字段会 KeyError。生产上应校验或跳过并打日志。","en":"A missing field raises KeyError. In production I would validate or skip and log."},{"cat":"29. 改代码与新需求","scene":"类型转换","zh":"金额如果是字符串，要先转成数字。","en":"If amount is a string, I convert it to a number first."},{"cat":"29. 改代码与新需求","scene":"并列打破","zh":"次数相同就取字母序靠前的那个。","en":"On a tie, pick the name that comes first alphabetically."},{"cat":"29. 改代码与新需求","scene":"nil","zh":"没有预约时，最忙类型设为 None。","en":"If there are no appointments, the busiest type is None."},{"cat":"29. 改代码与新需求","scene":"记得挂测试","zh":"我还要在 main 里调用这个测试。","en":"I also need to call this test from main."},{"cat":"30. 面试演练：账户","scene":"复述","zh":"存款加，取款减。先修余额，再加平均和手续费。","en":"DEPOSIT adds, WITHDRAWAL subtracts. I'll fix the balance test, then add average and fees."},{"cat":"30. 面试演练：账户","scene":"余额例子","zh":"100 减 30 减 20 加 10，期望 60。代码得到 140。","en":"100 minus 30 minus 20 plus 10. Expected is 60. The code returns 140."},{"cat":"30. 面试演练：账户","scene":"平均不带符号","zh":"平均用原始金额，取款不取负。","en":"For the average, use the raw amount. Do not apply a sign."},{"cat":"30. 面试演练：账户","scene":"平均数字","zh":"账户 51 是 160 除以 4，等于 40。","en":"Account 51 is 160 divided by 4, which is 40."},{"cat":"30. 面试演练：账户","scene":"手续费规则","zh":"按时间顺序。前三笔免费。之后存款 1 美元，取款 2 美元。","en":"Process in time order. The first three are free. Then a deposit is one dollar, a withdrawal is two."},{"cat":"30. 面试演练：账户","scene":"全免费","zh":"Frank 只有三笔，所以出现在结果里，费用是 0。","en":"Frank has only three transactions, so he appears with a fee of zero."},{"cat":"30. 面试演练：账户","scene":"无交易省略","zh":"Grace 没有交易，所以整个省略。","en":"Grace has no transactions, so she is omitted."},{"cat":"31. 面试演练：预约","scene":"复述","zh":"五条预约：两条完成，一条缺席，一条取消，一条未开始。","en":"Five appointments: two completed, one no-show, one cancelled, one scheduled."},{"cat":"31. 面试演练：预约","scene":"缺勤率","zh":"缺勤率是 1 除以 5，等于 0.2，不是 0.5。","en":"The no-show rate is one over five, which is 0.2, not 0.5."},{"cat":"31. 面试演练：预约","scene":"只算完成","zh":"平均时长只算 COMPLETED。取消和未开始即使很长也忽略。","en":"Only COMPLETED counts. Cancelled and scheduled are ignored even if they are long."},{"cat":"31. 面试演练：预约","scene":"不要写成 0","zh":"没有急诊完成记录，不要把急诊写成 0。","en":"Emergency is missing, so it must not appear as zero."},{"cat":"31. 面试演练：预约","scene":"空 map","zh":"这个医生没有完成记录，返回空字典。","en":"This doctor has no completed rows, so I return an empty map."},{"cat":"31. 面试演练：预约","scene":"摘要范围","zh":"摘要里每个医生都要出现，包括没有预约的。所有状态都算。","en":"Every doctor appears, including one with no appointments. All statuses count."},{"cat":"31. 面试演练：预约","scene":"并列","zh":"随访和急诊并列，急诊赢，因为 E 在 F 前面。","en":"Follow-up and emergency tie, so emergency wins, because E comes before F."},{"cat":"32. 代码怎么念","scene":"+=","zh":"加等于","en":"plus-equals"},{"cat":"32. 代码怎么念","scene":"==","zh":"等于","en":"equals / double-equals"},{"cat":"32. 代码怎么念","scene":"!=","zh":"不等于","en":"not-equals"},{"cat":"32. 代码怎么念","scene":"<=","zh":"小于等于","en":"less than or equal to"},{"cat":"32. 代码怎么念","scene":"dict[k]","zh":"字典里 k 这个键","en":"the value for key k"},{"cat":"32. 代码怎么念","scene":"cid","zh":"三个字母 see-eye-dee","en":"C-I-D"},{"cat":"32. 代码怎么念","scene":"KeyError","zh":"key air-ror，重音在 key","en":"Key-Error"},{"cat":"32. 代码怎么念","scene":"None","zh":"读 none","en":"None"},{"cat":"32. 代码怎么念","scene":"nil","zh":"读 nil","en":"nil"},{"cat":"32. 代码怎么念","scene":"idempotency","zh":"eye-dem-POH-ten-see","en":"idempotency"},{"cat":"32. 代码怎么念","scene":"circuit breaker","zh":"SIR-kit BRAY-ker","en":"circuit breaker"},{"cat":"32. 代码怎么念","scene":"availability zone","zh":"uh-vay-luh-BIL-ih-tee zone，常说 A-Z","en":"availability zone / A-Z"},{"cat":"32. 代码怎么念","scene":"thundering herd","zh":"THUN-der-ing herd","en":"thundering herd"},{"cat":"32. 代码怎么念","scene":"latency","zh":"LAY-ten-see","en":"latency"},{"cat":"32. 代码怎么念","scene":"synchronous","zh":"SING-kruh-nus","en":"synchronous"},{"cat":"32. 代码怎么念","scene":"asynchronous","zh":"ay-SING-kruh-nus","en":"asynchronous"},{"cat":"32. 代码怎么念","scene":"denominator","zh":"dih-NOM-uh-nay-ter，分母","en":"denominator"},{"cat":"32. 代码怎么念","scene":"chronological","zh":"kron-uh-LOJ-ih-kul，按时间先后","en":"chronological / in time order"},{"cat":"32. 代码怎么念","scene":"alphabetically","zh":"al-fuh-BET-ik-lee","en":"alphabetically"},{"cat":"32. 代码怎么念","scene":"omit","zh":"oh-MIT，省略","en":"omit / omitted"},{"cat":"33. 复杂度与测试","scene":"时间","zh":"时间是 O(n)，排序命中集合是 k log k。","en":"Time is O(n) to scan, plus k log k to sort."},{"cat":"33. 复杂度与测试","scene":"空间","zh":"空间是 O(n)，每个客户一个键。","en":"Space is O(n), one entry per customer."},{"cat":"33. 复杂度与测试","scene":"先说再优化","zh":"我先做正确的版本。如果需要，再优化。","en":"I'll get a correct version first. I can optimize if we need to."},{"cat":"33. 复杂度与测试","scene":"跑测试","zh":"我跑一下现有测试。","en":"Let me run the existing tests."},{"cat":"33. 复杂度与测试","scene":"通过","zh":"测试通过了。","en":"The tests pass."},{"cat":"33. 复杂度与测试","scene":"失败定位","zh":"这个用例挂了。期望 0.2，实际 0.5。","en":"This case fails. Expected 0.2, actual 0.5."},{"cat":"33. 复杂度与测试","scene":"边界","zh":"我再测空列表、重复键、以及刚好等于阈值。","en":"I'll also test the empty list, duplicate keys, and the equal-to-threshold case."},{"cat":"33. 复杂度与测试","scene":"回归","zh":"改完我再跑原来的余额测试，确认没被带坏。","en":"I'll rerun the original balance test to make sure I didn't break it."},{"cat":"34. 面试卡住时","scene":"卡住","zh":"我卡在这里。目前的判断是……","en":"I'm stuck on this part. My current hypothesis is..."},{"cat":"34. 面试卡住时","scene":"要提示","zh":"这个方向对吗？需要的话给我一个提示。","en":"Is this the right direction? A hint would help if not."},{"cat":"34. 面试卡住时","scene":"查文档","zh":"我查一下这个 API，就像平时写代码一样。","en":"I'll look up this API, the same way I would while coding."},{"cat":"34. 面试卡住时","scene":"先讲完剩余步骤","zh":"如果时间不够，剩下的步骤是……","en":"If I run out of time, the remaining steps are..."},{"cat":"34. 面试卡住时","scene":"取舍","zh":"有两种做法。我选这个，因为它改动最小，也复用了现有结构。","en":"There are two options. I'll take this one because the change is small and it reuses what is already there."},{"cat":"34. 面试卡住时","scene":"不重构","zh":"我不会重写整段，只补缺失的分支。","en":"I won't rewrite the whole function. I'll add the missing branch."},{"cat":"34. 面试卡住时","scene":"生产差异","zh":"面试里我按测试来。生产上我还会加校验、日志和幂等。","en":"For the test I'll follow the spec. In production I would also add validation, logs, and idempotency."},{"cat":"34. 面试卡住时","scene":"不确定就问","zh":"这一条规则我不确定，我先问清楚再写。","en":"I'm not sure about this rule. I'll ask before I code it."},{"cat":"35. 面试收尾","scene":"做完","zh":"代码能跑。我讲一下结果和复杂度。","en":"The code runs. Let me state the result and the complexity."},{"cat":"35. 面试收尾","scene":"还想补","zh":"如果还有一分钟，我想补两个边界。","en":"If I have one more minute, I'll mention two edge cases."},{"cat":"35. 面试收尾","scene":"架构收束","zh":"24 小时内：幂等、超时加熔断、写后删缓存。高可用随后。","en":"In 24 hours: idempotent writes, timeouts plus a circuit breaker, and cache invalidation on write. HA can follow."},{"cat":"35. 面试收尾","scene":"交给对方","zh":"这是我看到的主要问题。你想让我展开哪一条？","en":"Those are the main issues I see. Which one should I go deeper on?"},{"cat":"35. 面试收尾","scene":"结束","zh":"我就到这里。谢谢。","en":"That's all from me. Thank you."},{"cat":"36. 日常 Python","scene":"环境","zh":"我用虚拟环境，依赖写在 requirements 里。","en":"I'll use a virtual environment and pin dependencies in requirements."},{"cat":"36. 日常 Python","scene":"包管理","zh":"这个包还没装。我先装再跑。","en":"This package is not installed. I'll install it and rerun."},{"cat":"36. 日常 Python","scene":"类型","zh":"我给参数和返回值加上类型标注。","en":"I'll add type hints for the arguments and the return value."},{"cat":"36. 日常 Python","scene":"可变默认值","zh":"不要用可变对象当默认参数，每次调用会共享同一份。","en":"Don't use a mutable default argument. Every call shares the same object."},{"cat":"36. 日常 Python","scene":"空值","zh":"这里可能是 None，先判断再往下用。","en":"This can be None. I'll check it before I use it."},{"cat":"36. 日常 Python","scene":"异常","zh":"我抓住具体异常，不吞掉所有 Exception。","en":"I'll catch the specific exception, not a bare Exception."},{"cat":"36. 日常 Python","scene":"上下文","zh":"用 with 打开文件，退出时会自动关掉。","en":"I'll open the file with a context manager so it closes on exit."},{"cat":"36. 日常 Python","scene":"字典","zh":"用 get 取键，缺键时给默认值。","en":"I'll use get so a missing key returns a default."},{"cat":"36. 日常 Python","scene":"列表推导","zh":"用列表推导过滤，比手写循环更清楚。","en":"A list comprehension is clearer than a manual loop here."},{"cat":"36. 日常 Python","scene":"生成器","zh":"数据量大时用生成器，避免一次把结果放进内存。","en":"I'll use a generator so we don't load the whole result into memory."},{"cat":"36. 日常 Python","scene":"拷贝","zh":"这是浅拷贝。嵌套对象还是同一份。","en":"This is a shallow copy. Nested objects are still shared."},{"cat":"36. 日常 Python","scene":"可变参数","zh":"我把多余的关键字收进 kwargs。","en":"I'll collect extra keyword arguments into kwargs."},{"cat":"36. 日常 Python","scene":"日志","zh":"用 logger，不要用 print。级别用 info 或 error。","en":"Use a logger, not print. Log at info or error."},{"cat":"36. 日常 Python","scene":"测试","zh":"我补一个 pytest 用例覆盖这条边界。","en":"I'll add a pytest case for this edge."},{"cat":"36. 日常 Python","scene":"mock","zh":"外部调用我 mock 掉，单测不打真服务。","en":"I'll mock the external call so the unit test does not hit the real service."},{"cat":"36. 日常 Python","scene":"并发","zh":"这是 I/O 等待，用 async 或线程。CPU 密集再用进程。","en":"This is I/O bound, so async or threads. Use processes for CPU-bound work."},{"cat":"36. 日常 Python","scene":"锁","zh":"共享状态要加锁，否则会有竞态。","en":"Shared state needs a lock, or we get a race."},{"cat":"36. 日常 Python","scene":"序列化","zh":"接口用 JSON。datetime 要先转成字符串。","en":"The API uses JSON. Convert datetime to a string first."},{"cat":"36. 日常 Python","scene":"路径","zh":"用 pathlib，不要拼字符串路径。","en":"Use pathlib. Don't concatenate path strings."},{"cat":"36. 日常 Python","scene":"编码","zh":"按 UTF-8 读写，别依赖系统默认编码。","en":"Read and write as UTF-8. Don't rely on the system default encoding."},{"cat":"36. 日常 Python","scene":"复现","zh":"我能稳定复现。输入是这个，异常是这个。","en":"I can reproduce it. This is the input, and this is the traceback."},{"cat":"37. 日常 AI","scene":"提示词","zh":"我把任务、约束和输出格式写进 prompt。","en":"I'll put the task, the constraints, and the output format in the prompt."},{"cat":"37. 日常 AI","scene":"系统提示","zh":"系统提示规定角色和不能做的事。","en":"The system prompt sets the role and what the model must not do."},{"cat":"37. 日常 AI","scene":"RAG","zh":"先检索相关片段，再让模型基于这些片段回答。","en":"Retrieve the relevant chunks first, then answer from those chunks."},{"cat":"37. 日常 AI","scene":"引用","zh":"回答要带来源，不能凭空编。","en":"The answer must cite sources. It must not invent facts."},{"cat":"37. 日常 AI","scene":"幻觉","zh":"检索没命中时，应说不知道，而不是编一个答案。","en":"If retrieval misses, say you don't know instead of making up an answer."},{"cat":"37. 日常 AI","scene":"嵌入","zh":"文档切块后做 embedding，再按向量相似度召回。","en":"Chunk the documents, embed them, then retrieve by vector similarity."},{"cat":"37. 日常 AI","scene":"切块","zh":"块太大召回不准，块太小会丢上下文。","en":"Chunks that are too large hurt retrieval. Chunks that are too small lose context."},{"cat":"37. 日常 AI","scene":"重排","zh":"先召回一批，再用 reranker 把最相关的排到前面。","en":"Retrieve a candidate set, then rerank the most relevant to the top."},{"cat":"37. 日常 AI","scene":"工具调用","zh":"模型决定调哪个工具，参数我们校验后再执行。","en":"The model chooses the tool. We validate the arguments before we run it."},{"cat":"37. 日常 AI","scene":"Agent","zh":"Agent 是规划、调用工具、再根据结果继续，不是单次补全。","en":"An agent plans, calls tools, and continues from the result. It is not a single completion."},{"cat":"37. 日常 AI","scene":"上下文窗口","zh":"上下文窗口不够，旧对话要摘要或丢掉。","en":"The context window is full. Summarize or drop older turns."},{"cat":"37. 日常 AI","scene":"温度","zh":"要稳定输出时把 temperature 调低。","en":"Lower the temperature when we need stable output."},{"cat":"37. 日常 AI","scene":"结构化输出","zh":"让模型按 JSON schema 输出，方便下游解析。","en":"Ask for JSON that matches a schema so the next step can parse it."},{"cat":"37. 日常 AI","scene":"评测","zh":"用一组固定问题做评测，比较改 prompt 前后的命中率。","en":"Evaluate on a fixed question set and compare hit rate before and after the prompt change."},{"cat":"37. 日常 AI","scene":"护栏","zh":"输入和输出都过一遍护栏，挡住越权和敏感数据。","en":"Run guardrails on input and output to block unauthorized actions and sensitive data."},{"cat":"37. 日常 AI","scene":"人工确认","zh":"写操作和付款必须人工确认，不能让 agent 直接执行。","en":"Writes and payments need human confirmation. The agent must not execute them directly."},{"cat":"37. 日常 AI","scene":"成本","zh":"这条链路 token 太多。先缩小检索，再调模型。","en":"This path uses too many tokens. Narrow retrieval first, then call the model."},{"cat":"37. 日常 AI","scene":"延迟","zh":"首 token 延迟太高，用户会以为卡住了。","en":"Time to first token is too high. Users will think it is stuck."},{"cat":"37. 日常 AI","scene":"数据不出域","zh":"客户数据不能送到外部模型。用私有部署。","en":"Customer data must not go to an external model. Use a private deployment."},{"cat":"37. 日常 AI","scene":"可追溯","zh":"记下 prompt、检索片段和模型版本，方便事后追溯。","en":"Log the prompt, the retrieved chunks, and the model version for traceability."},{"cat":"38. 银行业务","scene":"账户","zh":"账户、余额、流水。","en":"account, balance, and transaction history"},{"cat":"38. 银行业务","scene":"借贷","zh":"贷记是入账，借记是出账。","en":"A credit posts money in. A debit posts money out."},{"cat":"38. 银行业务","scene":"对账","zh":"日终要和总账对上。对不上就是 break。","en":"At end of day we reconcile to the ledger. A mismatch is a break."},{"cat":"38. 银行业务","scene":"清算","zh":"交易先授权，再清算，最后结算。","en":"A payment is authorized, then cleared, then settled."},{"cat":"38. 银行业务","scene":"幂等","zh":"同一笔付款重试不能入账两次。","en":"A retry of the same payment must not post twice."},{"cat":"38. 银行业务","scene":"冲正","zh":"错账用冲正，不直接改历史流水。","en":"Correct a wrong posting with a reversal. Don't edit history."},{"cat":"38. 银行业务","scene":"冻结","zh":"可疑资金先冻结，再调查。","en":"Freeze suspicious funds first, then investigate."},{"cat":"38. 银行业务","scene":"限额","zh":"单笔和日累计都有限额。","en":"There is a per-transaction limit and a daily limit."},{"cat":"38. 银行业务","scene":"KYC","zh":"开户前要完成身份核实。","en":"Complete identity verification before opening the account."},{"cat":"38. 银行业务","scene":"AML","zh":"异常模式要报反洗钱。","en":"Unusual patterns must be reported for anti-money laundering."},{"cat":"38. 银行业务","scene":"制裁","zh":"命中制裁名单就拒绝，不能放行。","en":"A sanctions hit must be declined. Do not let it through."},{"cat":"38. 银行业务","scene":"审计","zh":"谁在什么时间看了哪个账户，要留下审计。","en":"Audit who viewed which account, and when."},{"cat":"38. 银行业务","scene":"职责分离","zh":"录入和审批不能是同一个人。","en":"The maker and the checker must be different people."},{"cat":"38. 银行业务","scene":"双人复核","zh":"这笔付款超过阈值，需要第二个人批准。","en":"This payment is above the threshold. It needs a second approval."},{"cat":"38. 银行业务","scene":"监管","zh":"保留期限和报送格式要满足监管。","en":"Retention and the report format must meet the regulation."},{"cat":"38. 银行业务","scene":"数据驻留","zh":"这类数据不能离开本司法辖区。","en":"This data must stay in the jurisdiction."},{"cat":"38. 银行业务","scene":"PII","zh":"日志里不能出现完整账号或证件号。","en":"Logs must not contain a full account number or an ID number."},{"cat":"38. 银行业务","scene":"掩码","zh":"展示时只留后四位。","en":"Mask it. Show only the last four digits."},{"cat":"38. 银行业务","scene":"营业日","zh":"截止时间之后算下一个营业日。","en":"After the cutoff, it posts on the next business day."},{"cat":"38. 银行业务","scene":"对账差异","zh":"差异先挂起，查清后再入账。","en":"Park the break, investigate, then post the correction."},{"cat":"39. 日常架构","scene":"服务边界","zh":"这个能力属于支付服务，不要放进账户服务。","en":"This belongs in the payment service, not the account service."},{"cat":"39. 日常架构","scene":"同步异步","zh":"查询走同步。通知和出账走队列。","en":"Reads stay synchronous. Notifications and posting go through a queue."},{"cat":"39. 日常架构","scene":"队列","zh":"用队列削峰，下游按自己的速度消费。","en":"Use a queue to absorb the spike. Consumers drain it at their own pace."},{"cat":"39. 日常架构","scene":"至少一次","zh":"队列是至少一次，所以消费必须幂等。","en":"Delivery is at least once, so the consumer must be idempotent."},{"cat":"39. 日常架构","scene":"死信","zh":"多次失败进死信队列，不要无限重试。","en":"After repeated failures, send it to the dead-letter queue. Don't retry forever."},{"cat":"39. 日常架构","scene":"超时预算","zh":"整条链路的超时要大于下游超时。","en":"The end-to-end timeout must be larger than the downstream timeout."},{"cat":"39. 日常架构","scene":"重试条件","zh":"只对幂等请求重试。非幂等写不要自动重试。","en":"Retry only idempotent calls. Do not auto-retry a non-idempotent write."},{"cat":"39. 日常架构","scene":"熔断打开","zh":"错误率过高就打开熔断，快速失败。","en":"If the error rate is too high, open the circuit and fail fast."},{"cat":"39. 日常架构","scene":"降级读","zh":"下游挂了就返回上次成功的结果，并标明可能过期。","en":"If the dependency is down, return the last good value and mark it as possibly stale."},{"cat":"39. 日常架构","scene":"数据库","zh":"写走主库，读可以走副本，但要接受复制延迟。","en":"Writes go to the primary. Reads can use a replica, but accept replication lag."},{"cat":"39. 日常架构","scene":"事务","zh":"这笔余额变动必须在一个事务里。","en":"This balance change must be one transaction."},{"cat":"39. 日常架构","scene":"索引","zh":"这个查询没有走到索引，先看执行计划。","en":"This query is not using an index. Check the query plan first."},{"cat":"39. 日常架构","scene":"迁移","zh":"表结构变更要向后兼容，先加列再切读写。","en":"The schema change must be backward compatible. Add the column, then switch reads and writes."},{"cat":"39. 日常架构","scene":"发布","zh":"先灰度一小部分流量，看错误率再全量。","en":"Canary a small share of traffic. Roll out fully only if the error rate stays flat."},{"cat":"39. 日常架构","scene":"回滚","zh":"错误率上来就回滚，不要在生产上接着改。","en":"If the error rate rises, roll back. Don't keep patching in production."},{"cat":"39. 日常架构","scene":"配置","zh":"密钥放在密钥管理里，不进代码库。","en":"Put secrets in a secret store. Don't commit them."},{"cat":"39. 日常架构","scene":"可观测","zh":"每个请求带上 trace id，日志、指标、链路用同一个 id。","en":"Put a trace id on every request. Logs, metrics, and traces share that id."},{"cat":"39. 日常架构","scene":"容量","zh":"按峰值的两倍留余量，而不是按平均值。","en":"Size for twice the peak, not for the average."},{"cat":"39. 日常架构","scene":"多活","zh":"单可用区不够。至少跨两个可用区。","en":"One availability zone is not enough. Run across at least two."},{"cat":"39. 日常架构","scene":"取舍","zh":"这里用最终一致，换取可用性。余额展示可以短暂旧一点，扣款不行。","en":"We accept eventual consistency for availability. A displayed balance can be briefly stale. A debit cannot."}],"meta":{"source":"SpeakMate miniprogram/data/handbook.json","generatedAt":"2026-11-03T06:01:18.819Z","note":"Karat-style H5 trainer using latest SpeakMate workplace IT English handbook"}};
+
+/* ---------- 状态 ---------- */
+const S = {
+  mode: 'listen',
+  order: [], pos: 0, revealed: false, playing: false,
+  cats: new Set(DATA.cats), seq: true, scope: 'all',
+  auto: false, timers: []
+};
+const KEY = 'speakmate.handbook.v1';
+let P = JSON.parse(localStorage.getItem(KEY) || '{}');   // {idx:{s:'new'|'known'|'weak', star:1, seen:n}}
+const save = () => localStorage.setItem(KEY, JSON.stringify(P));
+const rec = i => (P[i] = P[i] || {s:'new', star:0, seen:0});
+
+/* ---------- 语音 ---------- */
+let voices = [], voiceEl = document.getElementById('voice');
+function loadVoices(){
+  voices = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang));
+  voiceEl.innerHTML = voices.map((v,i) =>
+    `<option value="${i}">${v.name} (${v.lang})${v.localService?'':' · 在线'}</option>`).join('');
+  const pref = voices.findIndex(v => /natural|aria|jenny|guy|samantha|daniel|google us/i.test(v.name));
+  if (pref >= 0) voiceEl.value = pref;
+  document.getElementById('voiceInfo').textContent = voices.length ? voices.length + ' 个音色' : '无可用音色';
+}
+speechSynthesis.onvoiceschanged = loadVoices; loadVoices();
+
+// 让 TTS 读代码/符号更像人话
+function normalize(t){
+  const map = [
+    [/\+=/g,' plus equals '], [/===/g,' triple equals '], [/==/g,' equals '],
+    [/!=/g,' not equals '], [/<=/g,' less than or equal to '], [/>=/g,' greater than or equal to '],
+    [/->/g,' arrow '], [/=>/g,' arrow '], [/\bNone\b/g,'none'], [/\bnil\b/g,'nil'],
+    [/\bA-Z\b/g,'A Z'], [/\bO\(n\)/g,'O of n'], [/\bk log k/g,'k log k'],
+    [/\bC-I-D\b/g,'C I D'], [/\bKey-Error\b/g,'key error'], [/\bKeyError\b/g,'key error'],
+    [/\//g,', ']
+  ];
+  let s = ' ' + t + ' ';
+  map.forEach(([a,b]) => s = s.replace(a,b));
+  return s.replace(/\s+/g,' ').trim();
+}
+
+function speak(text, rate){
+  stopAll();
+  const u = new SpeechSynthesisUtterance(normalize(text));
+  const v = voices[voiceEl.value];
+  if (v) u.voice = v;
+  u.lang = (v && v.lang) || 'en-US';
+  u.rate = rate;
+  u.onend = () => { S.playing = false; paint(); };
+  speechSynthesis.speak(u);
+  S.playing = true; paint();
+}
+/* 有预生成 mp3 就播 mp3；加载失败（例如 file:// 被拦）自动降级回浏览器合成 */
+const hasMp3 = i => !!(DATA.items[i] && DATA.items[i].audio);
+
+function ttsOnce(it, rate, done){
+  const u = new SpeechSynthesisUtterance(normalize(it.en));
+  const v = voices[voiceEl.value]; if (v) { u.voice = v; u.lang = v.lang; }
+  u.rate = rate; u.onend = done;
+  speechSynthesis.speak(u);
+  S.playing = true; paint();
+}
+function sayOnce(it, rate, done){
+  const i = S.order[S.pos];
+  if (!hasMp3(i)) return ttsOnce(it, rate, done);
+  const a = $('mp3');
+  a.src = 'audio/' + DATA.items[i].audio;
+  a.playbackRate = rate;
+  a.onended = done;
+  a.onerror = () => { a.onerror = null; ttsOnce(it, rate, done); };
+  const p = a.play();
+  if (p && p.catch) p.catch(() => { a.onerror = null; ttsOnce(it, rate, done); });
+  S.playing = true; paint();
+}
+function stopAll(){
+  speechSynthesis.cancel();
+  const a = $('mp3');
+  if (a) { a.pause(); a.currentTime = 0; a.onended = null; a.onerror = null; }
+  S.timers.forEach(clearTimeout); S.timers = [];
+  S.playing = false;
+}
+function play(times){
+  const it = DATA.items[S.order[S.pos]];
+  const n = times || +document.getElementById('repeat').value;
+  const rate = +document.getElementById('rate').value;
+  const gap = +document.getElementById('gap').value * 1000;
+  stopAll();
+  let k = 0;
+  const one = () => {
+    if (k >= n) { S.playing = false; paint(); if (S.auto) autoFlow(); return; }
+    k++;
+    sayOnce(it, rate, () => {
+      if (k < n) S.timers.push(setTimeout(one, gap));
+      else { S.playing = false; paint(); if (S.auto) autoFlow(); }
+    });
+  };
+  one();
+}
+function autoFlow(){                       // 自动连播：听 → 揭示 → 停 → 下一句
+  S.revealed = true; paint();
+  const gap = +document.getElementById('gap').value * 1000;
+  S.timers.push(setTimeout(() => {
+    if (S.pos < S.order.length - 1) { next(1); play(); }
+  }, Math.max(1200, gap + 1600)));
+}
+
+/* ---------- 录音（跟读对比） ---------- */
+let mr = null, chunks = [], recOn = false, mimeType = null;
+const recBtn = document.getElementById('recBtn'), recState = document.getElementById('recState'),
+      recPlay = document.getElementById('recPlay'), micWarn = document.getElementById('micWarn');
+
+const showMicWarn = html => { micWarn.innerHTML = html; micWarn.classList.remove('hidden'); };
+
+function pickMime(){
+  if (!window.MediaRecorder) return null;
+  const c = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4;codecs=mp4a.40.2', 'audio/mp4', 'video/mp4'];
+  for (const t of c) {
+    try { if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) return t; } catch (e) {}
+  }
+  return null;
+}
+
+if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+  showMicWarn('这个浏览器<b>没有 mediaDevices 接口</b>，无法录音。最常见原因：<b>用微信 / QQ 内置浏览器打开</b>——请点右上角「···」→ 用浏览器打开，然后选 Chrome 或系统浏览器。');
+}
+
+const ERR_TIPS = {
+  NotAllowedError: '<b>权限被拒绝。</b>安卓处理顺序：①点地址栏左边的<b>锁图标 → 权限 → 麦克风 → 允许</b>（一旦点过「拒绝」，只能这样手动改回来，刷新页面没用）；②<b>系统设置 → 应用 → Chrome → 权限 → 麦克风</b> 要打开；③改完回页面再点一次录音。',
+  NotFoundError: '设备上找不到麦克风设备。',
+  NotSupportedError: '浏览器不支持录音，通常是微信/QQ 内置浏览器。请改用 Chrome 或系统浏览器打开。',
+  NotReadableError: '麦克风被别的应用占用了，关掉录音/通话/语音类 App 再试。',
+  SecurityError: '当前不是安全上下文。必须用 https 或 localhost 访问（你现在用的是 ' + location.protocol + '）。',
+  OverconstrainedError: '音频参数不被支持。',
+  AbortError: '录音被中断，再试一次。'
+};
+
+recBtn.onclick = async () => {
+  if (recOn) { mr.stop(); recOn = false; $('recLabel').textContent = '开始录音'; return; }
+  try {
+    const st = await navigator.mediaDevices.getUserMedia({audio:true});
+    mimeType = pickMime();
+    mr = mimeType ? new MediaRecorder(st, {mimeType}) : new MediaRecorder(st);
+    chunks = [];
+    mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+    mr.onerror = e => { recState.textContent = '录制过程出错：' + ((e.error && e.error.name) || 'unknown'); };
+    mr.onstop = () => {
+      const type = (mr && mr.mimeType) || mimeType || 'audio/webm';
+      if (chunks.length) {
+        recPlay.src = URL.createObjectURL(new Blob(chunks, {type}));
+        recPlay.classList.remove('hidden');
+        recState.textContent = '录好了，点 ▶ 听自己的发音（' + type.split(';')[0] + '）';
+      } else {
+        recState.textContent = '没录到数据，再试一次';
+      }
+      st.getTracks().forEach(t => t.stop());
+    };
+    mr.start(100);
+    recOn = true;
+    $('recLabel').textContent = '停止';
+    recState.innerHTML = '<span class="doton">● 录音中</span> 跟着念';
+  } catch (e) {
+    recState.innerHTML = '<b>录音失败：' + (e.name || 'unknown') + '</b>';
+    showMicWarn(ERR_TIPS[e.name] || ('未分类错误 ' + e.name + '：' + (e.message || '')));
+  }
+};
+
+/* ---------- 文本比对 ---------- */
+const toks = s => s.toLowerCase().replace(/[^a-z0-9'\- ]/g,' ').split(/\s+/).filter(Boolean);
+function diff(ans, typed){
+  const A = toks(ans), B = toks(typed), n = A.length, m = B.length;
+  const dp = Array.from({length:n+1}, () => new Array(m+1).fill(0));
+  for (let i=n-1;i>=0;i--) for (let j=m-1;j>=0;j--)
+    dp[i][j] = A[i]===B[j] ? dp[i+1][j+1]+1 : Math.max(dp[i+1][j], dp[i][j+1]);
+  const out = []; let i=0, j=0;
+  while (i<n && j<m){
+    const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  if (A[i]===B[j]) { out.push(`<span class="w good">${esc(A[i])}</span>`); i++; j++; }
+    else if (dp[i+1][j] >= dp[i][j+1]) { out.push(`<span class="w miss">${esc(A[i])}</span>`); i++; }
+    else { out.push(`<span class="w bad">${esc(B[j])}</span>`); j++; }
+  }
+  while (i<n) out.push(`<span class="w miss">${esc(A[i++])}</span>`);
+  while (j<m) out.push(`<span class="w bad">${esc(B[j++])}</span>`);
+  return out.join(' ');
+}
+
+/* ---------- 队列 ---------- */
+function buildQueue(){
+  let idx = DATA.items.map((_,i) => i).filter(i => S.cats.has(DATA.items[i].cat));
+  if (S.scope === 'star') idx = idx.filter(i => !!rec(i).star);
+  else if (S.scope !== 'all') idx = idx.filter(i => (rec(i).s === (S.scope === 'known' ? 'known' : S.scope === 'weak' ? 'weak' : 'new')));
+  if (S.scope === 'weak') idx.sort((a,b) => (rec(b).seen - rec(a).seen));
+  if (!S.seq) idx.sort(() => Math.random() - 0.5);
+  S.order = idx.length ? idx : DATA.items.map((_,i)=>i);
+  S.pos = 0; S.revealed = false; stopAll();
+  document.getElementById('rangeCount').textContent = idx.length + ' 条';
+  paint();
+}
+function next(d){ S.pos = Math.min(S.order.length-1, Math.max(0, S.pos + d)); S.revealed = false; rec(S.order[S.pos]).seen++; save(); paint(); }
+
+/* ---------- 渲染 ---------- */
+const $ = id => document.getElementById(id);
+function paint(){
+  const i = S.order[S.pos], it = DATA.items[i], p = rec(i);
+  $('crumb').textContent = it.cat + ' · ' + (it.scene || '');
+  $('pos').textContent = (S.pos+1) + ' / ' + S.order.length + (p.star ? ' ⭐' : '');
+  const pane = {listen:'pListen',dictation:'pDictation',shadow:'pShadow',recall:'pRecall'}[S.mode];
+  ['pListen','pDictation','pShadow','pRecall'].forEach(x => $(x).classList.add('hidden'));
+  $(pane).classList.remove('hidden');
+
+  $('aZh').textContent = it.zh || '';
+  $('aEn').textContent = it.en;
+  $('answer').classList.toggle('hidden', !S.revealed || S.mode === 'shadow');
+
+  if (S.mode === 'listen'){
+    $('listenHint').innerHTML = S.revealed
+      ? '<span class="pc-only">答案已揭示，按 <kbd>空格</kbd> 再听一遍</span><span class="m-only">答案已揭示，点圆钮再听一遍</span>'
+      : '<span class="pc-only">按 <kbd>空格</kbd> 播放，先别看答案</span><span class="m-only">点下方圆钮播放，先别看答案</span>';
+    $('listenWave').innerHTML = S.playing
+      ? '<span class="wave"><i></i><i></i><i></i><i></i><i></i></span>'
+      : '<span class="big-play"><svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5.14v13.72a1 1 0 0 0 1.5.87l11-6.86a1 1 0 0 0 0-1.74l-11-6.86A1 1 0 0 0 8 5.14z"/></svg></span>';
+  }
+  if (S.mode === 'shadow'){ $('sText').textContent = it.en; $('sZh').textContent = it.zh || ''; }
+  if (S.mode === 'recall'){ $('rZh').textContent = it.zh || it.scene; }
+
+  $('playLabel').textContent = S.playing ? '停止' : '播放';
+  $('starLabel').textContent = p.star ? '已收藏' : '收藏';
+  $('srcBadge').textContent = hasMp3(i) ? 'MP3 · ' + (DATA.meta || 'tts') : '浏览器合成';
+
+  // 统计
+  const tot = DATA.items.length;
+  const known = DATA.items.filter((_,k)=>rec(k).s==='known').length;
+  const weak  = DATA.items.filter((_,k)=>rec(k).s==='weak').length;
+  const seen  = DATA.items.filter((_,k)=>rec(k).seen>0).length;
+  $('stats').innerHTML = `已练 <b>${seen}</b>/${tot} &nbsp; 掌握 <b>${known}</b> &nbsp; 模糊 <b>${weak}</b> &nbsp; 收藏 <b>${DATA.items.filter((_,k)=>rec(k).star).length}</b>`;
+  $('barFill').style.width = (known/tot*100).toFixed(1) + '%';
+  $('barWeak').style.width = (weak/tot*100).toFixed(1) + '%';
+}
+
+/* ---------- 事件 ---------- */
+document.getElementById('tabs').onclick = e => {
+  const t = e.target.closest('.tab'); if (!t) return;
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  t.classList.add('on'); S.mode = t.dataset.mode; stopAll(); paint();
+};
+document.getElementById('cats').onclick = e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  if (S.cats.has(c.dataset.cat)) S.cats.delete(c.dataset.cat); else S.cats.add(c.dataset.cat);
+  c.classList.toggle('on'); buildQueue();
+};
+$('order').onchange = e => { S.seq = e.target.value === 'seq'; buildQueue(); };
+$('scope').onchange = e => { S.scope = e.target.value; buildQueue(); };
+$('auto').onchange = e => { S.auto = e.target.checked; };
+$('rate').oninput  = e => $('rateVal').textContent = (+e.target.value).toFixed(2);
+$('repeat').oninput= e => $('repVal').textContent = e.target.value;
+$('gap').oninput   = e => $('gapVal').textContent = (+e.target.value).toFixed(1);
+$('resetRange').onclick = () => { if (confirm('清空所有练习进度和标记？')) { P = {}; save(); buildQueue(); } };
+
+$('playBtn').onclick = () => { if (S.playing) { stopAll(); paint(); } else play(); };
+$('slowBtn').onclick = () => { const r = +$('rate').value; $('rate').value = Math.max(0.5, r - 0.15); $('rateVal').textContent = (+$('rate').value).toFixed(2); play(); };
+$('revealBtn').onclick = () => { S.revealed = !S.revealed; paint(); };
+$('prevBtn').onclick = () => next(-1);
+$('nextBtn').onclick = () => next(1);
+$('nextBtn2').onclick = () => next(1);
+$('okBtn').onclick = () => { rec(S.order[S.pos]).s = 'known'; save(); next(1); if (S.auto) play(); };
+$('weakBtn').onclick = () => { rec(S.order[S.pos]).s = 'weak'; save(); next(1); if (S.auto) play(); };
+$('starBtn').onclick = () => { const p = rec(S.order[S.pos]); p.star = p.star ? 0 : 1; save(); paint(); };
+
+$('dInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitDictation(); }
+});
+function submitDictation(){
+  const it = DATA.items[S.order[S.pos]];
+  $('dResult').innerHTML = diff(it.en, $('dInput').value);
+  $('dResult').classList.remove('hidden');
+  S.revealed = true; paint();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') {
+    if (e.key === 'Enter' && S.mode === 'dictation') return; // 交给 textarea 处理
+    if (e.key !== 'Escape') return;
+  }
+  switch (e.key) {
+    case ' ': e.preventDefault(); S.playing ? (stopAll(), paint()) : play(); break;
+    case 'Enter': e.preventDefault();
+      if (S.mode === 'dictation') submitDictation(); else { S.revealed = true; paint(); }
+      break;
+    case 'ArrowRight': next(1); break;
+    case 'ArrowLeft': next(-1); break;
+    case '1': rec(S.order[S.pos]).s='known'; save(); next(1); if (S.auto) play(); break;
+    case '2': rec(S.order[S.pos]).s='weak'; save(); next(1); if (S.auto) play(); break;
+    case 's': case 'S': $('slowBtn').click(); break;
+  }
+});
+
+/* ---------- 手机端手势：左右滑动切换句子 ---------- */
+(function(){
+  const st = $('stage'); let x0 = 0, y0 = 0, moved = false;
+  st.addEventListener('touchstart', e => {
+    if (e.target.tagName === 'TEXTAREA') return;
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; moved = true;
+  }, {passive:true});
+  st.addEventListener('touchend', e => {
+    if (!moved || e.target.tagName === 'TEXTAREA') return;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    moved = false;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.6) next(dx < 0 ? 1 : -1);
+  }, {passive:true});
+})();
+
+/* ---------- iOS 解锁：首次真实触摸/点击时启动一次静音播放，之后自动连播才不会被拦 ---------- */
+(function(){
+  let done = false;
+  const unlock = () => {
+    if (done) return; done = true;
+    const a = $('mp3'), first = DATA.items.find(it => it.audio);
+    if (!first) return;
+    try {
+      a.muted = true; a.src = 'audio/' + first.audio;
+      const p = a.play();
+      if (p && p.catch) p.catch(() => {});
+      setTimeout(() => { a.pause(); a.muted = false; a.currentTime = 0; a.src = ''; }, 40);
+    } catch (e) {}
+  };
+  document.addEventListener('touchstart', unlock, {once:true, passive:true});
+  document.addEventListener('click', unlock, {once:true});
+})();
+
+/* ---------- 环境自检：定位「为什么录不了」 ---------- */
+$('diagBtn').onclick = async () => {
+  const L = [];
+  const ok = b => b ? 'yes' : 'NO!!!';
+  L.push('URL            : ' + location.href);
+  L.push('protocol       : ' + location.protocol);
+  L.push('secure context : ' + ok(window.isSecureContext));
+  L.push('mediaDevices   : ' + ok(navigator.mediaDevices));
+  L.push('getUserMedia   : ' + ok(navigator.mediaDevices && navigator.mediaDevices.getUserMedia));
+  L.push('MediaRecorder  : ' + ok(window.MediaRecorder));
+  L.push('AudioContext   : ' + ok(window.AudioContext || window.webkitAudioContext));
+  L.push('UA             : ' + navigator.userAgent);
+  if (window.MediaRecorder && MediaRecorder.isTypeSupported) {
+    const c = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'video/mp4'];
+    L.push('recorder mime  : ' + c.map(t => t.split(';')[0] + '=' + MediaRecorder.isTypeSupported(t)).join('  '));
+  }
+  try {
+    const p = await navigator.permissions.query({name:'microphone'});
+    L.push('mic permission : ' + p.state);
+  } catch (e) {
+    L.push('mic permission : query failed (' + e.name + ')');
+  }
+  if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+    try {
+      const ds = await navigator.mediaDevices.enumerateDevices();
+      const ins = ds.filter(d => d.kind === 'audioinput');
+      L.push('audio inputs   : ' + ins.length + (ins.length ? '  → ' + ins.map(d => d.label || '(未授权，无标签)').join(' | ') : '  （没有可用麦克风）'));
+    } catch (e) { L.push('enumerateDevices: ' + e.name); }
+  }
+  $('diag').textContent = L.join('\n');
+  $('diag').classList.remove('hidden');
+};
+
+/* ---------- 初始化 ---------- */
+document.getElementById('cats').innerHTML =
+  DATA.cats.map(c => `<span class="chip on" data-cat="${c}">${c} (${DATA.items.filter(i=>i.cat===c).length})</span>`).join('');
+buildQueue();
+// 盲听模式的大圆钮就是主播放入口（尤其移动端）
+document.getElementById('listenWave').addEventListener('click', () => { if (!S.playing && S.mode === 'listen') play(); });
+// 跑到这里说明整段脚本没有中断；手机上若看不到「JS就绪」，就是脚本中途报错或页面是旧缓存
+$('buildTag').textContent += ' · JS就绪';
+</script>
+</body>
+</html>

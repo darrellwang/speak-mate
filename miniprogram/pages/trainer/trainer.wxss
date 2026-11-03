@@ -1,0 +1,585 @@
+/* 训练器页（pages/trainer/trainer.wxss）
+ * 沿用 app.wxss 的设计令牌（--brand teal / --surface / --line 等）。
+ * 只放训练器专用样式，基础组件（.btn / .card / .chip）来自全局。
+ */
+
+.page.trainer {
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+/* ---------- 模式切换（segmented control） ---------- */
+.seg {
+  display: flex;
+  flex-direction: row;
+  background: var(--surface-2);
+  border: 2rpx solid var(--line);
+  border-radius: var(--r);
+  padding: 6rpx;
+  margin-bottom: var(--gap);
+}
+
+.seg__item {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: 28rpx;
+  color: var(--text-2);
+  border-radius: var(--r-sm);
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.seg__item--on {
+  background: var(--surface);
+  color: var(--brand-strong);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- 主练习区 ---------- */
+.stage {
+  min-height: 480rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.stage__head {
+  margin-bottom: 8rpx;
+}
+
+.crumb {
+  font-size: 24rpx;
+  color: var(--text-2);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pos {
+  font-size: 24rpx;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.stage__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.hint {
+  font-size: 26rpx;
+  color: var(--text-3);
+  line-height: 1.6;
+}
+
+/* 空态：筛选范围里还没有句子（只练已收藏 / 已掌握 等） */
+.stage__empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20rpx;
+  padding: 60rpx 24rpx;
+}
+
+.stage__empty-icon {
+  font-size: 64rpx;
+  line-height: 1;
+  color: var(--text-3);
+}
+
+.stage__empty-text {
+  font-size: 26rpx;
+  color: var(--text-3);
+  line-height: 1.7;
+  text-align: center;
+}
+
+.bigtext {
+  font-size: 34rpx;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.entext {
+  font-size: 36rpx;
+  font-weight: 550;
+  color: var(--text);
+  line-height: 1.45;
+  letter-spacing: -0.5rpx;
+  word-break: break-word;
+}
+
+.zhtext {
+  font-size: 28rpx;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* 盲听大播放钮 */
+.bigplay {
+  width: 152rpx;
+  height: 152rpx;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #ffffff;
+  font-size: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40rpx auto;
+  box-shadow: 0 12rpx 40rpx rgba(15, 118, 110, 0.32);
+}
+
+.bigplay:active {
+  transform: scale(0.96);
+}
+
+.bigplay--off {
+  background: var(--text-3);
+  box-shadow: none;
+}
+
+/* 波形指示 */
+.wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 8rpx;
+  height: 60rpx;
+  margin: 40rpx auto;
+}
+
+.wave__bar {
+  width: 8rpx;
+  border-radius: 6rpx;
+  background: var(--brand);
+  animation: wv 900ms ease-in-out infinite;
+}
+
+.wave__bar:nth-child(1) { height: 24rpx; animation-delay: 0ms; }
+.wave__bar:nth-child(2) { height: 42rpx; animation-delay: 120ms; }
+.wave__bar:nth-child(3) { height: 54rpx; animation-delay: 240ms; }
+.wave__bar:nth-child(4) { height: 36rpx; animation-delay: 360ms; }
+.wave__bar:nth-child(5) { height: 28rpx; animation-delay: 480ms; }
+
+@keyframes wv {
+  0%, 100% { transform: scaleY(0.45); }
+  50% { transform: scaleY(1); }
+}
+
+/* ---------- 输入区 ---------- */
+.dict-input {
+  width: 100%;
+  min-height: 120rpx;
+  background: var(--surface-2);
+  border: 2rpx solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 20rpx 24rpx;
+  font-size: 32rpx;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.placeholder {
+  color: var(--text-3);
+  font-size: 28rpx;
+}
+
+/* ---------- diff 比对 ---------- */
+.diff {
+  background: var(--surface-2);
+  border-radius: var(--r-sm);
+  padding: 20rpx 24rpx;
+  margin-top: 12rpx;
+}
+
+.diff__hint {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-3);
+  margin-bottom: 12rpx;
+}
+
+.diff__tokens {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.diff__token {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  margin: 4rpx 4rpx;
+  border-radius: 8rpx;
+  font-size: 30rpx;
+  line-height: 1.6;
+}
+
+.diff__token--good {
+  background: rgba(4, 120, 87, 0.12);
+  color: var(--brand-strong);
+}
+
+.diff__token--miss {
+  background: rgba(245, 158, 11, 0.16);
+  color: #a1570b;
+  text-decoration: underline wavy rgba(161, 87, 11, 0.6) 2rpx;
+}
+
+.diff__token--bad {
+  background: rgba(229, 72, 77, 0.12);
+  color: var(--danger);
+  text-decoration: line-through;
+  text-decoration-color: rgba(229, 72, 77, 0.5);
+}
+
+/* ---------- 答案区 ---------- */
+.answer {
+  border-left: 6rpx solid var(--brand);
+  background: var(--surface-2);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: 20rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+/* ---------- 操作栏 ---------- */
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 12rpx;
+  margin-top: 12rpx;
+}
+
+.actions__main {
+  flex: 2;
+}
+
+.actions__btn {
+  flex: 1;
+  font-size: 26rpx;
+}
+
+/* 一行四个按钮（播放/慢速/答案/下一句）：收紧内边距并禁止文字换行，
+   否则「下一句」三个字在 flex 1 份宽度里放不下会折行。
+   微信 <button> 默认允许 wrap，必须显式 nowrap。 */
+.actions .btn {
+  padding: 0 16rpx;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.subactions {
+  display: flex;
+  flex-direction: row;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
+
+.subactions .btn {
+  flex: 1;
+  min-width: 140rpx;
+}
+
+/* ---------- 跟读 ASR ---------- */
+.talk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72rpx;
+  padding: 0 32rpx;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  border: 2rpx solid var(--line);
+  color: var(--text);
+  font-size: 28rpx;
+}
+
+.talk--active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+.doton {
+  color: var(--danger);
+  font-size: 24rpx;
+  margin-left: 12rpx;
+}
+
+.interim {
+  color: var(--text-3);
+  font-size: 24rpx;
+  margin-left: 12rpx;
+  font-style: italic;
+}
+
+.warn {
+  font-size: 24rpx;
+  color: var(--danger);
+  margin-top: 12rpx;
+  line-height: 1.6;
+}
+
+/* ---------- 折叠区 ---------- */
+.fold {
+  padding: 0;
+  overflow: hidden;
+}
+
+.fold__head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 28rpx;
+  gap: 16rpx;
+}
+
+.fold__title {
+  flex: 1;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.fold__arrow {
+  font-size: 36rpx;
+  color: var(--text-3);
+  transform: rotate(90deg);
+  transition: transform 0.18s ease;
+}
+
+.fold__arrow--open {
+  transform: rotate(-90deg);
+}
+
+.fold__body {
+  padding: 0 28rpx 28rpx;
+  border-top: 2rpx solid var(--line);
+  padding-top: 24rpx;
+}
+
+/* ---------- 分类 chips ---------- */
+.chips {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  padding-bottom: 8rpx;
+  margin-bottom: 20rpx;
+}
+
+.chips .chip {
+  flex-shrink: 0;
+  margin-right: 12rpx;
+}
+
+/* 只练筛选（主练习区顶部常驻，复用全局 .chip 样式）
+ *
+ * 结构照抄词汇页 pages/words 的 .filters —— 那是本项目里**已验证可点**的筛选条。
+ * 五个选项宽度合计约 512rpx，一行放得下；放不下时换行，不横向滚动。
+ */
+.scope-filters {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.scope-chip {
+  height: 48rpx;
+  padding: 0 16rpx;
+  font-size: 24rpx;
+}
+
+/* ---------- picker ---------- */
+.pickers {
+  display: flex;
+  flex-direction: row;
+  gap: 20rpx;
+}
+
+.picker {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-2);
+  border: 2rpx solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 16rpx 20rpx;
+}
+
+.picker__label {
+  font-size: 24rpx;
+  color: var(--text-3);
+  margin-bottom: 4rpx;
+}
+
+.picker__value {
+  font-size: 28rpx;
+  color: var(--text);
+}
+
+/* ---------- slider ---------- */
+.slider-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.slider__label {
+  width: 100rpx;
+  font-size: 26rpx;
+  color: var(--text-2);
+}
+
+.slider {
+  flex: 1;
+}
+
+.slider__val {
+  width: 120rpx;
+  text-align: right;
+  font-size: 26rpx;
+  color: var(--brand-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.switch-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8rpx;
+}
+
+.switch__label {
+  font-size: 26rpx;
+  color: var(--text-2);
+}
+
+/* ---------- 进度 ---------- */
+.num {
+  color: var(--text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.num--ok {
+  color: var(--brand-strong);
+}
+
+.num--warn {
+  color: #a1570b;
+}
+
+.bar {
+  display: flex;
+  height: 16rpx;
+  background: var(--surface-2);
+  border-radius: var(--r-full);
+  overflow: hidden;
+}
+
+.bar__ok {
+  background: var(--brand);
+  transition: width 0.28s ease;
+}
+
+.bar__weak {
+  background: var(--accent);
+  transition: width 0.28s ease;
+}
+
+/* ---------- 发音评分卡（跟读后） ---------- */
+.pron {
+  margin-top: 20rpx;
+  padding: 24rpx;
+  border-radius: var(--r);
+  background: var(--surface-2);
+}
+
+.pron--loading {
+  color: var(--text-3);
+  font-size: 25rpx;
+}
+
+.pron__dots {
+  margin-right: 12rpx;
+  color: var(--accent);
+}
+
+.pron--error {
+  color: var(--danger, #b3261e);
+  font-size: 25rpx;
+}
+
+.pron__head {
+  margin-bottom: 12rpx;
+}
+
+.pron__score {
+  font-size: 56rpx;
+  font-weight: 700;
+  line-height: 1;
+  margin-right: 16rpx;
+}
+
+.pron__score--good { color: #1a7f37; }
+.pron__score--mid { color: #b58105; }
+.pron__score--bad { color: #b3261e; }
+
+.pron__label {
+  font-size: 25rpx;
+  color: var(--text-2);
+  align-self: flex-end;
+}
+
+.pron__meta {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.pron__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.pron__item {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 12rpx;
+  font-size: 26rpx;
+}
+
+.pron__word {
+  font-weight: 600;
+  color: var(--text-1);
+  min-width: 120rpx;
+}
+
+.pron__ipa {
+  color: var(--text-2);
+  font-family: var(--font-mono, monospace);
+}
+
+.pron__arrow {
+  color: var(--text-3);
+}
+
+.pron__ipa--bad {
+  color: #b3261e;
+  font-weight: 600;
+}
+
+.pron__perfect {
+  font-size: 26rpx;
+  color: #1a7f37;
+}

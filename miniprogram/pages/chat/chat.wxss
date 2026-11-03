@@ -1,0 +1,394 @@
+/* 对话页（pages/chat） */
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg);
+}
+
+/* ---------- 顶部会话条 ---------- */
+.topbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 84rpx;
+  padding: 0 24rpx;
+  background: var(--surface);
+  border-bottom: 2rpx solid var(--line);
+  flex-shrink: 0;
+}
+
+.topbar__scene {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.topbar__dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: var(--brand);
+  margin-right: 12rpx;
+}
+
+.topbar__name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.topbar__switch {
+  font-size: 24rpx;
+  color: var(--brand);
+  margin-left: 16rpx;
+  padding-left: 16rpx;
+  border-left: 2rpx solid var(--line);
+}
+
+.topbar__speaking {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 24rpx;
+  color: var(--accent);
+  background: var(--accent-weak);
+  padding: 8rpx 18rpx;
+  border-radius: var(--r-full);
+}
+
+.topbar__wave {
+  width: 8rpx;
+  height: 20rpx;
+  background: var(--accent);
+  margin-right: 10rpx;
+  border-radius: 4rpx;
+  animation: wave 0.9s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    height: 10rpx;
+  }
+  50% {
+    height: 26rpx;
+  }
+}
+
+/* ---------- 消息流 ---------- */
+.chat__scroll {
+  flex: 1;
+  overflow: hidden;
+}
+
+.chat__list {
+  padding: 20rpx 24rpx 8rpx;
+}
+
+.chat__anchor {
+  height: 2rpx;
+}
+
+/* ---------- 底部输入条 ---------- */
+.composer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding: 16rpx 24rpx calc(16rpx + env(safe-area-inset-bottom));
+  background: var(--surface);
+  border-top: 2rpx solid var(--line);
+  flex-shrink: 0;
+}
+
+.composer__input {
+  flex: 1;
+  min-height: 80rpx;
+  max-height: 220rpx;
+  background: var(--surface-2);
+  border: 2rpx solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 18rpx 20rpx;
+  font-size: 30rpx;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.composer__placeholder {
+  color: var(--text-3);
+  font-size: 28rpx;
+}
+
+.composer__actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 16rpx;
+}
+
+.composer__send {
+  min-width: 116rpx;
+  height: 80rpx;
+  border-radius: var(--r-sm);
+  background: var(--brand);
+  color: #ffffff;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s ease;
+}
+
+.composer__send:active {
+  opacity: 0.8;
+}
+
+.composer__send--off {
+  opacity: 0.38;
+}
+
+.talk {
+  height: 80rpx;
+  padding: 0 22rpx;
+  margin-right: 12rpx;
+  border-radius: var(--r-sm);
+  background: var(--accent-weak);
+  color: var(--accent);
+  font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition: all 0.12s ease;
+}
+
+.talk--active {
+  background: var(--accent);
+  color: #ffffff;
+  transform: scale(0.95);
+}
+
+/* 上滑取消态：按钮变灰提示「松手将取消」 */
+.talk--cancel {
+  background: #9ca3af;
+}
+
+/* ---------- 录音浮层 ---------- */
+.recording {
+  position: fixed;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  width: 360rpx;
+  padding: 40rpx 32rpx;
+  border-radius: var(--r-lg);
+  background: rgba(22, 25, 29, 0.86);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 60;
+}
+
+.recording__pulse {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-bottom: 24rpx;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(0.86);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.recording__hint {
+  color: #ffffff;
+  font-size: 28rpx;
+  text-align: center;
+  line-height: 1.5;
+  min-height: 40rpx;
+}
+
+.recording__tip {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 24rpx;
+  margin-top: 16rpx;
+}
+
+/* ---------- 底部浮层（选词 / 词条卡） ---------- */
+.sheet-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(16, 19, 23, 0.45);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 80;
+}
+
+.sheet {
+  background: var(--surface);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  padding: 32rpx 28rpx calc(32rpx + env(safe-area-inset-bottom));
+  animation: sheet-up 0.22s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(40rpx);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.sheet__title {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+/* 隐私授权弹窗（居中卡片，非底部 sheet） */
+.privacy-dialog {
+  margin: auto;
+  width: 600rpx;
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: 40rpx 32rpx 32rpx;
+  animation: sheet-up 0.22s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.privacy-dialog__title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+}
+
+.privacy-dialog__body {
+  margin-top: 20rpx;
+  font-size: 27rpx;
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+.privacy-dialog__actions {
+  display: flex;
+  flex-direction: row;
+  gap: 20rpx;
+  margin-top: 32rpx;
+}
+
+.privacy-dialog__link {
+  margin-top: 24rpx;
+  text-align: center;
+  font-size: 25rpx;
+  color: var(--brand);
+}
+
+.sheet__desc {
+  font-size: 25rpx;
+  color: var(--text-3);
+  margin-top: 8rpx;
+}
+
+.sheet__tokens {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 24rpx 0 32rpx;
+  max-height: 420rpx;
+  overflow-y: auto;
+}
+
+.sheet__token {
+  padding: 12rpx 22rpx;
+  margin: 0 12rpx 14rpx 0;
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  border: 2rpx solid var(--line);
+  font-size: 28rpx;
+  color: var(--text);
+}
+
+.sheet__token--on {
+  background: var(--brand-weak);
+  border-color: var(--brand);
+  color: var(--brand-strong);
+  font-weight: 500;
+}
+
+.sheet__buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 20rpx;
+}
+
+/* 词条卡 */
+.wordcard__head {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin-bottom: 20rpx;
+}
+
+.wordcard__word {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.wordcard__phonetic {
+  font-size: 26rpx;
+  color: var(--text-3);
+  margin-left: 16rpx;
+}
+
+.wordcard__row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 16rpx;
+}
+
+.wordcard__label {
+  width: 90rpx;
+  flex-shrink: 0;
+  font-size: 25rpx;
+  color: var(--text-3);
+}
+
+.wordcard__value {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.wordcard__value--en {
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 27rpx;
+}
+
+.is-disabled {
+  opacity: 0.5;
+}
+
+.empty__cta {
+  margin-top: 40rpx;
+  width: 420rpx;
+}

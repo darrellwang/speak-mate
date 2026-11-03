@@ -1,0 +1,11 @@
+# 行尾规范
+#
+# 背景：Windows 上 core.autocrlf=true 会把文本文件按 CRLF 检出。
+# 若 shell 脚本带 CRLF 落到 WSL/Linux 上执行，shebang 会变成
+#   #!/usr/bin/env bash\r
+# 从而报 "No such file or directory" —— 脚本直接跑不起来。
+# 因此所有 .sh 强制以 LF 检出（规则自下而上覆盖，特例放最后）。
+
+* text=auto
+
+*.sh text eol=lf

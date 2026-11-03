@@ -1,0 +1,77 @@
+<!--
+  消息气泡：用户消息右侧、AI 消息左侧；
+  AI 消息下方挂纠错卡（❌→⚠️→✅→💡）与 AI 建议词条 chips。
+-->
+<view class="bubble-row {{message.role === 'user' ? 'bubble-row--mine' : ''}}">
+  <view wx:if="{{message.role === 'assistant'}}" class="avatar avatar--ai">AI</view>
+
+  <view class="bubble-wrap">
+    <view
+      class="bubble bubble--{{message.role}} {{message.streaming ? 'bubble--streaming' : ''}} {{message.failed ? 'bubble--failed' : ''}}"
+      bind:longpress="onLongPress"
+    >
+      <text class="bubble__text" user-select="{{true}}" space="nbsp">
+        <text>{{segBefore}}</text><text class="bubble__text--highlight" wx:if="{{segHighlight}}">{{segHighlight}}</text><text>{{segAfter}}</text>
+      </text>
+      <text wx:if="{{message.streaming}}" class="bubble__caret"></text>
+
+      <view wx:if="{{message.failed}}" class="bubble__retry" catch:tap="onRetry">
+        发送失败 · 点此重试
+      </view>
+    </view>
+
+    <!-- 纠错卡：无错不硬纠（后端保证空数组时不渲染） -->
+    <view
+      wx:for="{{message.corrections}}"
+      wx:key="original"
+      class="correction"
+      catch:tap="noop"
+    >
+      <view class="correction__head">
+        <text class="correction__badge">纠错 {{index + 1}}</text>
+        <text class="correction__issue">{{item.issue}}</text>
+      </view>
+      <view class="correction__line">
+        <text class="correction__mark correction__mark--bad">❌</text>
+        <text class="correction__text correction__text--bad">{{item.original}}</text>
+      </view>
+      <view class="correction__line">
+        <text class="correction__mark correction__mark--warn">⚠️</text>
+        <text class="correction__text">{{item.explanation}}</text>
+      </view>
+      <view class="correction__line">
+        <text class="correction__mark correction__mark--good">✅</text>
+        <text class="correction__text correction__text--good">{{item.corrected}}</text>
+      </view>
+    </view>
+
+    <!-- AI 建议词条：点一下直接入库 -->
+    <view wx:if="{{message.vocab_suggestions.length > 0 && interactive}}" class="suggest">
+      <text class="suggest__label">值得记：</text>
+      <view
+        wx:for="{{message.vocab_suggestions}}"
+        wx:key="word"
+        class="suggest__chip {{savedVocabIndexes.indexOf(index) >= 0 ? 'suggest__chip--saved' : ''}}"
+        data-vidx="{{index}}"
+        bind:tap="onAddVocab"
+      >
+        <text class="suggest__word">{{item.word}}</text>
+        <text class="suggest__plus">{{savedVocabIndexes.indexOf(index) >= 0 ? '✓' : '+'}}</text>
+      </view>
+    </view>
+
+    <!-- 时间 + AI 重播：AI 消息非流式且有内容时可点重播 -->
+    <view class="bubble__meta">
+      <view wx:if="{{message.timeText || timeText}}" class="bubble__time">
+        {{message.timeText || timeText}}
+      </view>
+      <view
+        wx:if="{{message.role === 'assistant' && !message.streaming && !message.failed && message.content && interactive}}"
+        class="bubble__replay"
+        catch:tap="onReplay"
+      >🔊 重播</view>
+    </view>
+  </view>
+
+  <view wx:if="{{message.role === 'user'}}" class="avatar avatar--me">我</view>
+</view>

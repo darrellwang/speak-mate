@@ -1,0 +1,37 @@
+# 依赖与构建产物
+node_modules/
+dist/
+
+# 运行时数据（SQLite 数据文件目录）
+backend/data/
+
+# 本地 TTS 模型权重（Kokoro-82M，约 100MB，不入库）
+# 重建方式：node backend/scripts/fetch-kokoro-model.mjs
+backend/models/
+backend/workers/*.log
+
+# 环境变量（含 LLM API Key，绝不入库）
+.env
+.env.local
+
+# HTTPS 自签证书（mkcert 产物，含私钥，绝不入库；见 DEPLOYMENT.md 方案A）
+backend/certs/
+
+# 日志与系统文件
+*.log
+.DS_Store
+.data-test/
+
+# Vite / Vitest 加载 TS 配置时产生的临时文件
+*.timestamp-*
+
+# WorkBuddy 工作区（会话记忆与中间产物，非项目源码）
+.workbuddy/
+
+# WSL/临时脚本与测试音频残留（勿入库）
+.wsltmp/
+
+
+# 小程序本机覆盖（生产 API 基址等，勿入库）
+miniprogram/config.local.ts
+

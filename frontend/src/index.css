@@ -1,0 +1,76 @@
+/*
+ * 全局样式（Tailwind 指令 + 少量全局约定）
+ *
+ * - Tailwind preflight 已关闭（MUI CssBaseline 负责 reset），此处仅引入工具类；
+ * - 全屏高度：优先 100dvh（移动端地址栏收起体验），不支持时回退 100%；
+ * - 安全区工具类：配合 index.html 的 viewport-fit=cover；
+ * - 流式输出光标 / 打字动画。
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  /* 禁止整页下拉回弹（页面内部滚动由消息流/列表区域自行承担） */
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  height: 100dvh;
+}
+
+/* iOS 安全区（刘海 / 底部横条） */
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* SSE 流式输出：消息末尾闪烁光标 */
+.streaming-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: currentColor;
+  animation: streaming-blink 1s step-end infinite;
+}
+@keyframes streaming-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 按住说话按钮：录音中外圈扩散波纹 */
+.hold-talk-pulse {
+  animation: hold-talk-pulse 1.6s ease-out infinite;
+}
+@keyframes hold-talk-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.65);
+    opacity: 0;
+  }
+}
+
+/* 细滚动条（Web 内嵌滚动区域，触屏无感） */
+.thin-scroll::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(128, 128, 128, 0.35);
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "词汇本",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 80,
+  "usingComponents": {}
+}

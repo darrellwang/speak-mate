@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------
+# pnpm 构建白名单
+#
+# packages 字段：把 workspace 根锚定在 frontend 自身。
+#   不写的话 pnpm 会向上回溯到仓库根（其 package.json 声明了 npm workspaces），
+#   然后报 "ERROR packages field missing or empty"，本目录下所有 pnpm 命令都会失败。
+#
+# allowBuilds：pnpm 11 的键名，值是「包名 → true/false」映射，必须显式写布尔值。
+#   esbuild 是 vite / vitest 的传递依赖，其 postinstall 负责放置平台二进制；
+#   不放行会导致 vite build 与 vitest 直接失败。
+#   未声明时 pnpm 会追加一个 allowBuilds 段落，值是待填写的占位文字而非布尔，
+#   构建照样被拦；且 pnpm 11 的 pnpm start / build 会先自动跑 install 而连带失败。
+#
+# onlyBuiltDependencies：pnpm 10 及更早的键名（数组），保留以兼容旧版。
+# ---------------------------------------------------------------------------
+packages:
+  - '.'
+
+allowBuilds:
+  esbuild: true
+
+onlyBuiltDependencies:
+  - esbuild

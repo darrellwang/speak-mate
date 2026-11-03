@@ -1,0 +1,258 @@
+/* 消息气泡（components/message-bubble） */
+
+.bubble-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 32rpx;
+}
+
+.bubble-row--mine {
+  flex-direction: row;
+}
+
+.bubble-wrap {
+  display: flex;
+  flex-direction: column;
+  max-width: 560rpx;
+  flex: 1;
+}
+
+.bubble-row--mine .bubble-wrap {
+  align-items: flex-end;
+}
+
+.avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.avatar--ai {
+  background: var(--brand-weak);
+  color: var(--brand-strong);
+  margin-right: 16rpx;
+}
+
+.avatar--me {
+  background: #e8eaee;
+  color: var(--text-2);
+  margin-left: 16rpx;
+}
+
+.bubble {
+  padding: 22rpx 26rpx;
+  border-radius: var(--r);
+  font-size: 30rpx;
+  line-height: 1.62;
+  word-break: break-word;
+  position: relative;
+}
+
+.bubble--assistant {
+  background: var(--surface);
+  color: var(--text);
+  border-top-left-radius: 8rpx;
+  box-shadow: var(--shadow-sm);
+}
+
+.bubble--user {
+  background: var(--brand);
+  color: #ffffff;
+  border-top-right-radius: 8rpx;
+}
+
+.bubble--failed {
+  background: var(--danger-weak);
+  color: var(--danger);
+}
+
+.bubble__text {
+  white-space: pre-wrap;
+}
+
+.bubble__text--highlight {
+  background: var(--brand-weak);
+  color: var(--brand-strong);
+  border-radius: 6rpx;
+  padding: 2rpx 4rpx;
+  margin: 0 2rpx;
+  font-weight: 500;
+}
+
+.bubble__caret {
+  display: inline-block;
+  width: 6rpx;
+  height: 30rpx;
+  background: var(--brand);
+  vertical-align: -4rpx;
+  margin-left: 6rpx;
+  animation: caret-blink 1s steps(2, start) infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+.bubble__retry {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: var(--danger);
+  text-decoration: underline;
+}
+
+.bubble__meta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.bubble__time {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 10rpx;
+  padding: 0 8rpx;
+}
+
+.bubble__replay {
+  font-size: 22rpx;
+  color: var(--brand);
+  margin-top: 10rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 999rpx;
+  background: var(--brand-weak);
+}
+
+/* ---------- 纠错卡 ---------- */
+.correction {
+  margin-top: 16rpx;
+  background: var(--surface);
+  border-radius: var(--r-sm);
+  padding: 20rpx 22rpx;
+  border-left: 6rpx solid var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.correction__head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.correction__badge {
+  font-size: 22rpx;
+  color: var(--accent);
+  font-weight: 600;
+  background: var(--accent-weak);
+  padding: 2rpx 12rpx;
+  border-radius: 6rpx;
+}
+
+.correction__issue {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-left: 12rpx;
+}
+
+.correction__line {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-top: 8rpx;
+}
+
+.correction__mark {
+  width: 40rpx;
+  flex-shrink: 0;
+  font-size: 24rpx;
+}
+
+.correction__text {
+  flex: 1;
+  font-size: 27rpx;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+
+.correction__text--bad {
+  color: var(--danger);
+  text-decoration: line-through;
+  text-decoration-color: rgba(229, 72, 77, 0.4);
+}
+
+.correction__text--good {
+  color: var(--brand-strong);
+  font-weight: 500;
+}
+
+/* ---------- AI 建议词条 ---------- */
+.suggest {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 16rpx;
+}
+
+.suggest__label {
+  font-size: 23rpx;
+  color: var(--text-3);
+  margin-right: 12rpx;
+}
+
+.suggest__chip {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 56rpx;
+  padding: 0 18rpx;
+  margin: 0 12rpx 12rpx 0;
+  border-radius: var(--r-full);
+  background: var(--brand-weak);
+  border: 2rpx solid transparent;
+  transition: all 0.15s ease;
+}
+
+.suggest__chip:active {
+  transform: scale(0.96);
+}
+
+.suggest__chip--saved {
+  background: var(--surface-2);
+  border-color: var(--line);
+}
+
+.suggest__word {
+  font-size: 26rpx;
+  color: var(--brand-strong);
+  font-weight: 500;
+  margin-right: 8rpx;
+}
+
+.suggest__chip--saved .suggest__word {
+  color: var(--text-3);
+}
+
+.suggest__plus {
+  font-size: 26rpx;
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.suggest__chip--saved .suggest__plus {
+  color: var(--text-3);
+}

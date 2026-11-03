@@ -1,0 +1,29 @@
+<!-- 会话回看：只读 -->
+<view class="page detail">
+  <view wx:if="{{missing}}" class="empty">
+    <view class="empty__icon">🗑️</view>
+    <view class="empty__title">会话不存在或已被删除</view>
+    <view class="btn btn--primary btn--block empty__cta" bind:tap="goScenes">开始新会话</view>
+  </view>
+
+  <block wx:else>
+    <view class="detail__banner">只读回看 · {{sceneName}}</view>
+
+    <message-bubble
+      wx:for="{{messages}}"
+      wx:key="id"
+      message="{{item}}"
+      index="{{index}}"
+      interactive="{{false}}"
+      time-text="{{item.timeText}}"
+    />
+
+    <view wx:if="{{!loading && messages.length === 0}}" class="empty">
+      <view class="empty__title">这个会话还没有消息</view>
+    </view>
+
+    <view class="detail__foot">
+      <view class="btn btn--primary btn--block" bind:tap="onContinue">继续这个会话</view>
+    </view>
+  </block>
+</view>

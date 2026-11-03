@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "历史会话",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 80,
+  "usingComponents": {}
+}

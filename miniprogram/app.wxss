@@ -1,0 +1,300 @@
+/**
+ * 全局样式与设计令牌（app.wxss）
+ *
+ * 设计取向：小程序原生观感 + 一点自己的性格。
+ * - 主色 teal（#0F766E）——稳重、不撞微信绿，也不撞主流 AI 产品的紫蓝；
+ * - 强调色 amber（#F59E0B）——只用在「需要你行动」的地方（录音键、CTA）；
+ * - 圆角 16rpx 起、卡片白底轻投影，不用重阴影和大渐变（小程序里显脏）。
+ *
+ * 单位一律 rpx：750rpx = 屏幕宽度，保证 iPhone SE 到 iPad 视觉一致。
+ */
+
+page {
+  /* 品牌与语义色 */
+  --brand: #0f766e;
+  --brand-strong: #0b5c56;
+  --brand-weak: #e6f4f1;
+  --accent: #f59e0b;
+  --accent-weak: #fff5e5;
+  --danger: #e5484d;
+  --danger-weak: #fdecec;
+
+  /* 中性色 */
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-2: #fafbfc;
+  --line: #ecedf1;
+  --text: #16191d;
+  --text-2: #5b6470;
+  --text-3: #98a1ad;
+
+  /* 圆角与阴影 */
+  --r-sm: 12rpx;
+  --r: 20rpx;
+  --r-lg: 28rpx;
+  --r-full: 999rpx;
+  --shadow: 0 4rpx 20rpx rgba(16, 24, 40, 0.05);
+  --shadow-sm: 0 2rpx 8rpx rgba(16, 24, 40, 0.04);
+
+  /* 间距 */
+  --gap: 24rpx;
+
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', system-ui,
+    sans-serif;
+  font-size: 30rpx;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+view,
+text,
+input,
+textarea,
+button {
+  box-sizing: border-box;
+}
+
+/* ---------- 布局 ---------- */
+.page {
+  min-height: 100vh;
+  padding: var(--gap);
+  /* 留出 tabBar 高度，避免最后一条内容被盖住 */
+  padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
+}
+
+.page--plain {
+  padding: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.row--between {
+  justify-content: space-between;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+.grow {
+  flex: 1;
+}
+
+/* ---------- 卡片 ---------- */
+.card {
+  background: var(--surface);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 28rpx;
+  margin-bottom: var(--gap);
+}
+
+.card--flat {
+  box-shadow: none;
+  border: 2rpx solid var(--line);
+}
+
+/* ---------- 文本 ---------- */
+.title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.subtitle {
+  font-size: 26rpx;
+  color: var(--text-2);
+}
+
+.muted {
+  color: var(--text-3);
+  font-size: 26rpx;
+}
+
+.secondary {
+  color: var(--text-2);
+}
+
+.mono-en {
+  font-family: 'SF Mono', 'Menlo', Consolas, monospace;
+}
+
+/* ---------- 按钮 ---------- */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88rpx;
+  padding: 0 36rpx;
+  border-radius: var(--r);
+  font-size: 30rpx;
+  font-weight: 500;
+  border: none;
+  line-height: 1;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.btn::after {
+  border: none;
+}
+
+.btn:active {
+  opacity: 0.82;
+}
+
+.btn--primary {
+  background: var(--brand);
+  color: #ffffff;
+  box-shadow: 0 6rpx 16rpx rgba(15, 118, 110, 0.24);
+}
+
+.btn--accent {
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 6rpx 16rpx rgba(245, 158, 11, 0.28);
+}
+
+.btn--ghost {
+  background: var(--surface);
+  color: var(--text);
+  border: 2rpx solid var(--line);
+}
+
+.btn--quiet {
+  background: var(--brand-weak);
+  color: var(--brand-strong);
+}
+
+.btn--danger {
+  background: var(--danger-weak);
+  color: var(--danger);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn--sm {
+  min-height: 64rpx;
+  padding: 0 24rpx;
+  font-size: 26rpx;
+  border-radius: var(--r-sm);
+}
+
+.btn[disabled] {
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+/* ---------- 标签 ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 52rpx;
+  padding: 0 20rpx;
+  border-radius: var(--r-full);
+  background: var(--surface-2);
+  border: 2rpx solid var(--line);
+  color: var(--text-2);
+  font-size: 25rpx;
+}
+
+.chip--active {
+  background: var(--brand-weak);
+  border-color: transparent;
+  color: var(--brand-strong);
+  font-weight: 500;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  background: var(--brand-weak);
+  color: var(--brand-strong);
+}
+
+/* ---------- 其它 ---------- */
+.divider {
+  height: 2rpx;
+  background: var(--line);
+  margin: 24rpx 0;
+}
+
+.section-title {
+  font-size: 26rpx;
+  color: var(--text-3);
+  font-weight: 500;
+  margin: 8rpx 0 16rpx;
+  letter-spacing: 0.5rpx;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 60rpx;
+  text-align: center;
+}
+
+.empty__icon {
+  font-size: 80rpx;
+  line-height: 1;
+  margin-bottom: 24rpx;
+  opacity: 0.85;
+}
+
+.empty__title {
+  font-size: 30rpx;
+  color: var(--text-2);
+  font-weight: 500;
+}
+
+.empty__desc {
+  font-size: 26rpx;
+  color: var(--text-3);
+  margin-top: 12rpx;
+}
+
+/* 列表左滑删除容器 */
+.slide-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.slide-item__inner {
+  position: relative;
+  background: var(--surface);
+  transition: transform 0.22s cubic-bezier(0.22, 0.61, 0.36, 1);
+  z-index: 2;
+}
+
+.slide-item__actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  z-index: 1;
+}
+
+.slide-item__btn {
+  width: 160rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 28rpx;
+  background: var(--danger);
+}

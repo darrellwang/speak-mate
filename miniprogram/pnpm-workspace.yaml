@@ -1,0 +1,5 @@
+# 必需：pnpm 在单包目录下若找不到 packages 字段会向上回溯到仓库根（根 package.json 声明了
+# npm workspaces），进而报 "packages field missing or empty" 并拒绝执行任何命令。
+# 显式声明本目录自成工作区，同时避免被根 workspace 纳入安装范围。
+packages:
+  - '.'

@@ -1,0 +1,16 @@
+/* 会话回看页（pages/session-detail） */
+
+.detail {
+  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+}
+
+.detail__banner {
+  font-size: 24rpx;
+  color: var(--text-3);
+  text-align: center;
+  padding: 8rpx 0 24rpx;
+}
+
+.detail__foot {
+  margin-top: 40rpx;
+}

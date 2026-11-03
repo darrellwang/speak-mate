@@ -1,0 +1,9 @@
+{
+  "desc": "SpeakMate 为单用户自托管应用，不参与微信搜索索引，全部页面关闭收录",
+  "rules": [
+    {
+      "action": "disallow",
+      "page": "*"
+    }
+  ]
+}

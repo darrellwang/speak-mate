@@ -1,0 +1,19 @@
+{
+  "name": "speakmate",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SpeakMate（口语搭子）— AI 英语口语陪练应用。本文件为 npm workspaces 聚合根；backend 亦可独立进入目录执行 pnpm install 运行（shared 通过相对路径直接引用，无需安装）。",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "install:all": "npm install",
+    "dev:backend": "npm run dev --workspace backend",
+    "dev:frontend": "npm run dev --workspace frontend",
+    "typecheck:backend": "npm run typecheck --workspace backend"
+  }
+}

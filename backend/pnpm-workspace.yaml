@@ -1,0 +1,50 @@
+# ---------------------------------------------------------------------------
+# pnpm 构建白名单
+#
+# 背景：pnpm 10+ 默认拦截依赖的安装脚本。不放行的话 better-sqlite3 的原生模块
+# （better_sqlite3.node）不会被编译，安装看起来成功，运行时才报
+# "Could not locate the bindings file"。
+#
+# 两个字段都不可省略，缺一个都会出事：
+#
+#   packages
+#     仓库根 package.json 声明了 npm workspaces（["backend","frontend"]）。
+#     不写 packages 时 pnpm 会向上回溯、认定仓库根才是 workspace 根，
+#     于是在本目录下任何 pnpm 命令都会失败：
+#         ERROR packages field missing or empty      （pnpm 9 的表现）
+#     写上 packages: ['.'] 即把 workspace 根锚定在 backend 自身。
+#     实测矩阵（backend 目录）：
+#         无此文件 / 只有 allowBuilds / 只有 onlyBuiltDependencies → pnpm 9 失败
+#         packages: ['.'] + 白名单                                  → pnpm 9/10/11 全通过
+#
+#   allowBuilds
+#     pnpm 11 的键名，值是「包名 → true/false」映射，必须显式写布尔值。
+#     若缺失或留占位文字，pnpm 会生成一个待填写模板把命令卡死，并且——
+#     pnpm 11 的 `pnpm start` 会先自动执行一次 `pnpm install`（runDepsStatusCheck），
+#     该 install 因 ERR_PNPM_IGNORED_BUILDS 失败，于是 `pnpm start` 直接退出 1：
+#         [ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: better-sqlite3@11.10.0, ...
+#         [ERROR] Command failed with exit code 1: '@pnpm/exe/pnpm' install
+#
+#   onlyBuiltDependencies
+#     pnpm 10 及更早的键名（数组）。保留以兼容旧版；pnpm 11 已改用 allowBuilds，
+#     实测仅写它仍会被追加 allowBuilds 模板，因此不能只写这一个。
+#
+# 新增需要编译的依赖（如 sharp、bcrypt）时，请同步加到下面两处。
+# ---------------------------------------------------------------------------
+packages:
+  - '.'
+
+allowBuilds:
+  better-sqlite3: true
+  esbuild: true
+  msedge-tts: set this to true or false
+  # onnxruntime-node：kokoro-js（本地 TTS）依赖的原生推理运行时，
+  # 其 postinstall 负责落地预编译二进制，不放行则模块装上但运行时找不到 .node。
+  onnxruntime-node: true
+  protobufjs: set this to true or false
+  sharp: set this to true or false
+
+onlyBuiltDependencies:
+  - better-sqlite3
+  - esbuild
+  - onnxruntime-node

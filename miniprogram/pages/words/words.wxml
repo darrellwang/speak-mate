@@ -1,0 +1,103 @@
+<!-- 词汇本：筛选 + 复习模式 + 左滑删除 -->
+<view class="page">
+  <view class="words-head">
+    <view class="row row--between">
+      <view class="title">词汇本 · {{total}}</view>
+      <view class="review-switch {{reviewMode ? 'review-switch--on' : ''}}" bind:tap="onToggleReview">
+        {{reviewMode ? '退出复习' : '复习模式'}}
+      </view>
+    </view>
+    <view class="filters">
+      <view
+        class="chip {{filter === null ? 'chip--active' : ''}}"
+        data-value="all"
+        bind:tap="onFilter"
+      >全部</view>
+      <view
+        class="chip {{filter === 0 ? 'chip--active' : ''}}"
+        data-value="0"
+        bind:tap="onFilter"
+      >生疏</view>
+      <view
+        class="chip {{filter === 1 ? 'chip--active' : ''}}"
+        data-value="1"
+        bind:tap="onFilter"
+      >熟悉</view>
+      <view
+        class="chip {{filter === 2 ? 'chip--active' : ''}}"
+        data-value="2"
+        bind:tap="onFilter"
+      >已掌握</view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="words-loading">加载中…</view>
+
+  <view wx:for="{{words}}" wx:key="id" class="slide-item word-item-wrap">
+    <view
+      class="slide-item__inner word-item"
+      style="transform: translateX({{slideIndex === index ? '-160rpx' : '0'}})"
+      data-idx="{{index}}"
+      bind:touchstart="onTouchStart"
+      bind:touchmove="onTouchMove"
+      bind:touchend="onTouchEnd"
+    >
+      <view class="row row--between">
+        <view class="row">
+          <text class="word-item__word">{{item.word}}</text>
+          <text class="word-item__phonetic">{{item.phonetic}}</text>
+        </view>
+        <text class="word-item__scene">{{sceneNames[item.source_scene_id] || ''}}</text>
+      </view>
+
+      <!-- 复习模式下遮盖释义，点击自测 -->
+      <view
+        wx:if="{{reviewMode && revealed.indexOf(index) < 0}}"
+        class="word-item__mask"
+        data-idx="{{index}}"
+        bind:tap="onReveal"
+      >点击查看释义</view>
+      <block wx:else>
+        <view class="word-item__def">{{item.definition}}</view>
+        <view class="word-item__example">{{item.example}}</view>
+      </block>
+
+      <view wx:if="{{reviewMode}}" class="mastery">
+        <view
+          class="mastery__btn {{item.mastery_level === 0 ? 'mastery__btn--on' : ''}}"
+          data-idx="{{index}}"
+          data-level="0"
+          bind:tap="onSetMastery"
+        >生疏</view>
+        <view
+          class="mastery__btn {{item.mastery_level === 1 ? 'mastery__btn--on' : ''}}"
+          data-idx="{{index}}"
+          data-level="1"
+          bind:tap="onSetMastery"
+        >熟悉</view>
+        <view
+          class="mastery__btn {{item.mastery_level === 2 ? 'mastery__btn--on' : ''}}"
+          data-idx="{{index}}"
+          data-level="2"
+          bind:tap="onSetMastery"
+        >已掌握</view>
+      </view>
+      <view wx:else class="word-item__meta">
+        复习 {{item.review_count}} 次
+      </view>
+    </view>
+
+    <view class="slide-item__actions">
+      <view class="slide-item__btn" data-idx="{{index}}" bind:tap="onDeleteWord">删除</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!loading && words.length === 0}}" class="empty">
+    <view class="empty__icon">📖</view>
+    <view class="empty__title">词汇本还是空的</view>
+    <view class="empty__desc">对话时长按气泡选词，或点 AI 建议的词条一键入库</view>
+  </view>
+
+  <view wx:if="{{loadingMore}}" class="words-loading">加载更多…</view>
+  <view wx:if="{{!hasMore && words.length > 0}}" class="words-end">没有更多了</view>
+</view>

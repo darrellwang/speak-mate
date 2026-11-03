@@ -1,0 +1,91 @@
+%% ============================================================
+%% SpeakMate（口语搭子）核心时序图
+%% 源自 docs/ARCHITECTURE.md §5
+%% 说明：本文件包含两个独立图，渲染时请分别取用对应代码块内容
+%% 图1：语音对话完整闭环（P0-1 ~ P0-3）
+%% ============================================================
+
+sequenceDiagram
+    actor U as 用户
+    participant FE as ChatPage + useChat
+    participant SA as SpeechAdapter (ASR)
+    participant BE as POST /api/chat
+    participant DB as SQLite
+    participant PS as prompt.service
+    participant LS as llm.service
+    participant LLM as LLM Provider
+    participant PA as parser
+    participant TS as SpeechAdapter (TTS)
+
+    U->>FE: 按住说话（≥300ms 有效）
+    FE->>SA: start()（lang=en-US, interimResults=true）
+    SA-->>FE: interim 结果（实时上屏，P1-2）
+    U->>FE: 松开
+    FE->>SA: stop()
+    SA-->>FE: final transcript（待发送气泡，点击可编辑 = P0-9 第一道兜底）
+    U->>FE: 确认发送
+    FE->>BE: POST /api/chat {session_id, content}
+
+    BE->>DB: 写入用户消息
+    BE->>DB: 读最近 20 条消息 + 学习画像（已掌握词 Top100 / 常错 Top5）
+    BE->>PS: buildSystemPrompt(scene, profile)
+    PS-->>BE: System Prompt（人设+场景+画像+纠错策略+输出协议）
+    BE->>LS: streamChat(system + history + user)
+
+    LS->>LLM: POST /v1/chat/completions {stream: true}
+    activate LLM
+    loop 逐 chunk 流式返回
+        LLM-->>LS: token chunk
+        LS->>PA: push(chunk)
+        alt 分隔符之前（正文）
+            PA-->>BE: 安全前缀片段
+            BE-->>FE: SSE event: delta
+            FE->>FE: 气泡逐字渲染
+            FE->>TS: 句边界检测→完整句入队即播（首句即播报）
+        else 分隔符之后（META）
+            PA->>PA: 缓冲（滑动窗口防分隔符跨 chunk 截断）
+        end
+    end
+    LLM-->>LS: [DONE]
+    deactivate LLM
+    PA-->>BE: {corrections, vocabulary_suggestions}
+    BE->>DB: 写入 AI 消息（含 corrections JSON）
+    BE->>DB: 更新画像（corrections 非空→常错统计）+ session 摘要
+    BE-->>FE: SSE event: meta
+    BE-->>FE: SSE event: done {message_id}
+    FE->>FE: 渲染纠错卡片（折叠态）+ 词条建议 chips
+    TS-->>U: TTS 播报（可一键停止，P1-1）
+
+%% ============================================================
+%% 图2：生词标记入库流程（P0-5）
+%% 渲染时请单独取用下方代码块内容
+%% ============================================================
+
+sequenceDiagram
+    actor U as 用户
+    participant FE as 前端（MessageBubble）
+    participant WD as WordEntryDialog 词条卡
+    participant BE as 后端 API
+    participant LLM as LLM Provider
+
+    Note over FE: 路径 A：用户主动选词
+    U->>FE: 点击 AI 气泡「选词」
+    FE->>FE: 进入选词模式（词级点击/拖选）
+    U->>FE: 点选生词 "rollback"
+    FE->>WD: 打开词条卡（骨架屏）
+    FE->>BE: POST /api/words/define {word, context: 原句}
+    BE->>LLM: 词条生成 Prompt（释义/音标/例句，贴语境）
+    LLM-->>BE: JSON 词条
+    BE-->>FE: {word, phonetic, definition, example, context}
+    WD-->>U: 渲染四要素（骨架屏→内容）
+    U->>WD: 点击「加入词汇本」（第 3 步）
+    WD->>BE: POST /api/words {word,...,source_session_id, source_scene_id}
+    BE->>BE: UPSERT（UNIQUE user_id+word，重复标记→覆盖更新）
+    BE-->>FE: {id, word}
+    FE-->>U: Toast「已加入词汇本」（点击直达 /words）
+
+    Note over FE: 路径 B：AI 建议词条一键入库（零等待）
+    U->>FE: 点击 VocabChips 中的建议词
+    FE->>BE: POST /api/words（四要素已在 meta 事件中携带）
+    BE-->>FE: {id, word}
+    FE-->>U: Toast「已加入词汇本」

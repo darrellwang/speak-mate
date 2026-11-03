@@ -1,0 +1,206 @@
+<!-- 设置页：账号 / 语音 / 高级（连接诊断）/ 学习画像 -->
+<view class="page">
+  <!-- 当前账号（P2-5 多用户） -->
+  <view class="card">
+    <view class="title">当前账号</view>
+    <view class="setting-row">
+      <view class="col grow">
+        <text class="setting-row__title">{{nickname || '未登录'}}</text>
+        <text class="setting-row__desc">
+          {{hasAdminToken ? '当前以管理员身份访问' : (loggedIn ? '通过微信账号自动登录，你的学习数据仅自己可见' : '尚未登录，请稍后重试')}}
+        </text>
+      </view>
+    </view>
+    <view class="settings__buttons" wx:if="{{!hasAdminToken}}">
+      <view class="btn btn--ghost btn--block" bind:tap="onRelogin">重新登录</view>
+    </view>
+  </view>
+
+  <!-- 语音与播报 -->
+  <view class="card">
+    <view class="title">语音与播报</view>
+    <view class="setting-row">
+      <view class="col grow">
+        <text class="setting-row__title">AI 回复自动朗读</text>
+        <text class="setting-row__desc">按句子逐句播报，首句生成完即开始</text>
+      </view>
+      <switch checked="{{ttsEnabled}}" color="#0F766E" bindchange="onTtsToggle" />
+    </view>
+    <view class="setting-row setting-row--column">
+      <view class="row row--between">
+        <text class="setting-row__title">语速</text>
+        <text class="setting-row__value">{{ttsRate}}x</text>
+      </view>
+      <slider
+        min="0.5"
+        max="2"
+        step="0.1"
+        value="{{ttsRate}}"
+        activeColor="#0F766E"
+        backgroundColor="#ECEEF1"
+        block-size="22"
+        bindchange="onRateChange"
+      />
+    </view>
+    <view class="setting-row setting-row--column">
+      <view class="row row--between">
+        <text class="setting-row__title">朗读音色</text>
+        <picker
+          mode="selector"
+          range="{{voiceLabels}}"
+          value="{{voiceIndex}}"
+          bindchange="onVoiceChange"
+        >
+          <text class="setting-row__value">{{currentVoiceLabel}} ›</text>
+        </picker>
+      </view>
+      <text class="setting-row__desc">神经网络真人声，本地离线合成，含男声/女声/英式</text>
+      <view class="row row--between settings__preview">
+        <text class="setting-row__desc settings__preview-hint">
+          {{previewState === 'loading' ? '正在合成语音…' : (previewState === 'playing' ? '正在播放，再点一次可停止' : '选完音色先听听效果')}}
+        </text>
+        <view class="btn btn--quiet btn--sm" bind:tap="onPreviewTts">
+          {{previewState === 'loading' ? '合成中…' : (previewState === 'playing' ? '停止' : '试听')}}
+        </view>
+      </view>
+    </view>
+    <view class="setting-row">
+      <view class="col grow">
+        <text class="setting-row__title">语音引擎</text>
+        <text class="setting-row__desc">
+          {{speechEngine === 'wechat-si' ? '说话识别（微信同传）+ AI 朗读（' + ttsEngineName + '）' : '纯文字输入（不支持语音）'}}
+        </text>
+      </view>
+      <switch
+        checked="{{speechEngine === 'wechat-si'}}"
+        color="#0F766E"
+        bindchange="onSpeechEngineChange"
+      />
+    </view>
+  </view>
+
+  <!-- 高级 -->
+  <view class="card">
+    <view class="title">高级</view>
+
+    <!-- 服务连接：诊断工具，从首屏挪到这里，与其它排障项归为一类 -->
+    <view class="section-title" style="margin-top: 20rpx;">服务连接</view>
+    <view class="settings__note" style="margin-bottom: 12rpx;">
+      验证后端是否在线。连接异常时先点「测试连接」看具体报错。
+    </view>
+    <view class="row settings__buttons">
+      <view class="btn btn--quiet btn--block" bind:tap="onTest">{{testing ? '测试中…' : '测试连接'}}</view>
+    </view>
+    <view wx:if="{{testResult}}" class="settings__result">{{testResult}}</view>
+
+    <view class="setting-row">
+      <view class="col grow">
+        <text class="setting-row__title">逐字流式渲染</text>
+        <text class="setting-row__desc">
+          {{chunkedSupported ? '当前基础库支持，关闭后改为一次性显示' : '当前基础库不支持分块接收，将自动使用一次性返回'}}
+        </text>
+      </view>
+      <switch checked="{{streamingEnabled}}" color="#0F766E" bindchange="onStreamToggle" />
+    </view>
+    <view class="settings__buttons">
+      <view class="btn btn--ghost btn--block" bind:tap="onEndSession">结束当前会话</view>
+    </view>
+    <view class="setting-row setting-row--link" bind:tap="onPrivacy">
+      <view class="col grow">
+        <text class="setting-row__title">隐私保护</text>
+        <text class="setting-row__desc">查看 SpeakMate 如何收集与使用你的数据</text>
+      </view>
+      <text class="setting-row__arrow">›</text>
+    </view>
+    <view class="setting-row setting-row--link" bind:tap="onClearMyData">
+      <view class="col grow">
+        <text class="setting-row__title">清除我的数据</text>
+        <text class="setting-row__desc">删除我的全部对话记录、词汇本与学习画像</text>
+      </view>
+      <text class="setting-row__arrow">›</text>
+    </view>
+
+    <!-- 访问令牌（高级功能，普通用户用不到） -->
+    <view class="section-title" style="margin-top: 32rpx;">管理员访问令牌</view>
+    <view class="settings__note" style="margin-bottom: 12rpx;">
+      {{hasAdminToken ? '已设置：当前以管理员身份访问，可看到管理员的历史数据。' : '普通用户无需填写（微信自动登录即可）。仅部署者本人需要。'}}
+    </view>
+    <input
+      class="settings__input"
+      type="text"
+      password="{{!hasAdminToken}}"
+      placeholder="粘贴后端访问令牌"
+      value="{{adminToken}}"
+      bindinput="onAdminTokenInput"
+    />
+    <view class="settings__buttons">
+      <view class="btn btn--quiet btn--block" bind:tap="onSaveAdminToken">保存令牌</view>
+    </view>
+    <view class="settings__buttons" wx:if="{{hasAdminToken}}">
+      <view class="btn btn--ghost btn--block" bind:tap="onClearAdminToken">清除令牌（恢复微信身份）</view>
+    </view>
+  </view>
+
+  <!-- 学习画像 -->
+  <view class="card" wx:if="{{profile}}">
+    <view class="title">学习画像</view>
+    <view class="stats">
+      <view class="stats__item">
+        <text class="stats__num">{{profile.stats.session_count}}</text>
+        <text class="stats__label">会话</text>
+      </view>
+      <view class="stats__item">
+        <text class="stats__num">{{profile.stats.message_count}}</text>
+        <text class="stats__label">消息</text>
+      </view>
+      <view class="stats__item">
+        <text class="stats__num">{{profile.stats.word_count}}</text>
+        <text class="stats__label">生词</text>
+      </view>
+      <view class="stats__item">
+        <text class="stats__num">{{profile.stats.mastered_count}}</text>
+        <text class="stats__label">已掌握</text>
+      </view>
+    </view>
+
+    <block wx:if="{{mistakes.length > 0}}">
+      <view class="section-title">最近常错</view>
+      <view wx:for="{{mistakes}}" wx:key="pattern" class="mistake">
+        <text class="mistake__bad">{{item.pattern}}</text>
+        <text class="mistake__arrow">→</text>
+        <text class="mistake__good">{{item.corrected}}</text>
+        <text class="mistake__count">×{{item.count}}</text>
+      </view>
+    </block>
+
+    <block wx:if="{{topScenes.length > 0}}">
+      <view class="section-title">常练场景</view>
+      <view class="row">
+        <view wx:for="{{topScenes}}" wx:key="name" class="chip chip--active">
+          {{item.name}} · {{item.count}}
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 服务端信息 -->
+  <view class="card" wx:if="{{serverInfo}}">
+    <view class="title">服务端</view>
+    <view class="info-row">
+      <text class="info-row__label">应用</text>
+      <text class="info-row__value">{{serverInfo.app_name}} v{{serverInfo.version}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-row__label">模型</text>
+      <text class="info-row__value">{{serverInfo.llm.provider}} / {{serverInfo.llm.model}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-row__label">语音</text>
+      <text class="info-row__value">{{ttsEngineLabel}}</text>
+    </view>
+  </view>
+
+  <view class="settings__buttons">
+    <view class="btn btn--danger btn--block" bind:tap="onRestoreDefault">恢复默认设置</view>
+  </view>
+</view>

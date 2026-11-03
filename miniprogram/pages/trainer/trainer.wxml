@@ -1,0 +1,268 @@
+<!--
+  训练器页（pages/trainer/trainer.wxml）
+  沿用 app.wxss 的设计令牌（teal 主色 + surface/line/text 中性阶），
+  与 chat/history 等页面观感保持一致。H5 端的 indigo 主题不迁移。
+-->
+<view class="page trainer" bindtouchstart="onStageTouchStart" bindtouchend="onStageTouchEnd">
+
+  <!-- ====== 模式切换（segmented control） ====== -->
+  <view class="seg">
+    <view
+      wx:for="{{modes}}"
+      wx:key="key"
+      class="seg__item {{mode === item.key ? 'seg__item--on' : ''}}"
+      data-mode="{{item.key}}"
+      bindtap="onModeTap"
+    >{{item.label}}</view>
+  </view>
+
+  <!-- ====== 主练习区 ====== -->
+  <view class="card stage">
+    <!-- 只练筛选：常驻顶部，一点即达（结构与词汇页 .filters 筛选条同构） -->
+    <view class="scope-filters">
+      <view
+        wx:for="{{scopes}}"
+        wx:key="val"
+        class="chip scope-chip {{scope === item.val ? 'chip--active' : ''}}"
+        data-value="{{item.val}}"
+        bind:tap="onScopeChipTap"
+      >{{item.label}}</view>
+    </view>
+
+    <view class="stage__head row row--between">
+      <text class="crumb">{{crumb}}</text>
+      <text class="pos">{{pos}} / {{total}}{{star ? ' ★' : ''}}</text>
+    </view>
+
+    <!-- 空态：当前筛选范围里还没有句子（只练已收藏 / 已掌握 等） -->
+    <view wx:if="{{emptyHint}}" class="stage__empty">
+      <text class="stage__empty-icon">☆</text>
+      <text class="stage__empty-text">{{emptyHint}}</text>
+    </view>
+
+    <!-- 盲听 -->
+    <view wx:if="{{mode === 'listen' && !emptyHint}}" class="stage__body col" style="align-items:center;">
+      <text wx:if="{{!revealed}}" class="hint">点下方播放钮，先别看答案</text>
+      <text wx:if="{{revealed}}" class="hint">答案已揭示，再听一遍</text>
+      <view wx:if="{{playing}}" class="wave">
+        <view class="wave__bar"></view>
+        <view class="wave__bar"></view>
+        <view class="wave__bar"></view>
+        <view class="wave__bar"></view>
+        <view class="wave__bar"></view>
+      </view>
+      <view
+        wx:else
+        class="bigplay {{ttsSupported ? '' : 'bigplay--off'}}"
+        bindtap="onPlayTap"
+      >▶</view>
+    </view>
+
+    <!-- 听写 -->
+    <view wx:if="{{mode === 'dictation' && !emptyHint}}" class="stage__body col">
+      <text class="hint">听写：点播放钮，把听到的英文打出来</text>
+      <textarea
+        class="dict-input"
+        placeholder="Type what you hear…"
+        placeholder-class="placeholder"
+        value="{{inputText}}"
+        bindinput="onInput"
+        bindconfirm="onDictationSubmit"
+        auto-height
+        maxlength="-1"
+      />
+      <button class="btn btn--primary btn--sm" bindtap="onDictationSubmit" wx:if="{{inputText}}">提交比对</button>
+      <view wx:if="{{diffVisible}}" class="diff">
+        <text
+          wx:for="{{diffTokens}}"
+          wx:key="index"
+          class="diff__token diff__token--{{item.kind}}"
+        >{{item.text}} </text>
+      </view>
+    </view>
+
+    <!-- 跟读 -->
+    <view wx:if="{{mode === 'shadow' && !emptyHint}}" class="stage__body col">
+      <text class="entext">{{en}}</text>
+      <text class="zhtext">{{zh}}</text>
+      <view class="row" style="margin-top: 16rpx;">
+      <view
+        class="talk {{recording ? 'talk--active' : ''}}"
+        bindtouchstart="onShadowTalkStart"
+        bindtouchend="onShadowTalkEnd"
+        bindtouchcancel="onShadowTalkCancel"
+      >{{recording ? '松手识别' : '按住跟读'}}</view>
+        <text wx:if="{{recording}}" class="doton">● 录音中</text>
+        <text wx:if="{{interimText}}" class="interim">{{interimText}}</text>
+      </view>
+      <view wx:if="{{shadowDiffVisible}}" class="diff">
+        <text class="diff__hint">你说的：{{shadowResult}}</text>
+        <view class="diff__tokens">
+          <text
+            wx:for="{{shadowDiff}}"
+            wx:key="index"
+            class="diff__token diff__token--{{item.kind}}"
+          >{{item.text}} </text>
+        </view>
+      </view>
+
+      <!-- 发音评分（跟读后自动评测，音素级：哪个音发错直接点名） -->
+      <view wx:if="{{pronLoading}}" class="pron pron--loading">
+        <text class="pron__dots">●●●</text>
+        <text>发音评测中…（首次约 10 秒）</text>
+      </view>
+      <view wx:elif="{{pronError}}" class="pron pron--error">
+        <text>发音评测未完成：{{pronError}}</text>
+      </view>
+      <view wx:elif="{{pron}}" class="pron">
+        <view class="row row--between pron__head">
+          <view class="row">
+            <text class="pron__score {{pron.score >= 80 ? 'pron__score--good' : (pron.score >= 60 ? 'pron__score--mid' : 'pron__score--bad')}}">{{pron.score}}</text>
+            <text class="pron__label">发音评分</text>
+          </view>
+          <text class="pron__meta">音素错误率 {{pron.errorRateText}}</text>
+        </view>
+        <view wx:if="{{pron.differences.errors.length > 0}}" class="pron__list">
+          <view wx:for="{{pron.differences.errors}}" wx:key="word" class="pron__item">
+            <text class="pron__word">{{item.word}}</text>
+            <text class="pron__ipa">{{item.expected}}</text>
+            <text class="pron__arrow">→</text>
+            <text class="pron__ipa pron__ipa--bad">{{item.actual || '(没发出)'}}</text>
+          </view>
+        </view>
+        <text wx:else class="pron__perfect">✓ 每个音都发对了</text>
+      </view>
+
+      <text wx:if="{{!asrSupported}}" class="warn">当前引擎不支持语音识别，请到「我的」切到微信同传</text>
+    </view>
+
+    <!-- 中译英 -->
+    <view wx:if="{{mode === 'recall' && !emptyHint}}" class="stage__body col">
+      <text class="hint">看到中文，先自己开口说英文</text>
+      <text class="bigtext">{{zh}}</text>
+      <textarea
+        class="dict-input"
+        placeholder="写出或说出你的英文…"
+        placeholder-class="placeholder"
+        value="{{inputText}}"
+        bindinput="onInput"
+        bindconfirm="onRecallSubmit"
+        auto-height
+        maxlength="-1"
+      />
+      <button class="btn btn--primary btn--sm" bindtap="onRecallSubmit" wx:if="{{inputText}}">提交比对</button>
+      <view wx:if="{{diffVisible}}" class="diff">
+        <text
+          wx:for="{{diffTokens}}"
+          wx:key="index"
+          class="diff__token diff__token--{{item.kind}}"
+        >{{item.text}} </text>
+      </view>
+    </view>
+
+    <!-- 答案区 -->
+    <view wx:if="{{revealed && !emptyHint}}" class="answer">
+      <text class="zhtext">{{zh}}</text>
+      <text class="entext">{{en}}</text>
+    </view>
+
+    <!-- 主操作栏 -->
+    <view wx:if="{{!emptyHint}}" class="actions">
+      <button class="btn btn--primary actions__main" bindtap="onPlayTap">
+        <text>{{playing ? '停止' : '播放'}}</text>
+      </button>
+      <button class="btn btn--ghost actions__btn" bindtap="onSlowTap">慢速</button>
+      <button class="btn btn--ghost actions__btn" bindtap="onRevealTap">{{revealed ? '隐藏' : '答案'}}</button>
+      <button class="btn btn--ghost actions__btn" bindtap="onNextTap">下一句</button>
+    </view>
+
+    <!-- 次操作栏 -->
+    <view wx:if="{{!emptyHint}}" class="subactions">
+      <button class="btn btn--quiet btn--sm" bindtap="onPrevTap">上一句</button>
+      <button class="btn btn--quiet btn--sm" bindtap="onMarkKnown">已掌握</button>
+      <button class="btn btn--quiet btn--sm" bindtap="onMarkWeak">再来一次</button>
+      <button class="btn btn--quiet btn--sm" bindtap="onStarToggle">{{star ? '已收藏' : '收藏'}}</button>
+    </view>
+  </view>
+
+  <!-- ====== 练习范围（折叠） ====== -->
+  <view class="card fold">
+    <view class="fold__head" bindtap="onToggleRangeFold">
+      <text class="fold__title">练习范围</text>
+      <text class="tag">{{total}} 条</text>
+      <text class="fold__arrow {{rangeFoldOpen ? 'fold__arrow--open' : ''}}">›</text>
+    </view>
+    <view wx:if="{{rangeFoldOpen}}" class="fold__body">
+      <scroll-view scroll-x class="chips" enable-flex>
+        <view
+          wx:for="{{cats}}"
+          wx:key="name"
+          class="chip {{selectedCatsMap[item.name] ? 'chip--active' : ''}}"
+          data-cat="{{item.name}}"
+          bindtap="onCatTap"
+        >{{item.label}}</view>
+      </scroll-view>
+
+      <view class="pickers">
+        <picker mode="selector" range="{{['按手册顺序','随机打乱']}}" bindchange="onOrderChange">
+          <view class="picker">
+            <text class="picker__label">顺序</text>
+            <text class="picker__value">{{order === 'seq' ? '按手册顺序' : '随机打乱'}}</text>
+          </view>
+        </picker>
+      </view>
+
+      <button class="btn btn--danger btn--sm" bindtap="onResetProgress" style="margin-top: 20rpx;">重置进度</button>
+    </view>
+  </view>
+
+  <!-- ====== 朗读设置（折叠） ====== -->
+  <view class="card fold">
+    <view class="fold__head" bindtap="onToggleVoiceFold">
+      <text class="fold__title">朗读设置</text>
+      <!-- tag 是 TTS（微软 Edge 语音）的支持状态，不是微信同传（那是跟读识别的引擎） -->
+      <text class="tag">{{ttsSupported ? '微软语音' : '不支持'}}</text>
+      <text class="fold__arrow {{voiceFoldOpen ? 'fold__arrow--open' : ''}}">›</text>
+    </view>
+    <view wx:if="{{voiceFoldOpen}}" class="fold__body">
+      <view class="slider-row">
+        <text class="slider__label">语速</text>
+        <slider class="slider" min="0.5" max="1.2" step="0.05" value="{{rate}}" bindchanging="onRateChange" bindchange="onRateChange" block-size="20" activeColor="#0f766e" />
+        <text class="slider__val">{{rate}}×</text>
+      </view>
+      <view class="slider-row">
+        <text class="slider__label">重复</text>
+        <slider class="slider" min="1" max="3" step="1" value="{{repeat}}" bindchange="onRepeatChange" block-size="20" activeColor="#0f766e" />
+        <text class="slider__val">{{repeat}} 遍</text>
+      </view>
+      <view class="slider-row">
+        <text class="slider__label">间隔</text>
+        <slider class="slider" min="0" max="4" step="0.5" value="{{gap}}" bindchange="onGapChange" block-size="20" activeColor="#0f766e" />
+        <text class="slider__val">{{gap}}s</text>
+      </view>
+      <view class="switch-row">
+        <text class="switch__label">自动连播</text>
+        <switch checked="{{auto}}" bindchange="onAutoChange" color="#0f766e" />
+      </view>
+    </view>
+  </view>
+
+  <!-- ====== 进度 ====== -->
+  <view class="card">
+    <view class="row row--between" style="margin-bottom: 16rpx;">
+      <text class="title" style="font-size: 28rpx;">进度</text>
+      <view class="row" style="gap: 24rpx;">
+        <text class="muted">已练 <text class="num">{{stats.seen}}</text>/{{stats.total}}</text>
+        <text class="muted">掌握 <text class="num num--ok">{{stats.known}}</text></text>
+        <text class="muted">模糊 <text class="num num--warn">{{stats.weak}}</text></text>
+        <text class="muted">收藏 <text class="num">{{stats.starred}}</text></text>
+      </view>
+    </view>
+    <view class="bar">
+      <view class="bar__ok" style="width: {{knownPercent}}%;"></view>
+      <view class="bar__weak" style="width: {{weakPercent}}%;"></view>
+    </view>
+    <text class="hint" style="margin-top: 16rpx;">左右滑动切换句子</text>
+  </view>
+
+</view>

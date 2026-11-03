@@ -1,0 +1,62 @@
+%% ============================================================
+%% SpeakMate（口语搭子）服务层类图
+%% 源自 docs/ARCHITECTURE.md 附录
+%% ============================================================
+
+classDiagram
+    class LlmService {
+        +String baseURL
+        +String model
+        +streamChat(messages, opts) AsyncIterable~string~
+        +completeJSON(messages, opts) Promise~object~
+    }
+    class PromptService {
+        +buildSystemPrompt(scene, profile) String
+        +buildDefineWordPrompt(word, context) String
+        +buildContinueOpenerPrompt(lastMessages) String
+    }
+    class Parser {
+        +String buffer
+        +Boolean metaStarted
+        +push(chunk) String
+        +flush() ParsedMeta
+    }
+    class ChatService {
+        +sendMessage(sessionId, content) SSEStream
+    }
+    class SessionService {
+        +create(sceneId, continueFromLast) SessionWithOpener
+        +list(limit, offset) Page~SessionItem~
+        +getWithMessages(id, msgLimit, msgOffset) SessionDetail
+        +remove(id) void
+        +appendMessage(sessionId, role, content, meta) Message
+    }
+    class VocabularyService {
+        +define(word, context) WordEntry
+        +save(entry) Word
+        +list(filters) Page~Word~
+        +updateMastery(id, level) Word
+        +remove(id) void
+        +masteredWords(limit) String[]
+    }
+    class ProfileService {
+        +get() ProfileSummary
+        +update(patch) Profile
+        +recordCorrections(corrections) void
+        +aggregateScenes() SceneStat[]
+    }
+    class Database {
+        +SqliteDatabase db
+        +run() better-sqlite3
+    }
+
+    ChatService --> LlmService
+    ChatService --> PromptService
+    ChatService --> Parser
+    ChatService --> SessionService
+    ChatService --> ProfileService
+    VocabularyService --> LlmService
+    VocabularyService --> PromptService
+    SessionService --> Database
+    VocabularyService --> Database
+    ProfileService --> Database

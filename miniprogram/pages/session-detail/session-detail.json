@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "会话回看",
+  "usingComponents": {
+    "message-bubble": "/components/message-bubble/message-bubble"
+  }
+}

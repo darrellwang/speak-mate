@@ -1,0 +1,134 @@
+<!-- 对话页：顶部会话条 + 消息流 + 底部输入条 + 录音/选词浮层 -->
+<view class="chat">
+  <!-- 顶部：当前场景 + 换场景 + 播报控制 -->
+  <view wx:if="{{hasSession}}" class="topbar">
+    <view class="topbar__scene" bind:tap="goScenes">
+      <text class="topbar__dot"></text>
+      <text class="topbar__name">{{sceneName || '自由对话'}}</text>
+      <text class="topbar__switch">换场景</text>
+    </view>
+    <view wx:if="{{speaking}}" class="topbar__speaking" bind:tap="onStopSpeaking">
+      <text class="topbar__wave"></text>播报中 · 停止
+    </view>
+  </view>
+
+  <!-- 消息流 -->
+  <scroll-view
+    wx:if="{{hasSession}}"
+    class="chat__scroll"
+    scroll-y="{{true}}"
+    scroll-into-view="{{scrollAnchor}}"
+    scroll-with-animation="{{true}}"
+    enhanced="{{true}}"
+    show-scrollbar="{{false}}"
+    bounces="{{true}}"
+  >
+    <view class="chat__list">
+      <message-bubble
+        wx:for="{{messages}}"
+        wx:key="id"
+        message="{{item}}"
+        index="{{index}}"
+        highlight-text="{{item.highlightText}}"
+        bind:wordselect="onWordSelect"
+        bind:vocabadd="onVocabAdd"
+        bind:retry="onRetry"
+        bind:replay="onReplay"
+      />
+      <view id="bottom-anchor" class="chat__anchor"></view>
+    </view>
+  </scroll-view>
+
+  <!-- 空态：还没有会话 -->
+  <view wx:else class="empty">
+    <view class="empty__icon">🎙️</view>
+    <view class="empty__title">今天想聊点什么？</view>
+    <view class="empty__desc">选一个真实工作场景，AI 搭子陪你开口说，说完立刻纠错</view>
+    <view class="btn btn--primary btn--block empty__cta" bind:tap="goScenes">选择场景开始</view>
+  </view>
+
+  <!-- 底部输入条 -->
+  <view wx:if="{{hasSession}}" class="composer">
+    <textarea
+      class="composer__input"
+      value="{{inputText}}"
+      placeholder="说一句英文试试（长按气泡可查生词）"
+      placeholder-class="composer__placeholder"
+      auto-height="{{true}}"
+      maxlength="2000"
+      cursor-spacing="24"
+      fixed="{{true}}"
+      show-confirm-bar="{{false}}"
+      disabled="{{sending}}"
+      bind:input="onInput"
+    />
+    <view class="composer__actions">
+      <view
+        wx:if="{{asrSupported}}"
+        class="talk {{recording ? 'talk--active' : ''}} {{talkCancelled ? 'talk--cancel' : ''}}"
+        bind:touchstart="onTalkStart"
+        bind:touchmove="onTalkMove"
+        bind:touchend="onTalkEnd"
+        bind:touchcancel="onTalkCancel"
+      >{{recording ? '松开发送' : '按住说'}}</view>
+      <view class="composer__send {{sending || inputText.length === 0 ? 'composer__send--off' : ''}}" bind:tap="onSendTap">
+        发送
+      </view>
+    </view>
+  </view>
+
+  <!-- 录音浮层 -->
+  <view wx:if="{{recording}}" class="recording">
+    <view class="recording__pulse"></view>
+    <view class="recording__hint">{{interimText || '正在聆听…'}}</view>
+    <view class="recording__tip">{{talkCancelled ? '松开手指取消本条' : '松开发送 · 上滑取消'}}</view>
+  </view>
+
+  <!-- 选词 / 词条卡浮层 -->
+  <view wx:if="{{pickerVisible}}" class="sheet-mask" bind:tap="onClosePicker">
+    <view class="sheet" catch:tap="noop">
+      <view wx:if="{{defineResult === null}}">
+        <view class="sheet__title">选一个词或短语</view>
+        <view class="sheet__desc">可点选多个连续词组成短语</view>
+        <view class="sheet__tokens">
+          <view
+            wx:for="{{pickerTokens}}"
+            wx:key="index"
+            class="sheet__token {{item.selected ? 'sheet__token--on' : ''}}"
+            data-idx="{{index}}"
+            bind:tap="onToggleToken"
+          >{{item.text}}</view>
+        </view>
+        <view class="row sheet__buttons">
+          <view class="btn btn--ghost grow" bind:tap="onClosePicker">取消</view>
+          <view class="btn btn--primary grow {{pickerBusy ? 'is-disabled' : ''}}" bind:tap="onDefineWord">
+            {{pickerBusy ? '生成中…' : '查词'}}
+          </view>
+        </view>
+      </view>
+
+      <view wx:else class="wordcard">
+        <view class="wordcard__head">
+          <text class="wordcard__word">{{defineResult.word}}</text>
+          <text class="wordcard__phonetic">{{defineResult.phonetic}}</text>
+        </view>
+        <view class="wordcard__row">
+          <text class="wordcard__label">释义</text>
+          <text class="wordcard__value">{{defineResult.definition}}</text>
+        </view>
+        <view class="wordcard__row">
+          <text class="wordcard__label">例句</text>
+          <text class="wordcard__value wordcard__value--en">{{defineResult.example}}</text>
+        </view>
+        <view class="wordcard__row">
+          <text class="wordcard__label">语境</text>
+          <text class="wordcard__value wordcard__value--en">{{defineResult.context}}</text>
+        </view>
+        <view class="row sheet__buttons">
+          <view class="btn btn--ghost grow" bind:tap="onClosePicker">关闭</view>
+          <view class="btn btn--primary grow" bind:tap="onSaveDefinedWord">存入词汇本</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

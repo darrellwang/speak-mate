@@ -1,0 +1,79 @@
+<view class="privacy-page">
+  <view class="hero">
+    <view class="hero-title">SpeakMate 隐私说明</view>
+    <view class="hero-sub">你的数据如何被使用</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">一、我们收集的信息</view>
+    <view class="section-body">
+      <view class="item">
+        <view class="item-dot"></view>
+        <view class="item-text">麦克风录音：仅在你主动「按住说话」或「按住跟读」时使用，用于语音识别与发音评测，转成文字或评分后即丢弃，录音文件不会保存。</view>
+      </view>
+      <view class="item">
+        <view class="item-dot"></view>
+        <view class="item-text">对话文本：你输入的英文与 AI 回复内容，用于生成纠错建议和词汇本，保存在你自己的后端服务中。</view>
+      </view>
+      <view class="item">
+        <view class="item-dot"></view>
+        <view class="item-text">微信 OpenID：用于识别你的账号，使你只能看到自己的对话记录、词汇本与学习画像，不同用户之间互不可见。我们不获取你的微信昵称与头像。</view>
+      </view>
+      <view class="item">
+        <view class="item-dot"></view>
+        <view class="item-text">设备信息：用于保障服务正常运行的基础环境信息，不用于识别个人身份。</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">二、我们如何使用</view>
+    <view class="section-body">
+      <view class="item">
+        <view class="item-dot"></view>
+        <view class="item-text">你的对话与学习数据保存在 SpeakMate 专属后端中，本小程序不额外收集、不售卖你的数据。</view>
+      </view>
+      <view class="item">
+        <view class="item-dot"></view>
+        <view class="item-text">AI 对话由服务部署方的本地模型（Ollama）完成，数据不出部署环境。</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">三、第三方插件与服务商</view>
+    <view class="section-body">
+      <view class="item">
+        <view class="item-dot"></view>
+        <view class="item-text">微信同声传译插件（提供方：腾讯）：仅用于语音识别，把你的语音转成文字。遵循微信平台隐私规范。</view>
+      </view>
+      <view class="item">
+        <view class="item-dot"></view>
+        <view class="item-text">语音朗读由你的 SpeakMate 后端调用微软 Edge 语音合成服务完成：仅发送待朗读的英文文本，不含你的账号信息、录音或对话记录；生成的音频不保存。</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">四、你的权利</view>
+    <view class="section-body">
+      <view class="item">
+        <view class="item-dot"></view>
+        <view class="item-text">你随时可以在微信「设置」中关闭麦克风权限，或删除本地数据。</view>
+      </view>
+      <view class="item">
+        <view class="item-dot"></view>
+        <view class="item-text">你可以在「我的 → 清除我的数据」中一键删除你的全部对话记录、词汇本与学习画像，删除不可恢复。</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="actions">
+    <button class="btn btn-primary" bindtap="agree" wx:if="{{!authorized}}">同意并继续</button>
+    <button class="btn btn-ghost" bindtap="openContract" wx:if="{{privacyApiSupported}}">打开隐私保护指引</button>
+    <button class="btn btn-ghost" bindtap="refreshStatus" wx:if="{{privacyApiSupported}}">查看授权状态</button>
+    <view class="status" wx:if="{{privacyApiSupported}}">
+      当前状态：{{authorized ? '已同意隐私协议' : '尚未同意隐私协议'}}
+    </view>
+  </view>
+</view>

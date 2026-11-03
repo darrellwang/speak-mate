@@ -1,0 +1,139 @@
+/* 词汇本页（pages/words） */
+
+.words-head {
+  margin-bottom: 20rpx;
+}
+
+.review-switch {
+  padding: 10rpx 24rpx;
+  border-radius: var(--r-full);
+  background: var(--surface);
+  border: 2rpx solid var(--line);
+  font-size: 25rpx;
+  color: var(--text-2);
+}
+
+.review-switch--on {
+  background: var(--brand-weak);
+  border-color: transparent;
+  color: var(--brand-strong);
+  font-weight: 500;
+}
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20rpx;
+}
+
+.filters .chip {
+  margin-right: 14rpx;
+}
+
+.word-item-wrap {
+  margin-bottom: 20rpx;
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.word-item {
+  padding: 26rpx 28rpx;
+  border-radius: var(--r);
+}
+
+.word-item__word {
+  font-size: 33rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.word-item__phonetic {
+  font-size: 24rpx;
+  color: var(--text-3);
+  margin-left: 14rpx;
+}
+
+.word-item__scene {
+  font-size: 22rpx;
+  color: var(--text-3);
+  background: var(--surface-2);
+  padding: 4rpx 14rpx;
+  border-radius: 6rpx;
+}
+
+.word-item__mask {
+  margin-top: 18rpx;
+  padding: 26rpx;
+  border-radius: var(--r-sm);
+  background: repeating-linear-gradient(
+    45deg,
+    var(--surface-2),
+    var(--surface-2) 10rpx,
+    #f1f3f6 10rpx,
+    #f1f3f6 20rpx
+  );
+  color: var(--text-3);
+  font-size: 26rpx;
+  text-align: center;
+}
+
+.word-item__def {
+  margin-top: 14rpx;
+  font-size: 28rpx;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.word-item__example {
+  margin-top: 10rpx;
+  font-size: 25rpx;
+  color: var(--text-2);
+  line-height: 1.6;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+}
+
+.word-item__meta {
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+/* 三档掌握度 */
+.mastery {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20rpx;
+}
+
+.mastery__btn {
+  flex: 1;
+  height: 64rpx;
+  margin-right: 12rpx;
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  border: 2rpx solid var(--line);
+  font-size: 25rpx;
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mastery__btn:last-child {
+  margin-right: 0;
+}
+
+.mastery__btn--on {
+  background: var(--brand-weak);
+  border-color: var(--brand);
+  color: var(--brand-strong);
+  font-weight: 500;
+}
+
+.words-loading,
+.words-end {
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--text-3);
+  padding: 24rpx 0;
+}
