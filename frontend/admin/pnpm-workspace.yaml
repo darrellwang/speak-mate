@@ -1,0 +1,10 @@
+# 把 workspace 根锚定在本目录，避免 pnpm 回溯到仓库根后报 packages 字段缺失。
+# 详见 frontend/pnpm-workspace.yaml 与 docs/CODE_REVIEW.md。
+packages:
+  - '.'
+
+allowBuilds:
+  esbuild: true
+
+onlyBuiltDependencies:
+  - esbuild

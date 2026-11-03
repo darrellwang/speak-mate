@@ -74,6 +74,21 @@ const MIGRATIONS: readonly Migration[] = [
       db.exec("UPDATE user_profile SET user_id = 'admin' WHERE user_id = 'default'");
     },
   },
+  {
+    // 管理台封禁：status=active|banned。up 按列幂等，避免重复执行时 ALTER 失败。
+    version: 4,
+    name: 'users-ban-status',
+    up: (db) => {
+      const addColumn = (name: string, ddl: string): void => {
+        const columns = db.prepare('PRAGMA table_info(users)').all() as { name: string }[];
+        if (columns.some((column) => column.name === name)) return;
+        db.exec(`ALTER TABLE users ADD COLUMN ${ddl}`);
+      };
+      addColumn('status', "status TEXT NOT NULL DEFAULT 'active'");
+      addColumn('banned_at', 'banned_at TEXT');
+      addColumn('ban_reason', "ban_reason TEXT NOT NULL DEFAULT ''");
+    },
+  },
 ];
 
 /** 当前程序支持的 schema 版本 */

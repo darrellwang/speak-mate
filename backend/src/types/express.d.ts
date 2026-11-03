@@ -21,6 +21,13 @@ declare global {
        * 单独挂载的业务路由若未经该中间件，此值为 undefined。
        */
       userId?: string;
+      /**
+       * 仅当本次请求的 Bearer 与 ACCESS_TOKEN 恒定时间比对成功时为 true。
+       *
+       * 登录态 token（微信 / 邀请码）即使能解析出 userId，也永远是 false。
+       * 未配置 ACCESS_TOKEN 的零配置放行同样是 false——局域网模式不能顺带打开管理台。
+       */
+      isAdmin?: boolean;
     }
   }
 }

@@ -32,6 +32,24 @@ describe('schema 迁移 · 版本化', () => {
   it('v2 产物：messages(user_id) 索引已建立', () => {
     expect(indexExists('idx_messages_user')).toBe(true);
   });
+
+  it('v4 产物：users 具备 status / banned_at / ban_reason，新用户默认 active', () => {
+    const db = getDb();
+    const columns = db.prepare('PRAGMA table_info(users)').all() as { name: string }[];
+    const names = columns.map((column) => column.name);
+    expect(names).toEqual(expect.arrayContaining(['status', 'banned_at', 'ban_reason']));
+
+    db.prepare(
+      `INSERT INTO users (id, openid, source, nickname, created_at, last_login_at)
+       VALUES ('user-v4-default', NULL, 'invite', '默认状态', ?, ?)`,
+    ).run('2026-01-01T00:00:00.000Z', '2026-01-01T00:00:00.000Z');
+    const row = db.prepare(`SELECT status, banned_at, ban_reason FROM users WHERE id = ?`).get(
+      'user-v4-default',
+    ) as { status: string; banned_at: string | null; ban_reason: string };
+    expect(row.status).toBe('active');
+    expect(row.banned_at).toBeNull();
+    expect(row.ban_reason).toBe('');
+  });
 });
 
 /**
@@ -69,6 +87,40 @@ describe('schema 迁移 · 遗留库演进', () => {
     runMigrations(db);
 
     expect(indexExists('idx_messages_user')).toBe(true);
+    expect(currentUserVersion(db)).toBe(SCHEMA_VERSION);
+  });
+
+  it('v3 用户表升级到 v4：补齐封禁列且不丢已有用户', () => {
+    const db = getDb();
+    db.exec('DROP TABLE IF EXISTS users');
+    db.exec(`
+      CREATE TABLE users (
+        id            TEXT PRIMARY KEY,
+        openid        TEXT UNIQUE,
+        source        TEXT NOT NULL,
+        nickname      TEXT NOT NULL DEFAULT '',
+        created_at    TEXT NOT NULL,
+        last_login_at TEXT NOT NULL
+      );
+    `);
+    db.prepare(
+      `INSERT INTO users (id, openid, source, nickname, created_at, last_login_at)
+       VALUES ('legacy-user', 'openid-legacy', 'wechat', '老用户', ?, ?)`,
+    ).run('2025-01-01T00:00:00.000Z', '2025-06-01T00:00:00.000Z');
+    db.pragma('user_version = 3');
+
+    runMigrations(db);
+
+    const columns = db.prepare('PRAGMA table_info(users)').all() as { name: string }[];
+    expect(columns.map((column) => column.name)).toEqual(
+      expect.arrayContaining(['status', 'banned_at', 'ban_reason']),
+    );
+    const row = db.prepare('SELECT nickname, status, ban_reason FROM users WHERE id = ?').get(
+      'legacy-user',
+    ) as { nickname: string; status: string; ban_reason: string };
+    expect(row.nickname).toBe('老用户');
+    expect(row.status).toBe('active');
+    expect(row.ban_reason).toBe('');
     expect(currentUserVersion(db)).toBe(SCHEMA_VERSION);
   });
 

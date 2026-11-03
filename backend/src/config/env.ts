@@ -158,6 +158,7 @@ export interface AppConfig {
      *
      * ⚠️ 多用户模式（P2-5）语义变更：该令牌现在是**管理员凭证**，
      * 请求带此令牌会被识别为 admin 用户；普通用户走 /api/auth/* 换取的登录态 token。
+     * 管理台（/api/admin、/admin）只接受这一枚令牌，不接受邀请码换到的登录态。
      */
     accessToken: string;
     /**

@@ -6,7 +6,7 @@
 
 ## 0. 部署形态总览与通用准备
 
-**形态**：单 Node 进程（Express）+ 单 SQLite 文件。生产模式下 Express 直接托管 `frontend/dist` 静态文件，前后端同源，**一个端口（默认 3001）即是全部**——无需独立前端服务器，无 CORS。
+**形态**：单 Node 进程（Express）+ 单 SQLite 文件。生产模式下 Express 直接托管 `frontend/dist`（学员 H5）和 `frontend/admin/dist`（管理台，路径 `/admin`），前后端同源，**一个端口（默认 3001）即是全部**——无需独立前端服务器，无 CORS。管理台只认 `ACCESS_TOKEN`，说明见 [docs/ADMIN.md](docs/ADMIN.md)。
 
 | | 方案A 局域网自托管 | 方案B 云服务器 | 方案C WSL2 |
 |---|---|---|---|
@@ -26,13 +26,16 @@
 # 1. 获取代码（git clone 或直接复制项目目录）
 cd english-tutor
 
-# 2. 构建前端产物（frontend/dist）
+# 2. 构建学员端（frontend/dist）与管理台（frontend/admin/dist）
 cd frontend
 pnpm install
 pnpm build
+cd admin
+pnpm install
+pnpm build
 
-# 3. 安装后端依赖
-cd ../backend
+# 3. 安装后端依赖（上一步停在 frontend/admin，要回到仓库里的 backend）
+cd ../../backend
 pnpm install
 
 # 4. 配置环境变量（LLM 见下文各方案；模板含全部注释）

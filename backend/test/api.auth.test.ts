@@ -82,6 +82,32 @@ describe('访问控制 · ACCESS_TOKEN 已配置', () => {
     expect(res.body.code).toBe(UNAUTHORIZED_CODE);
   });
 
+  it('ACCESS_TOKEN 可以打开管理台健康检查', async () => {
+    const res = await request(server.baseUrl)
+      .get('/api/admin/health')
+      .set('Authorization', `Bearer ${ACCESS_TOKEN}`);
+    expect(res.status).toBe(200);
+    expect(res.body.code).toBe(0);
+    expect(res.body.data.db).toBe('ok');
+    expect(res.body.data.schema.version).toBeGreaterThanOrEqual(4);
+    expect(res.body.data.llm.probed).toBe(false);
+    expect(res.body.data).not.toHaveProperty('apiKey');
+  });
+
+  it('错误令牌不能打开管理台', async () => {
+    const res = await request(server.baseUrl)
+      .get('/api/admin/users')
+      .set('Authorization', 'Bearer wrong-token');
+    expect(res.status).toBe(401);
+    expect(res.body.code).toBe(UNAUTHORIZED_CODE);
+  });
+
+  it('管理接口同样不接受 URL query 令牌', async () => {
+    const res = await request(server.baseUrl).get(`/api/admin/health?token=${ACCESS_TOKEN}`);
+    expect(res.status).toBe(401);
+    expect(res.body.code).toBe(UNAUTHORIZED_CODE);
+  });
+
   it('鉴权守卫只作用于 /api（非 api 路径不会被令牌拦截）', async () => {
     const res = await request(server.baseUrl).get('/not-an-api-route');
     // 具体状态码取决于 frontend/dist 是否存在（存在时命中 SPA 回退返回 index.html），
