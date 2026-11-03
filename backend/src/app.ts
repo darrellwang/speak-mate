@@ -3,7 +3,7 @@
  *
  * 中间件顺序：helmet（安全头）→ cors（白名单 / 同源）→ json 解析 → morgan（访问日志）
  * → /api 鉴权守卫 → /api 路由（各路由内部按成本挂载限流器）
- * → frontend/dist 静态托管（生产同源）→ 404 → 错误处理。
+ * → frontend/admin/dist 挂在 /admin → frontend/dist 静态托管（生产同源）→ 404 → 错误处理。
  *
  * 安全相关（审查报告 H1 / H2）：
  * - CORS 由 config.security.corsOrigins 驱动：留空 = 同源部署，不发送任何 CORS 头；
@@ -22,6 +22,7 @@ import morgan from 'morgan';
 import { config } from './config/env';
 import { requireAuth } from './middleware/auth';
 import { errorHandler, notFoundHandler } from './middleware/error';
+import { adminRouter } from './routes/admin.routes';
 import { authPublicRouter, authRouter, meRouter } from './routes/auth.routes';
 import { chatRouter } from './routes/chat.routes';
 import { diagPublicRouter, diagRouter } from './routes/diag.routes';
@@ -82,13 +83,40 @@ export function createApp(): Express {
   app.use('/api/words', wordsRouter); //   #10-#14 词条生成 + 词汇本 CRUD
   app.use('/api/profile', profileRouter); // #15-#16 画像读写
   app.use('/api/tts', ttsRouter); //       #17 GET /api/tts（Edge TTS mp3 流）
+  app.use('/api/admin', adminRouter); //   管理台：用户 / 统计 / 健康 / 封禁
 
-  // ---- 生产模式：托管前端构建产物（frontend/dist），前后端同源 ----
+  // ---- 生产模式：管理台静态资源（frontend/admin/dist），挂在 /admin ----
+  // 必须先于学员 H5 的 SPA 回退，否则 /admin 会被学员 index.html 吃掉。
+  const adminDist = path.resolve(currentDir, '../../frontend/admin/dist');
+  if (existsSync(adminDist)) {
+    app.use('/admin', (_req, res, next) => {
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+      next();
+    });
+    app.use(
+      '/admin',
+      express.static(adminDist, {
+        index: 'index.html',
+        setHeaders(res, filePath) {
+          if (filePath.endsWith(`${path.sep}index.html`)) {
+            res.setHeader('Cache-Control', 'no-cache');
+          }
+        },
+      }),
+    );
+    app.get(/^\/admin(?:\/.*)?$/, (_req, res) => {
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.sendFile(path.join(adminDist, 'index.html'));
+    });
+  }
+
+  // ---- 生产模式：托管学员 H5（frontend/dist），前后端同源 ----
   const frontendDist = path.resolve(currentDir, '../../frontend/dist');
   if (existsSync(frontendDist)) {
     app.use(express.static(frontendDist));
-    // SPA 路由回退：非 /api 路径一律回 index.html（前端 Router 接管）
-    app.get(new RegExp('^/(?!api/).*$'), (_req, res) => {
+    // SPA 路由回退：非 /api、非 /admin 路径回 index.html（前端 Router 接管）
+    app.get(/^\/(?!api\/|admin(?:\/|$)).*$/, (_req, res) => {
       res.sendFile(path.join(frontendDist, 'index.html'));
     });
   }

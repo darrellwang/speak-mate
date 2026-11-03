@@ -47,20 +47,21 @@ english-tutor/
 │   ├── data/                  # SQLite 数据文件（运行时自动创建，gitignore）
 │   └── src/
 │       ├── index.ts           # 启动入口（可选 HTTPS，见 DEPLOYMENT.md）
-│       ├── app.ts             # Express 组装（生产模式托管 frontend/dist）
+│       ├── app.ts             # Express 组装（生产模式托管 frontend/dist 与 /admin）
 │       ├── config/env.ts      # 环境变量加载 + LLM provider 预设
 │       ├── db/                # SQLite 初始化 + schema
 │       ├── middleware/        # 统一错误处理（{code,data,message}）
 │       ├── routes/            # /api/* 全部 16 个接口（含 POST /api/chat SSE）
 │       └── services/          # LLM 客户端 / 提示词 / 流式解析 / 会话 / 词汇 / 画像
-└── frontend/                 # React SPA（Vite + MUI + Tailwind）
-    └── src/
-        ├── api/               # fetch 封装 / SSE 消费器 / REST 端点函数
-        ├── speech/            # SpeechAdapter 接口 + WebSpeechAdapter 实现
-        ├── stores/            # zustand（chat / session / settings）
-        ├── hooks/             # useChat（SSE 循环）/ useSpeech（ASR+TTS 队列）/ useScenes
-        ├── components/        # chat / words / layout 组件
-        └── pages/             # 对话 / 场景 / 词汇本 / 历史 / 设置
+├── frontend/                 # React SPA（Vite + MUI + Tailwind）
+│   ├── admin/                # 管理台（独立 Vite 应用，生产路径 /admin）
+│   └── src/
+│       ├── api/               # fetch 封装 / SSE 消费器 / REST 端点函数
+│       ├── speech/            # SpeechAdapter 接口 + WebSpeechAdapter 实现
+│       ├── stores/            # zustand（chat / session / settings）
+│       ├── hooks/             # useChat（SSE 循环）/ useSpeech（ASR+TTS 队列）/ useScenes
+│       ├── components/        # chat / words / layout 组件
+│       └── pages/             # 对话 / 场景 / 词汇本 / 历史 / 设置
 ├── miniprogram/              # 微信小程序（原生 + TypeScript）
 │   ├── utils/                # request 封装 / 双通道 SSE / UTF-8 流式解码 / Storage
 │   ├── services/api.ts       # 与 H5 端一一对应的端点函数
@@ -103,10 +104,14 @@ pnpm dev         # http://localhost:5173（/api 已代理到 3001）
 ### 3. 生产模式（可选）
 
 ```bash
-cd frontend && pnpm install && pnpm build    # 产出 frontend/dist
-cd ../backend && pnpm start                  # Express 托管 dist，同源单端口
-# 访问 http://localhost:3001
+cd frontend && pnpm install && pnpm build          # 产出 frontend/dist
+cd admin && pnpm install && pnpm build             # 产出 frontend/admin/dist
+cd ../../backend && pnpm start                     # Express 托管两个 dist，同源单端口
+# 学员端 http://localhost:3001
+# 管理台 http://localhost:3001/admin
 ```
+
+管理台需要在 `backend/.env` 配置 `ACCESS_TOKEN`。邀请码不能当作管理员登录。本地开发与接口说明见 [docs/ADMIN.md](docs/ADMIN.md)。
 
 ## LLM 配置（backend/.env）
 
@@ -180,3 +185,4 @@ cd backend && pnpm start                      # 1) 起后端
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 架构设计（API 契约 / 数据结构 / LLM 输出协议 / 任务拆分） |
 | [DEPLOYMENT.md](DEPLOYMENT.md) | 部署指南（局域网自托管 HTTPS / 云服务器 pm2+Nginx+certbot） |
 | [miniprogram/README.md](miniprogram/README.md) | 微信小程序端（目录 / 启动 / 语音启用 / 发布检查清单） |
+| [docs/ADMIN.md](docs/ADMIN.md) | 管理台（用户 / 统计 / 系统 / 封禁，仅 ACCESS_TOKEN） |

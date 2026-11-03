@@ -12,8 +12,11 @@
  * ── 多用户模式（P2-5）──
  * 令牌有三种，优先级从高到低：
  * 1. **登录态 token**（/api/auth/* 签发）：解析出真实 userId，写入 `req.userId`；
- * 2. **静态 ACCESS_TOKEN**：视为管理员，落 `ADMIN_USER_ID`（存量数据归属方）；
- * 3. 都没有 → 401。
+ * 2. **静态 ACCESS_TOKEN**：视为管理员，落 `ADMIN_USER_ID`，并置 `req.isAdmin = true`；
+ * 3. 都没有 → 401（ACCESS_TOKEN 未配置时则零配置放行，但 **不是** 管理员）。
+ *
+ * 管理台只认第 2 种。邀请码 / 微信登录态即使解析成功，`req.isAdmin` 也保持 false，
+ * 由 `requireAdmin` 拒绝。封禁用户在登录态解析成功后直接 401，不再进入业务路由。
  *
  * `req.userId` 是路由层取用户标识的唯一来源——路由层不再硬编码 DEFAULT_USER_ID
  * （修正 ARCHITECTURE §9.9 与实现长期不一致的问题）。
@@ -25,10 +28,14 @@
 import { timingSafeEqual } from 'node:crypto';
 import type { NextFunction, Request, Response } from 'express';
 import { config } from '../config/env';
-import { ADMIN_USER_ID, resolveToken } from '../services/auth.service';
+import { ErrorCode } from './error';
+import { ADMIN_USER_ID, isUserBanned, resolveToken } from '../services/auth.service';
 
 /** 未授权（架构 §4.1 错误码表增补：4010 段为鉴权相关） */
-export const UNAUTHORIZED_CODE = 4010;
+export const UNAUTHORIZED_CODE = ErrorCode.UNAUTHORIZED;
+
+/** 非管理员（邀请码 / 微信登录态 / 零配置放行都不能进 /api/admin） */
+export const FORBIDDEN_CODE = ErrorCode.FORBIDDEN;
 
 /** 恒定时间字符串比较（长度不等时先返回 false，再逐字节比对） */
 function safeCompare(a: string, b: string): boolean {
@@ -60,27 +67,39 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
   const expected = config.security.accessToken;
   const provided = extractBearerToken(req);
 
-  // 登录态 token 优先：/api/auth/* 签发的 token 能解析出真实用户
+  // 登录态 token 优先：/api/auth/* 签发的 token 能解析出真实用户。
+  // 这类令牌永远不是管理台凭证（即使 userId 碰巧叫 admin）。
   if (provided !== null) {
     const resolved = resolveToken(provided);
     if (resolved !== null) {
+      if (isUserBanned(resolved)) {
+        res.status(401).json({
+          code: UNAUTHORIZED_CODE,
+          data: null,
+          message: '账号已被停用',
+        });
+        return;
+      }
       req.userId = resolved;
+      req.isAdmin = false;
       next();
       return;
     }
   }
 
-  // 静态 ACCESS_TOKEN → 管理员（存量数据归属方）
+  // 静态 ACCESS_TOKEN → 管理员（存量数据归属方）。只有这条路径能打开管理台。
   if (expected !== '' && provided !== null && safeCompare(provided, expected)) {
     req.userId = ADMIN_USER_ID;
+    req.isAdmin = true;
     next();
     return;
   }
 
-  // ACCESS_TOKEN 未配置 = 零配置放行模式（局域网/本机）
+  // ACCESS_TOKEN 未配置 = 零配置放行模式（局域网/本机）。
+  // 学员接口保持可用，但 isAdmin 明确为 false，避免管理接口裸奔。
   if (expected === '') {
-    // 未配置任何凭证时，仍给出管理员身份：保持"单用户零配置启动"体验
     req.userId = ADMIN_USER_ID;
+    req.isAdmin = false;
     next();
     return;
   }
@@ -89,5 +108,23 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
     code: UNAUTHORIZED_CODE,
     data: null,
     message: '未授权：请提供有效的访问令牌',
+  });
+}
+
+/**
+ * 管理台守卫：必须挂在 requireAuth 之后。
+ *
+ * 只放行 `req.isAdmin === true`（Bearer 与 ACCESS_TOKEN 比对成功）。
+ * 邀请码登录态、微信登录态、未配置令牌时的零配置放行，一律 403。
+ */
+export function requireAdmin(req: Request, res: Response, next: NextFunction): void {
+  if (req.isAdmin === true) {
+    next();
+    return;
+  }
+  res.status(403).json({
+    code: FORBIDDEN_CODE,
+    data: null,
+    message: '需要管理员访问令牌',
   });
 }

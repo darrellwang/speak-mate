@@ -97,6 +97,20 @@ export function findUserById(id: string): User | undefined {
   return row ? rowToUser(row) : undefined;
 }
 
+/** 账号是否处于封禁态（无此用户视为未封禁，交给后续逻辑处理不存在的情况） */
+export function isUserBanned(userId: string): boolean {
+  const row = getDb()
+    .prepare('SELECT status FROM users WHERE id = ?')
+    .get(userId) as { status: string } | undefined;
+  return row?.status === 'banned';
+}
+
+function assertUserActive(userId: string): void {
+  if (isUserBanned(userId)) {
+    throw new ApiError(401, ErrorCode.UNAUTHORIZED, '账号已被停用');
+  }
+}
+
 /**
  * 按 openid 获取或创建用户（微信登录主路径）。
  *
@@ -107,6 +121,7 @@ export function upsertWechatUser(openid: string): User {
   const existing = findUserByOpenid(openid);
   const now = new Date().toISOString();
   if (existing) {
+    assertUserActive(existing.id);
     db.prepare('UPDATE users SET last_login_at = ? WHERE id = ?').run(now, existing.id);
     return { ...existing, last_login_at: now };
   }
@@ -145,6 +160,7 @@ export function upsertInviteUser(inviteCode: string, allowedCodes: readonly stri
     | UserRow
     | undefined;
   if (existing) {
+    assertUserActive(derivedId);
     db.prepare('UPDATE users SET last_login_at = ? WHERE id = ?').run(now, derivedId);
     return { ...rowToUser(existing), last_login_at: now };
   }
@@ -172,6 +188,7 @@ export interface AuthResult {
  * 每次签发前清理该用户的过期会话，避免表无限膨胀。
  */
 export function issueToken(userId: string): AuthResult {
+  assertUserActive(userId);
   const db = getDb();
   const token = randomBytes(32).toString('hex');
   const tokenHash = sha256(token);

@@ -21,8 +21,12 @@ export const ErrorCode = {
   SCENE_NOT_FOUND: 2002,
   /** 词汇不存在 */
   WORD_NOT_FOUND: 2003,
-  /** 未授权：令牌无效 / 过期 / 邀请码错误 */
+  /** 用户不存在（管理台） */
+  USER_NOT_FOUND: 2004,
+  /** 未授权：令牌无效 / 过期 / 邀请码错误 / 账号已封禁 */
   UNAUTHORIZED: 4010,
+  /** 已登录但不是管理员（邀请码 / 微信登录态不能进管理台） */
+  FORBIDDEN: 4030,
   /** LLM 连接失败（本地模式附带 LMStudio 排查指引文案） */
   LLM_CONNECT: 3001,
   /** LLM 首字超时（15s） */
@@ -58,6 +62,9 @@ export const sceneNotFound = (sceneId: string): ApiError =>
 
 export const wordNotFound = (): ApiError =>
   new ApiError(404, ErrorCode.WORD_NOT_FOUND, '词条不存在');
+
+export const userNotFound = (): ApiError =>
+  new ApiError(404, ErrorCode.USER_NOT_FOUND, '用户不存在');
 
 export const llmConnectError = (message: string): ApiError =>
   new ApiError(502, ErrorCode.LLM_CONNECT, message);
