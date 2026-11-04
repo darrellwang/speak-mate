@@ -79,11 +79,11 @@ export function revokeAdminSession(token: string | null): void {
   sessions.delete(sha256(token).toString('hex'));
 }
 
-function cookieSecure(): boolean {
-  return process.env.NODE_ENV === 'production';
-}
-
-function writeCookie(res: Response, value: string, maxAge: number): void {
+/**
+ * Secure 跟随本次请求是否为 HTTPS：HTTP 访问时带 Secure，浏览器会丢弃 cookie。
+ * 反代终结 TLS 时需要 TRUST_PROXY=true，req.secure 才会采信 X-Forwarded-Proto。
+ */
+function writeCookie(req: Request, res: Response, value: string, maxAge: number): void {
   const parts = [
     `${ADMIN_COOKIE_NAME}=${encodeURIComponent(value)}`,
     'Path=/api/admin',
@@ -91,14 +91,14 @@ function writeCookie(res: Response, value: string, maxAge: number): void {
     'SameSite=Lax',
     `Max-Age=${maxAge}`,
   ];
-  if (cookieSecure()) parts.push('Secure');
+  if (req.secure) parts.push('Secure');
   res.append('Set-Cookie', parts.join('; '));
 }
 
-export function setAdminSessionCookie(res: Response, token: string): void {
-  writeCookie(res, token, ADMIN_SESSION_TTL_SECONDS);
+export function setAdminSessionCookie(req: Request, res: Response, token: string): void {
+  writeCookie(req, res, token, ADMIN_SESSION_TTL_SECONDS);
 }
 
-export function clearAdminSessionCookie(res: Response): void {
-  writeCookie(res, '', 0);
+export function clearAdminSessionCookie(req: Request, res: Response): void {
+  writeCookie(req, res, '', 0);
 }

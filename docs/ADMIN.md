@@ -13,7 +13,9 @@
 - 没设置 `ADMIN_PASSWORD` 时，学员接口仍按 `ACCESS_TOKEN` 的规则工作（留空则零配置放行），但管理接口一律 **401**，登录接口 **503**。局域网模式不会把管理台公开。
 - `?token=` 仍然无效。
 
-本地开发例外：`pnpm dev` 会设置 `NODE_ENV=development`。这时如果没写 `ADMIN_PASSWORD`，管理台回退到仅供本机的口令 `speakmate-local-dev-only`（用户名仍是 `admin`）。`NODE_ENV=production` 和没设置 `NODE_ENV` 的 `pnpm start` **不会**使用这个口令。生产部署必须自己设置 `ADMIN_PASSWORD`，并设置 `NODE_ENV=production`（这样 cookie 才会带 `Secure`）。
+本地开发例外：`pnpm dev` 会设置 `NODE_ENV=development`。这时如果没写 `ADMIN_PASSWORD`，管理台回退到仅供本机的口令 `speakmate-local-dev-only`（用户名仍是 `admin`）。`NODE_ENV=production` 和没设置 `NODE_ENV` 的 `pnpm start` **不会**使用这个口令。生产部署必须自己设置 `ADMIN_PASSWORD`，并设置 `NODE_ENV=production`。
+
+会话 cookie 是否带 `Secure` 取决于这次请求是否走 HTTPS：直连 `https://` 端口时自动带上；Nginx 终结 TLS 时需要 `TRUST_PROXY=true`，后端才会采信 `X-Forwarded-Proto`。用 `http://` 访问时不带 `Secure`，否则浏览器会丢弃 cookie，登录后立刻被踢回登录页。
 
 生成生产密码：
 

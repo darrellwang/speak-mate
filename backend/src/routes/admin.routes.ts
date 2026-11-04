@@ -63,14 +63,14 @@ adminRouter.post('/login', adminLoginLimiter, (req, res) => {
     return;
   }
 
-  setAdminSessionCookie(res, issueAdminSession());
+  setAdminSessionCookie(req, res, issueAdminSession());
   sendOk(res, { username: config.security.adminUsername });
 });
 
 /** POST /api/admin/logout → 作废当前管理会话并清 cookie */
 adminRouter.post('/logout', (req, res) => {
   revokeAdminSession(readAdminCookie(req));
-  clearAdminSessionCookie(res);
+  clearAdminSessionCookie(req, res);
   sendOk(res, {});
 });
 

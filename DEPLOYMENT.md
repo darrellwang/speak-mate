@@ -235,7 +235,7 @@ chmod 600 .env      # Key 仅属主可读（P0-11：绝不入库、绝不出现�
 sudo npm install -g pm2
 cd /opt/speakmate/backend
 
-pm2 start pnpm --name speakmate -- start      # 等价于 pnpm start（tsx src/index.ts）
+NODE_ENV=production pm2 start pnpm --name speakmate -- start   # 等价于 pnpm start（tsx src/index.ts）
 pm2 save                                       # 保存进程列表
 pm2 startup                                    # 按提示复制执行输出的 sudo 命令（开机自启）
 
@@ -676,9 +676,9 @@ journalctl -u speakmate -f
 
 ```bash
 cd ~/workspace/speakmate/backend
-nohup pnpm start > ~/speakmate.log 2>&1 &
+NODE_ENV=production nohup pnpm start > ~/speakmate.log 2>&1 &
 # 或
-tmux new -s speakmate 'pnpm start'      # Ctrl+B D 脱离，tmux a -t speakmate 回来
+tmux new -s speakmate 'NODE_ENV=production pnpm start'      # Ctrl+B D 脱离，tmux a -t speakmate 回来
 ```
 
 > 若用 systemd/nohup 常驻，请确认 `.env` 中的 `DATA_DIR` 指向稳定路径（默认即 `<backend>/data`）。
@@ -743,7 +743,7 @@ CORS_ORIGIN=https://speakmate.example.com
 
 ### 3. 反代后的真实客户端 IP（`TRUST_PROXY`）
 
-Nginx 已转发 `X-Forwarded-For` 时设为 `true`，速率限制才能按真实客户端计数：
+Nginx 已转发 `X-Forwarded-For` 时设为 `true`，速率限制才能按真实客户端计数；管理台会话 cookie 也要靠它读到 `X-Forwarded-Proto`，才会在 HTTPS 下带上 `Secure`：
 
 ```env
 TRUST_PROXY=true
