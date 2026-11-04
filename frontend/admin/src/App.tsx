@@ -11,7 +11,7 @@ import { UsersPage } from './pages/UsersPage';
 function Boot() {
   return (
     <div className="boot">
-      <p>正在核对管理员令牌…</p>
+      <p>正在核对登录状态…</p>
     </div>
   );
 }

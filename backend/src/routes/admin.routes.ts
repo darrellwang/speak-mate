@@ -1,9 +1,9 @@
 /**
  * 管理台接口（/api/admin/*）
  *
- * 全部挂在 requireAuth 之后，并再过一道 requireAdmin：
- * 只接受与 ACCESS_TOKEN 恒定时间比对成功的请求。
- * 邀请码 / 微信登录态一律 403，不在这里升级成管理员。
+ * 登录和退出不要求学员 ACCESS_TOKEN。
+ * 其余接口只接受用户名密码换到的 httpOnly 会话。
+ * 邀请码 / 微信登录态 / ACCESS_TOKEN 一律 403，不在这里升级成管理员。
  *
  * 健康检查只做本地廉价探测（SQLite SELECT 1、进程 uptime、TTS 内存状态），
  * 不调用 LLM / 在线 TTS。
@@ -14,12 +14,65 @@ import { config } from '../config/env';
 import { getDb } from '../db/database';
 import { SCHEMA_VERSION, currentUserVersion } from '../db/migrate';
 import { requireAdmin } from '../middleware/auth';
-import { badRequest, sendOk } from '../middleware/error';
-import { readLimiter, writeLimiter } from '../middleware/rateLimit';
+import { badRequest, ErrorCode, sendOk } from '../middleware/error';
+import { adminLoginLimiter, readLimiter, writeLimiter } from '../middleware/rateLimit';
 import { getAdminStats, listUsers, setUserBanned, type AdminUserStatus } from '../services/admin.service';
+import {
+  clearAdminSessionCookie,
+  issueAdminSession,
+  readAdminCookie,
+  revokeAdminSession,
+  setAdminSessionCookie,
+  verifyAdminCredentials,
+} from '../services/admin-session.service';
 import { localTtsStatus } from '../services/tts.service';
 
 export const adminRouter = Router();
+
+const USERNAME_MAX = 64;
+const PASSWORD_MAX = 256;
+
+/** POST /api/admin/login  { username, password } → Set-Cookie，正文不含口令与会话 token */
+adminRouter.post('/login', adminLoginLimiter, (req, res) => {
+  if (!config.security.adminEnabled) {
+    res.status(503).json({
+      code: ErrorCode.INTERNAL,
+      data: null,
+      message: '管理台未启用：请设置 ADMIN_PASSWORD 后重启',
+    });
+    return;
+  }
+
+  const body = req.body as { username?: unknown; password?: unknown } | null;
+  const username = body !== null && typeof body === 'object' && typeof body.username === 'string'
+    ? body.username.trim()
+    : '';
+  const password = body !== null && typeof body === 'object' && typeof body.password === 'string'
+    ? body.password
+    : '';
+  const shaped = username.length > 0
+    && username.length <= USERNAME_MAX
+    && password.length > 0
+    && password.length <= PASSWORD_MAX;
+  if (!shaped || !verifyAdminCredentials(username, password)) {
+    res.status(401).json({
+      code: ErrorCode.UNAUTHORIZED,
+      data: null,
+      message: '用户名或密码错误',
+    });
+    return;
+  }
+
+  setAdminSessionCookie(res, issueAdminSession());
+  sendOk(res, { username: config.security.adminUsername });
+});
+
+/** POST /api/admin/logout → 作废当前管理会话并清 cookie */
+adminRouter.post('/logout', (req, res) => {
+  revokeAdminSession(readAdminCookie(req));
+  clearAdminSessionCookie(res);
+  sendOk(res, {});
+});
 
 adminRouter.use(requireAdmin);
 

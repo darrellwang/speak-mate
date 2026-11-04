@@ -12,11 +12,12 @@
  * ── 多用户模式（P2-5）──
  * 令牌有三种，优先级从高到低：
  * 1. **登录态 token**（/api/auth/* 签发）：解析出真实 userId，写入 `req.userId`；
- * 2. **静态 ACCESS_TOKEN**：视为管理员，落 `ADMIN_USER_ID`，并置 `req.isAdmin = true`；
+ * 2. **静态 ACCESS_TOKEN**：学员侧主人身份，落 `ADMIN_USER_ID`，`req.isAdmin` 仍为 false；
  * 3. 都没有 → 401（ACCESS_TOKEN 未配置时则零配置放行，但 **不是** 管理员）。
  *
- * 管理台只认第 2 种。邀请码 / 微信登录态即使解析成功，`req.isAdmin` 也保持 false，
- * 由 `requireAdmin` 拒绝。封禁用户在登录态解析成功后直接 401，不再进入业务路由。
+ * 管理台不走上面这条链。它只认用户名密码换到的 httpOnly 会话，
+ * 由 `requireAdmin` 自己校验。邀请码 / 微信登录态 / ACCESS_TOKEN 一律不能打开管理台。
+ * 封禁用户在登录态解析成功后直接 401，不再进入业务路由。
  *
  * `req.userId` 是路由层取用户标识的唯一来源——路由层不再硬编码 DEFAULT_USER_ID
  * （修正 ARCHITECTURE §9.9 与实现长期不一致的问题）。
@@ -29,6 +30,7 @@ import { timingSafeEqual } from 'node:crypto';
 import type { NextFunction, Request, Response } from 'express';
 import { config } from '../config/env';
 import { ErrorCode } from './error';
+import { adminSessionActive, readAdminCookie } from '../services/admin-session.service';
 import { ADMIN_USER_ID, isUserBanned, resolveToken } from '../services/auth.service';
 
 /** 未授权（架构 §4.1 错误码表增补：4010 段为鉴权相关） */
@@ -87,10 +89,10 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
     }
   }
 
-  // 静态 ACCESS_TOKEN → 管理员（存量数据归属方）。只有这条路径能打开管理台。
+  // 静态 ACCESS_TOKEN → 学员侧主人身份（存量数据归属方）。不能打开管理台。
   if (expected !== '' && provided !== null && safeCompare(provided, expected)) {
     req.userId = ADMIN_USER_ID;
-    req.isAdmin = true;
+    req.isAdmin = false;
     next();
     return;
   }
@@ -112,19 +114,37 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
 }
 
 /**
- * 管理台守卫：必须挂在 requireAuth 之后。
+ * 管理台守卫。挂在 /api/admin 的业务路由上，不依赖 requireAuth。
  *
- * 只放行 `req.isAdmin === true`（Bearer 与 ACCESS_TOKEN 比对成功）。
- * 邀请码登录态、微信登录态、未配置令牌时的零配置放行，一律 403。
+ * 只放行 httpOnly 管理会话。邀请码 / 微信登录态和 ACCESS_TOKEN 返回 403，
+ * 没有会话返回 401。零配置放行不会把管理接口变成匿名入口。
  */
 export function requireAdmin(req: Request, res: Response, next: NextFunction): void {
-  if (req.isAdmin === true) {
+  if (adminSessionActive(readAdminCookie(req))) {
+    req.userId = ADMIN_USER_ID;
+    req.isAdmin = true;
     next();
     return;
   }
-  res.status(403).json({
-    code: FORBIDDEN_CODE,
+
+  const provided = extractBearerToken(req);
+  if (provided !== null) {
+    const resolved = resolveToken(provided);
+    const expected = config.security.accessToken;
+    const learnerCredential = resolved !== null || (expected !== '' && safeCompare(provided, expected));
+    if (learnerCredential) {
+      res.status(403).json({
+        code: FORBIDDEN_CODE,
+        data: null,
+        message: '需要管理员身份',
+      });
+      return;
+    }
+  }
+
+  res.status(401).json({
+    code: UNAUTHORIZED_CODE,
     data: null,
-    message: '需要管理员访问令牌',
+    message: '请先登录管理台',
   });
 }

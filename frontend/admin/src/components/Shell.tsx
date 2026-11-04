@@ -29,7 +29,7 @@ export function Shell({ children }: { children: ReactNode }) {
             </NavLink>
           ))}
         </nav>
-        <button type="button" className="ghost logout" onClick={logout}>
+        <button type="button" className="ghost logout" onClick={() => void logout()}>
           退出
         </button>
       </aside>

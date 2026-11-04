@@ -1,25 +1,7 @@
 /**
- * 管理台 API。只在本文件读取管理员令牌，从不调用邀请码登录。
- * 令牌放 sessionStorage，关掉标签页即失效，并与学员 H5 的 localStorage 令牌分开。
+ * 管理台 API。登录只提交用户名和密码，会话放在后端下发的 httpOnly cookie 里。
+ * 页面不保存口令，也不调用邀请码登录。
  */
-
-const STORAGE_KEY = 'speakmate.admin.token';
-
-export function getAdminToken(): string {
-  return sessionStorage.getItem(STORAGE_KEY) ?? '';
-}
-
-export function hasAdminToken(): boolean {
-  return getAdminToken() !== '';
-}
-
-export function setAdminToken(token: string): void {
-  sessionStorage.setItem(STORAGE_KEY, token.trim());
-}
-
-export function clearAdminToken(): void {
-  sessionStorage.removeItem(STORAGE_KEY);
-}
 
 type Listener = () => void;
 const authLostListeners = new Set<Listener>();
@@ -32,7 +14,6 @@ export function onAuthLost(listener: Listener): () => void {
 }
 
 function notifyAuthLost(): void {
-  clearAdminToken();
   for (const listener of authLostListeners) listener();
 }
 
@@ -58,8 +39,6 @@ interface RequestOptions {
   method?: string;
   body?: unknown;
   query?: Record<string, string | number | undefined>;
-  /** 显式传入时用于登录探测，成功后才写入 sessionStorage */
-  token?: string;
   ignoreAuthFailure?: boolean;
 }
 
@@ -134,16 +113,15 @@ function buildUrl(path: string, query: RequestOptions['query']): string {
 }
 
 export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  const token = options.token ?? getAdminToken();
   const headers: Record<string, string> = { Accept: 'application/json' };
   if (options.body !== undefined) headers['Content-Type'] = 'application/json';
-  if (token !== '') headers.Authorization = `Bearer ${token}`;
 
   let response: Response;
   try {
     response = await fetch(buildUrl(path, options.query), {
       method: options.method ?? 'GET',
       headers,
+      credentials: 'include',
       body: options.body === undefined ? undefined : JSON.stringify(options.body),
     });
   } catch {
@@ -170,10 +148,23 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
   return payload.data;
 }
 
-export function probeAdmin(token?: string): Promise<AdminHealth> {
-  return request<AdminHealth>('/api/admin/health', {
-    token,
-    ignoreAuthFailure: token !== undefined,
+export function probeAdmin(): Promise<AdminHealth> {
+  return request<AdminHealth>('/api/admin/health', { ignoreAuthFailure: true });
+}
+
+export function loginAdmin(username: string, password: string): Promise<{ username: string }> {
+  return request<{ username: string }>('/api/admin/login', {
+    method: 'POST',
+    body: { username, password },
+    ignoreAuthFailure: true,
+  });
+}
+
+export function logoutAdmin(): Promise<Record<string, never>> {
+  return request<Record<string, never>>('/api/admin/logout', {
+    method: 'POST',
+    body: {},
+    ignoreAuthFailure: true,
   });
 }
 

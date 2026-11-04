@@ -103,5 +103,8 @@ export const llmLimiter = buildLimiter('RATE_LIMIT_LLM_PER_MIN', 30);
 /** 写操作：默认 120 次 / 分钟 */
 export const writeLimiter = buildLimiter('RATE_LIMIT_WRITE_PER_MIN', 120);
 
+/** 管理台登录：默认 20 次 / 分钟 / IP，减慢口令猜测 */
+export const adminLoginLimiter = buildLimiter('RATE_LIMIT_ADMIN_LOGIN_PER_MIN', 20);
+
 /** 读操作：默认 300 次 / 分钟 */
 export const readLimiter = buildLimiter('RATE_LIMIT_READ_PER_MIN', 300);

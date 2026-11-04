@@ -31,6 +31,8 @@ const dataDir = path.resolve(`./.data-test/${randomUUID()}`);
 // 安全/限流相关开关：默认不启用，需要的文件自行在 import src 之前设置
 for (const key of [
   'ACCESS_TOKEN',
+  'ADMIN_PASSWORD',
+  'ADMIN_USERNAME',
   'CORS_ORIGIN',
   'TRUST_PROXY',
   'ENABLE_RATE_LIMIT',

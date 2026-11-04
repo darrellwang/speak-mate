@@ -26,7 +26,7 @@ export function SecurityPage() {
       return;
     }
     if (id === 'admin') {
-      setError('不能封禁管理员身份。ACCESS_TOKEN 对应的 admin 不是 users 表里的学员。');
+      setError('不能封禁 id 为 admin 的身份。那是存量数据的归属账号，不是学员。');
       return;
     }
     const verb = action === 'ban' ? '封禁' : '解封';
@@ -91,9 +91,10 @@ export function SecurityPage() {
         <aside className="panel policy">
           <h2>谁能进管理台</h2>
           <ul>
-            <li>只有与 ACCESS_TOKEN 一致的 Bearer 会被标成管理员。</li>
-            <li>邀请码和微信登录换到的令牌访问 /api/admin 会得到 403。</li>
-            <li>没配置 ACCESS_TOKEN 时，管理接口同样关闭，零配置模式不会把管理台公开。</li>
+            <li>管理台只认用户名和密码。默认用户名是 admin，密码来自 ADMIN_PASSWORD。</li>
+            <li>登录后的会话在 httpOnly cookie 里，页面不保存密码。</li>
+            <li>邀请码、微信登录态和 ACCESS_TOKEN 访问 /api/admin 会得到 403。</li>
+            <li>没设置 ADMIN_PASSWORD 时管理台关闭。本地 pnpm dev 除外，那时用文档里的开发口令。</li>
             <li>解封也会清掉登录态，用户要用原来的邀请码或微信重新登录。</li>
           </ul>
           {user !== null ? (

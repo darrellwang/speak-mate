@@ -4,7 +4,8 @@ import { useAuth } from '../auth';
 
 export function LoginPage() {
   const { login } = useAuth();
-  const [token, setToken] = useState('');
+  const [username, setUsername] = useState('admin');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -13,14 +14,10 @@ export function LoginPage() {
     setPending(true);
     setError(null);
     try {
-      await login(token);
+      await login(username, password);
     } catch (err) {
       const message = err instanceof AdminApiError || err instanceof Error ? err.message : '登录失败';
-      setError(
-        message.includes('管理员')
-          ? '这不是管理员访问令牌。邀请码换到的登录态不能进入管理台。'
-          : message,
-      );
+      setError(message);
     } finally {
       setPending(false);
     }
@@ -32,16 +29,27 @@ export function LoginPage() {
         <p className="eyebrow">SpeakMate</p>
         <h1>管理台</h1>
         <p className="lede">
-          只接受后端 <code>ACCESS_TOKEN</code>。邀请码和微信登录态不能用在这里。
+          使用用户名和密码登录。默认用户名是 <code>admin</code>，密码来自服务器的{' '}
+          <code>ADMIN_PASSWORD</code>。邀请码和微信登录态不能用在这里。
         </p>
-        <label htmlFor="admin-token">管理员访问令牌</label>
+        <label htmlFor="admin-username">用户名</label>
         <input
-          id="admin-token"
+          id="admin-username"
+          name="username"
+          type="text"
+          autoComplete="username"
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+          required
+        />
+        <label htmlFor="admin-password">密码</label>
+        <input
+          id="admin-password"
+          name="password"
           type="password"
           autoComplete="current-password"
-          value={token}
-          onChange={(event) => setToken(event.target.value)}
-          placeholder="与 backend/.env 中的 ACCESS_TOKEN 相同"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
           required
         />
         {error !== null ? <p className="form-error">{error}</p> : null}

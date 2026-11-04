@@ -6,13 +6,13 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { clearAdminToken, hasAdminToken, onAuthLost, probeAdmin, setAdminToken } from './api';
+import { loginAdmin, logoutAdmin, onAuthLost, probeAdmin } from './api';
 
 interface AuthState {
   ready: boolean;
   authed: boolean;
-  login: (token: string) => Promise<void>;
-  logout: () => void;
+  login: (username: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthState | null>(null);
@@ -23,16 +23,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const stop = onAuthLost(() => setAuthed(false));
-    if (!hasAdminToken()) {
-      setReady(true);
-      return stop;
-    }
     probeAdmin()
       .then(() => setAuthed(true))
-      .catch(() => {
-        clearAdminToken();
-        setAuthed(false);
-      })
+      .catch(() => setAuthed(false))
       .finally(() => setReady(true));
     return stop;
   }, []);
@@ -41,18 +34,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => ({
       ready,
       authed,
-      async login(token: string) {
-        const trimmed = token.trim();
-        if (trimmed === '') {
-          throw new Error('请填写管理员访问令牌');
+      async login(username: string, password: string) {
+        const name = username.trim();
+        if (name === '' || password === '') {
+          throw new Error('请填写用户名和密码');
         }
-        await probeAdmin(trimmed);
-        setAdminToken(trimmed);
+        await loginAdmin(name, password);
         setAuthed(true);
       },
-      logout() {
-        clearAdminToken();
-        setAuthed(false);
+      async logout() {
+        try {
+          await logoutAdmin();
+        } finally {
+          setAuthed(false);
+        }
       },
     }),
     [authed, ready],

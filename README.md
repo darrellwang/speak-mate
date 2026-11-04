@@ -111,7 +111,7 @@ cd ../../backend && pnpm start                     # Express 托管两个 dist�
 # 管理台 http://localhost:3001/admin
 ```
 
-管理台需要在 `backend/.env` 配置 `ACCESS_TOKEN`。邀请码不能当作管理员登录。本地开发与接口说明见 [docs/ADMIN.md](docs/ADMIN.md)。
+管理台用用户名和密码登录（默认用户名 `admin`，密码为 `ADMIN_PASSWORD`）。`pnpm dev` 未设置密码时使用文档中的本地默认口令。邀请码和 `ACCESS_TOKEN` 不能进入管理台。说明见 [docs/ADMIN.md](docs/ADMIN.md)。
 
 ## LLM 配置（backend/.env）
 
@@ -185,4 +185,4 @@ cd backend && pnpm start                      # 1) 起后端
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 架构设计（API 契约 / 数据结构 / LLM 输出协议 / 任务拆分） |
 | [DEPLOYMENT.md](DEPLOYMENT.md) | 部署指南（局域网自托管 HTTPS / 云服务器 pm2+Nginx+certbot） |
 | [miniprogram/README.md](miniprogram/README.md) | 微信小程序端（目录 / 启动 / 语音启用 / 发布检查清单） |
-| [docs/ADMIN.md](docs/ADMIN.md) | 管理台（用户 / 统计 / 系统 / 封禁，仅 ACCESS_TOKEN） |
+| [docs/ADMIN.md](docs/ADMIN.md) | 管理台（用户 / 统计 / 系统 / 封禁，用户名密码登录） |
