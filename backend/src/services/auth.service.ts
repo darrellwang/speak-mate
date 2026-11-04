@@ -4,7 +4,7 @@
  * 身份来源有三，统一收敛为「后端自签 token」：
  * - 微信小程序：wx.login() → code → auth.code2Session → openid；
  * - 邀请码：主人后台生成的一次性/长期邀请码；
- * - 静态 ACCESS_TOKEN：保留为管理员凭证（兼容既有部署）。
+ * - 静态 ACCESS_TOKEN：保留为学员侧主人凭证（userId=admin），不能登录管理台。
  *
  * 安全约定：
  * - **token 明文只在登录响应里返回一次**，服务端只存 sha256(token)；

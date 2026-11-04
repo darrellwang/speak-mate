@@ -19,7 +19,7 @@ process.env.ACCESS_TOKEN = ACCESS_TOKEN;
 process.env.CORS_ORIGIN = ALLOWED_ORIGIN;
 
 const { createApp } = await import('../src/app');
-const { UNAUTHORIZED_CODE } = await import('../src/middleware/auth');
+const { FORBIDDEN_CODE, UNAUTHORIZED_CODE } = await import('../src/middleware/auth');
 
 let server: TestServer;
 let app: Express;
@@ -82,16 +82,18 @@ describe('访问控制 · ACCESS_TOKEN 已配置', () => {
     expect(res.body.code).toBe(UNAUTHORIZED_CODE);
   });
 
-  it('ACCESS_TOKEN 可以打开管理台健康检查', async () => {
+  it('ACCESS_TOKEN 仍可访问学员接口，但不能打开管理台', async () => {
+    const learner = await request(server.baseUrl)
+      .get('/api/health')
+      .set('Authorization', `Bearer ${ACCESS_TOKEN}`);
+    expect(learner.status).toBe(200);
+
     const res = await request(server.baseUrl)
       .get('/api/admin/health')
       .set('Authorization', `Bearer ${ACCESS_TOKEN}`);
-    expect(res.status).toBe(200);
-    expect(res.body.code).toBe(0);
-    expect(res.body.data.db).toBe('ok');
-    expect(res.body.data.schema.version).toBeGreaterThanOrEqual(4);
-    expect(res.body.data.llm.probed).toBe(false);
-    expect(res.body.data).not.toHaveProperty('apiKey');
+    expect(res.status).toBe(403);
+    expect(res.body.code).toBe(FORBIDDEN_CODE);
+    expect(res.body.message).toContain('管理员');
   });
 
   it('错误令牌不能打开管理台', async () => {

@@ -152,15 +152,26 @@ export interface AppConfig {
   /** 访问控制（见 middleware/auth.ts） */
   security: {
     /**
-     * 访问令牌：非空时 /api/* 全部要求鉴权，且**只接受** `Authorization: Bearer <token>`。
-     * 刻意不接受 URL query 参数传令牌（?token=...）——那会进入 access log、浏览器历史与 Referer。
-     * 留空 = 不启用鉴权，仅适用于局域网/本机部署。
+     * 学员访问令牌：非空时 /api/*（管理台除外）要求鉴权，且**只接受**
+     * `Authorization: Bearer <token>`。刻意不接受 URL query 参数传令牌（?token=...）
+     * ——那会进入 access log、浏览器历史与 Referer。
+     * 留空 = 学员接口不鉴权，仅适用于局域网/本机部署。
      *
-     * ⚠️ 多用户模式（P2-5）语义变更：该令牌现在是**管理员凭证**，
-     * 请求带此令牌会被识别为 admin 用户；普通用户走 /api/auth/* 换取的登录态 token。
-     * 管理台（/api/admin、/admin）只接受这一枚令牌，不接受邀请码换到的登录态。
+     * 这枚令牌把请求识别为存量数据归属方 `admin`，但**不能**打开管理台。
+     * 管理台只认用户名 + ADMIN_PASSWORD 换到的 httpOnly 会话。
      */
     accessToken: string;
+    /** 管理台用户名。默认 `admin`，可用 ADMIN_USERNAME 覆盖。 */
+    adminUsername: string;
+    /**
+     * 管理台密码。只留在服务端内存，绝不写入响应、日志或前端包。
+     * 未启用时为空字符串。
+     */
+    adminPassword: string;
+    /** 为 false 时登录接口返回 503，管理台保持关闭。 */
+    adminEnabled: boolean;
+    /** 仅 NODE_ENV=development 且未设置 ADMIN_PASSWORD 时为 true。 */
+    adminUsingDevDefault: boolean;
     /**
      * CORS 允许的来源列表（逗号分隔的精确 origin，如 https://a.com,https://b.com）。
      * 留空 = 同源部署，不发送任何 CORS 响应头（最严格）。
@@ -256,6 +267,7 @@ function loadConfig(): AppConfig {
 
   // ---- 访问控制 ----
   const accessToken = (process.env.ACCESS_TOKEN ?? '').trim();
+  const adminAuth = resolveAdminAuth();
   const corsOrigins = (process.env.CORS_ORIGIN ?? '')
     .split(',')
     .map((s) => s.trim())
@@ -323,12 +335,58 @@ function loadConfig(): AppConfig {
     https: { keyFile: httpsKeyFile, certFile: httpsCertFile, port: httpsPortRaw },
     security: {
       accessToken,
+      adminUsername: adminAuth.username,
+      adminPassword: adminAuth.password,
+      adminEnabled: adminAuth.enabled,
+      adminUsingDevDefault: adminAuth.usingDevDefault,
       corsOrigins,
       wechatAppId,
       wechatAppSecret,
       inviteCodes,
     },
   };
+}
+
+/**
+ * 仅本地 `pnpm dev`（NODE_ENV=development）且未设置 ADMIN_PASSWORD 时的回退口令。
+ * 生产环境不会采用。不要把真实生产密码写进仓库。
+ */
+export const LOCAL_DEV_ADMIN_PASSWORD = 'speakmate-local-dev-only';
+
+/** 管理台默认用户名。 */
+export const DEFAULT_ADMIN_USERNAME = 'admin';
+
+function resolveAdminAuth(): {
+  username: string;
+  password: string;
+  enabled: boolean;
+  usingDevDefault: boolean;
+} {
+  const username = (process.env.ADMIN_USERNAME ?? '').trim() || DEFAULT_ADMIN_USERNAME;
+  const fromEnv = (process.env.ADMIN_PASSWORD ?? '').trim();
+  if (fromEnv !== '') {
+    if (process.env.NODE_ENV === 'production' && fromEnv === LOCAL_DEV_ADMIN_PASSWORD) {
+      console.warn(
+        '[config] 警告：生产环境的 ADMIN_PASSWORD 与仅供本地开发的默认口令相同，请更换后再上线',
+      );
+    }
+    return { username, password: fromEnv, enabled: true, usingDevDefault: false };
+  }
+  if (process.env.NODE_ENV === 'development') {
+    console.warn(
+      '[config] 未设置 ADMIN_PASSWORD。NODE_ENV=development 使用文档中的本地默认口令。生产环境必须设置 ADMIN_PASSWORD，否则管理台无法登录。',
+    );
+    return {
+      username,
+      password: LOCAL_DEV_ADMIN_PASSWORD,
+      enabled: true,
+      usingDevDefault: true,
+    };
+  }
+  console.warn(
+    '[config] 未设置 ADMIN_PASSWORD，管理台登录已关闭。请在 backend/.env 设置 ADMIN_PASSWORD 后重启。',
+  );
+  return { username, password: '', enabled: false, usingDevDefault: false };
 }
 
 export const config: AppConfig = loadConfig();

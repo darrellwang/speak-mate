@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "SpeakMate 管理台：Vite + React + TypeScript。只接受 ACCESS_TOKEN，生产路径 /admin。",
+  "description": "SpeakMate 管理台：Vite + React + TypeScript。用户名密码登录，生产路径 /admin。",
   "engines": {
     "node": ">=18.17"
   },

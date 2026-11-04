@@ -14,7 +14,8 @@ declare global {
        * 当前请求的用户标识。
        *
        * - 登录态 token → 真实 userId（uuid v4）
-       * - 静态 ACCESS_TOKEN → 'admin'
+       * - 静态 ACCESS_TOKEN → 'admin'（学员侧主人身份，不是管理台会话）
+       * - 管理台 httpOnly 会话 → 'admin'
        * - 零配置放行模式 → 'admin'
        *
        * 由 requireAuth 保证在进入业务路由前已赋值；
@@ -22,9 +23,9 @@ declare global {
        */
       userId?: string;
       /**
-       * 仅当本次请求的 Bearer 与 ACCESS_TOKEN 恒定时间比对成功时为 true。
+       * 仅当管理台 httpOnly 会话校验成功时为 true。
        *
-       * 登录态 token（微信 / 邀请码）即使能解析出 userId，也永远是 false。
+       * 登录态 token（微信 / 邀请码）和静态 ACCESS_TOKEN 都永远是 false。
        * 未配置 ACCESS_TOKEN 的零配置放行同样是 false——局域网模式不能顺带打开管理台。
        */
       isAdmin?: boolean;

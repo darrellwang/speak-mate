@@ -6,7 +6,7 @@
 
 ## 0. 部署形态总览与通用准备
 
-**形态**：单 Node 进程（Express）+ 单 SQLite 文件。生产模式下 Express 直接托管 `frontend/dist`（学员 H5）和 `frontend/admin/dist`（管理台，路径 `/admin`），前后端同源，**一个端口（默认 3001）即是全部**——无需独立前端服务器，无 CORS。管理台只认 `ACCESS_TOKEN`，说明见 [docs/ADMIN.md](docs/ADMIN.md)。
+**形态**：单 Node 进程（Express）+ 单 SQLite 文件。生产模式下 Express 直接托管 `frontend/dist`（学员 H5）和 `frontend/admin/dist`（管理台，路径 `/admin`），前后端同源，**一个端口（默认 3001）即是全部**——无需独立前端服务器，无 CORS。管理台用用户名和密码登录（见 [docs/ADMIN.md](docs/ADMIN.md)），不认 `ACCESS_TOKEN`。生产环境必须设置 `ADMIN_PASSWORD` 和 `NODE_ENV=production`。
 
 | | 方案A 局域网自托管 | 方案B 云服务器 | 方案C WSL2 |
 |---|---|---|---|
@@ -826,11 +826,12 @@ INVITE_CODES=code-for-alice,code-for-bob
 
 | 凭证 | 身份 | 说明 |
 |---|---|---|
-| 登录态 token（`/api/auth/*` 签发） | 对应用户 | 普通用户路径，30 天有效期 |
-| 静态 `ACCESS_TOKEN` | `admin` | 主人 / 管理员凭证 |
-| 微信 openid | 对应用户 | 首次登录自动建号，昵称随机生成 |
+| 登录态 token（`/api/auth/*` 签发） | 对应用户 | 普通用户路径，30 天有效期；不能进管理台 |
+| 静态 `ACCESS_TOKEN` | `admin` | 学员侧主人凭证（存量数据归属）。不能登录管理台 |
+| 管理台会话 cookie | `admin` | 用户名默认 `admin`，密码为 `ADMIN_PASSWORD`。httpOnly，8 小时 |
+| 微信 openid | 对应用户 | 首次登录自动建号，昵称随机生成；不能进管理台 |
 
-小程序端设置页可填入 `ACCESS_TOKEN` 以管理员身份访问（填了会优先于微信登录）。
+小程序端设置页可填入 `ACCESS_TOKEN`，以主人账号访问学员数据（填了会优先于微信登录）。这不能打开管理台。管理台在浏览器里用用户名和密码登录。
 
 ### 4. 存量数据归属
 

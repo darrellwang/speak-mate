@@ -27,6 +27,13 @@ const servers: ClosableServer[] = [];
 const server = app.listen(config.port, () => {
   console.log(`\n[${config.appName}] backend is running at http://localhost:${config.port}`);
   console.log(`  LLM provider : ${config.llm.provider} (model: ${config.llm.model})`);
+  if (!config.security.adminEnabled) {
+    console.warn('  admin login  : 已关闭（未设置 ADMIN_PASSWORD）');
+  } else if (config.security.adminUsingDevDefault) {
+    console.warn('  admin login  : 本地开发默认口令（生产环境必须设置 ADMIN_PASSWORD）');
+  } else {
+    console.log(`  admin login  : 用户名 ${config.security.adminUsername}`);
+  }
   console.log(`  data dir     : ${path.resolve(config.dataDir)}`);
   if (config.llm.provider === 'mock') {
     console.log('  NOTE         : mock 模式 —— 不调用真实 LLM，返回内置模拟数据（仅供前端联调）\n');

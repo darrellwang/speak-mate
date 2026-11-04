@@ -68,6 +68,10 @@ export function createApp(): Express {
   // ---- 诊断探针（无需鉴权）：用于区分"网络不通"与"令牌没带" ----
   app.use('/api/diag', diagPublicRouter);
 
+  // ---- 管理台：在学员 requireAuth 之前挂载。
+  // 登录只认用户名密码，不要求粘贴 ACCESS_TOKEN。业务路由自己过 requireAdmin。
+  app.use('/api/admin', adminRouter);
+
   // ---- 访问控制：令牌未配置时中间件直接放行（局域网模式零配置，见 middleware/auth.ts） ----
   app.use('/api', requireAuth);
 
@@ -83,7 +87,6 @@ export function createApp(): Express {
   app.use('/api/words', wordsRouter); //   #10-#14 词条生成 + 词汇本 CRUD
   app.use('/api/profile', profileRouter); // #15-#16 画像读写
   app.use('/api/tts', ttsRouter); //       #17 GET /api/tts（Edge TTS mp3 流）
-  app.use('/api/admin', adminRouter); //   管理台：用户 / 统计 / 健康 / 封禁
 
   // ---- 生产模式：管理台静态资源（frontend/admin/dist），挂在 /admin ----
   // 必须先于学员 H5 的 SPA 回退，否则 /admin 会被学员 index.html 吃掉。
